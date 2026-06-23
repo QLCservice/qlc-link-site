@@ -247,42 +247,240 @@
 <script>
 const BASE = 'https://www.qlc-service.com/qlc-link/';
 
+/* ▼▼ この2つは Google スプレッドシートの内容から自動生成されます（手で書かない） ▼▼ */
 const DATA = {
-  house: { label:'家事サポート', icon:'🧹', items:[
-    {slug:'housecleaning', icon:'✨', title:'ハウスクリーニング', desc:'専門スタッフによる水まわり・空調等の徹底清掃'},
-    {slug:'housekeeping', icon:'🧺', title:'家事代行', desc:'掃除・洗濯・料理など日常の家事をサポート'},
-    {slug:'childcare', icon:'👶', title:'ベビーシッター', desc:'大切なお子様を安心してお任せできるチャイルドケア'},
-    {slug:'laundry-delivery', icon:'👕', title:'宅配クリーニング', desc:'自宅で受け取れる便利な衣類クリーニング'},
-    {slug:'shoeshine', icon:'👞', title:'靴磨き・靴修理', desc:'熟練職人による靴・革製品の本格メンテナンス'},
-    {slug:'chef', icon:'🍳', title:'出張料理', desc:'食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供'},
-    {slug:'senior-care', icon:'👵', title:'シニアケア', desc:'ご家族の暮らしや介護を優しくサポート'},
-  ]},
-  life: { label:'生活便利', icon:'🚗', items:[
-    {slug:'taxi', icon:'🚕', title:'タクシー手配', desc:'アプリで手軽に呼べる配車サービス'},
-    {slug:'hirecar', icon:'🚘', title:'ハイヤー', desc:'大切な移動を支える上質なハイヤー'},
-    {slug:'rentacarcontact', icon:'🚗', title:'レンタカー', desc:'お得な提携価格でご利用いただけます'},
-    {slug:'water-delivery', icon:'💧', title:'お水の宅配', desc:'安心・美味しいお水のサーバー宅配'},
-    {slug:'rental', icon:'🛠', title:'各種レンタル', desc:'ベビー用品やイベント用品を手軽にレンタル'},
-    {slug:'flower-delivery', icon:'🌹', title:'フラワーデリバリー', desc:'お祝いや日常に彩りを添えるお花の宅配'},
-    {slug:'food-delivery', icon:'🍱', title:'フードデリバリー', desc:'東京23区限定、レストランの味を自宅へ'},
-    {slug:'petcare', icon:'🐶', title:'ペットケア', desc:'大切なペットのシッター・ホテルサービス'},
-    {slug:'medical-night', icon:'🏥', title:'夜間の救急・医療相談', desc:'夜間の急な不調を専門家に相談'},
-    {slug:'appliance-support', icon:'🔌', title:'家電サポート', desc:'家電の修理・設置・処分のお困りごとに対応'},
-    {slug:'comingsoon', icon:'💻', title:'パソコン訪問コンシェルジュ', desc:'スタッフが訪問し、データを守りながらPCのお困りごとを解決', soon:true},
-    {slug:'comingsoon', icon:'📱', title:'スマホ・タブレット宅配修理', desc:'故障したスマホ・タブレットを宅配でお預かりして修理', soon:true},
-    {slug:'comingsoon', icon:'🏠', title:'デジタルホスピタル', desc:'住まいのIoT化を、設置・設定までプロが訪問サポート', soon:true},
-  ]},
-  storage: { label:'荷物の保管・買取・整理', icon:'📦', items:[
-    {slug:'storage', icon:'🔑', title:'宅配トランクルーム', desc:'スマホで預入・取出しできる収納サービス'},
-    {slug:'reuse', icon:'💰', title:'不用品の宅配買取', desc:'箱に詰めて送るだけのリユース買取'},
-    {slug:'book-reuse', icon:'📚', title:'本の買取・リユース', desc:'ブックオフが本・漫画を宅配買取'},
-    {slug:'organizing', icon:'🗄️', title:'整理収納・おかたづけ', desc:'プロが収納の仕組み作りをサポート'},
-    {slug:'lifeorganize', icon:'🌱', title:'ライフオーガナイズ', desc:'くらし全体の最適化をサポート'},
-    {slug:'photo-digitize', icon:'📷', title:'おもいで写真デジタイズ', desc:'古い写真・ビデオを劣化しないデータへ'},
-    {slug:'delivery', icon:'📦', title:'宅配便の集荷連絡先', desc:'荷物発送に便利な集荷受付窓口'},
-    {slug:'moving', icon:'🚚', title:'お引越し案内', desc:'大手引越し業者を提携割引でご案内'},
-  ]},
+  "house": {
+    "label": "家事サポート",
+    "icon": "🧹",
+    "items": [
+      {
+        "slug": "housecleaning",
+        "icon": "✨",
+        "title": "ハウスクリーニング",
+        "desc": "専門スタッフによる水まわり・空調等の徹底清掃"
+      },
+      {
+        "slug": "housekeeping",
+        "icon": "🧺",
+        "title": "家事代行",
+        "desc": "掃除・洗濯・料理など日常の家事をサポート"
+      },
+      {
+        "slug": "childcare",
+        "icon": "👶",
+        "title": "ベビーシッター",
+        "desc": "大切なお子様を安心してお任せできるチャイルドケア"
+      },
+      {
+        "slug": "laundry-delivery",
+        "icon": "👕",
+        "title": "宅配クリーニング",
+        "desc": "自宅で受け取れる便利な衣類クリーニング"
+      },
+      {
+        "slug": "shoeshine",
+        "icon": "👞",
+        "title": "靴磨き・靴修理",
+        "desc": "熟練職人による靴・革製品の本格メンテナンス"
+      },
+      {
+        "slug": "chef",
+        "icon": "🍳",
+        "title": "出張料理",
+        "desc": "食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供"
+      },
+      {
+        "slug": "senior-care",
+        "icon": "👵",
+        "title": "シニアケア",
+        "desc": "ご家族の暮らしや介護を優しくサポート"
+      }
+    ]
+  },
+  "life": {
+    "label": "生活便利",
+    "icon": "🚗",
+    "items": [
+      {
+        "slug": "taxi",
+        "icon": "🚕",
+        "title": "タクシー手配",
+        "desc": "アプリで手軽に呼べる配車サービス"
+      },
+      {
+        "slug": "hirecar",
+        "icon": "🚘",
+        "title": "ハイヤー",
+        "desc": "大切な移動を支える上質なハイヤー"
+      },
+      {
+        "slug": "rentacarcontact",
+        "icon": "🚗",
+        "title": "レンタカー",
+        "desc": "お得な提携価格でご利用いただけます"
+      },
+      {
+        "slug": "water-delivery",
+        "icon": "💧",
+        "title": "お水の宅配",
+        "desc": "安心・美味しいお水のサーバー宅配"
+      },
+      {
+        "slug": "rental",
+        "icon": "🛠",
+        "title": "各種レンタル",
+        "desc": "ベビー用品やイベント用品を手軽にレンタル"
+      },
+      {
+        "slug": "flower-delivery",
+        "icon": "🌹",
+        "title": "フラワーデリバリー",
+        "desc": "お祝いや日常に彩りを添えるお花の宅配"
+      },
+      {
+        "slug": "food-delivery",
+        "icon": "🍱",
+        "title": "フードデリバリー",
+        "desc": "東京23区限定、レストランの味を自宅へ"
+      },
+      {
+        "slug": "petcare",
+        "icon": "🐶",
+        "title": "ペットケア",
+        "desc": "大切なペットのシッター・ホテルサービス"
+      },
+      {
+        "slug": "medical-night",
+        "icon": "🏥",
+        "title": "夜間の救急・医療相談",
+        "desc": "夜間の急な不調を専門家に相談"
+      },
+      {
+        "slug": "appliance-support",
+        "icon": "🔌",
+        "title": "家電サポート",
+        "desc": "家電の修理・設置・処分のお困りごとに対応"
+      },
+      {
+        "slug": "comingsoon",
+        "icon": "💻",
+        "title": "パソコン訪問コンシェルジュ",
+        "desc": "スタッフが訪問し、データを守りながらPCのお困りごとを解決",
+        "soon": true
+      },
+      {
+        "slug": "comingsoon",
+        "icon": "📱",
+        "title": "スマホ・タブレット宅配修理",
+        "desc": "故障したスマホ・タブレットを宅配でお預かりして修理",
+        "soon": true
+      },
+      {
+        "slug": "comingsoon",
+        "icon": "🏠",
+        "title": "デジタルホスピタル",
+        "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート",
+        "soon": true
+      }
+    ]
+  },
+  "storage": {
+    "label": "荷物の保管・買取・整理",
+    "icon": "📦",
+    "items": [
+      {
+        "slug": "storage",
+        "icon": "🔑",
+        "title": "宅配トランクルーム",
+        "desc": "スマホで預入・取出しできる収納サービス"
+      },
+      {
+        "slug": "reuse",
+        "icon": "💰",
+        "title": "不用品の宅配買取",
+        "desc": "箱に詰めて送るだけのリユース買取"
+      },
+      {
+        "slug": "book-reuse",
+        "icon": "📚",
+        "title": "本の買取・リユース",
+        "desc": "ブックオフが本・漫画を宅配買取"
+      },
+      {
+        "slug": "organizing",
+        "icon": "🗄️",
+        "title": "整理収納・おかたづけ",
+        "desc": "プロが収納の仕組み作りをサポート"
+      },
+      {
+        "slug": "lifeorganize",
+        "icon": "🌱",
+        "title": "ライフオーガナイズ",
+        "desc": "くらし全体の最適化をサポート"
+      },
+      {
+        "slug": "photo-digitize",
+        "icon": "📷",
+        "title": "おもいで写真デジタイズ",
+        "desc": "古い写真・ビデオを劣化しないデータへ"
+      },
+      {
+        "slug": "delivery",
+        "icon": "📦",
+        "title": "宅配便の集荷連絡先",
+        "desc": "荷物発送に便利な集荷受付窓口"
+      },
+      {
+        "slug": "moving",
+        "icon": "🚚",
+        "title": "お引越し案内",
+        "desc": "大手引越し業者を提携割引でご案内"
+      }
+    ]
+  }
 };
+const FAQDATA = [
+  {
+    "id": "F001",
+    "category": "提携サービス共通",
+    "question": "このサービスの料金はいくらですか？",
+    "answer": "料金の詳細は各サービスの案内ページをご確認ください。",
+    "order": 1.0
+  },
+  {
+    "id": "F002",
+    "category": "提携サービス共通",
+    "question": "申し込み方法を教えてください",
+    "answer": "案内ページに申し込み方法を記載しております。ページ内のご案内に沿ってお申し込みください。",
+    "order": 2.0
+  },
+  {
+    "id": "F003",
+    "category": "提携サービス共通",
+    "question": "このサービスは今すぐ使えますか？",
+    "answer": "サービスの提供可否や受付状況は案内ページにて最新情報をご確認いただけます。ご不明な点はお問い合わせボタンよりご連絡ください。",
+    "order": 3.0
+  },
+  {
+    "id": "F004",
+    "category": "お問い合わせ",
+    "question": "回答はどのくらいで来ますか？",
+    "answer": "お問い合わせは緊急の連絡先ではございません。営業日に順番に内容を確認のうえ、担当より回答いたします。",
+    "order": 1.0
+  }
+];
+/* ▲▲ ここまで自動生成 ▲▲ */
+
+const FAQINDEX = (function(){
+  const order = [];
+  const map = {};
+  FAQDATA.forEach(item => {
+    if (!map[item.category]) { map[item.category] = []; order.push(item.category); }
+    map[item.category].push(item);
+  });
+  order.forEach(c => map[c].sort((a,b) => (a.order||0) - (b.order||0)));
+  return { order, map };
+})();
 
 /* ---- カードグリッドを描画 ---- */
 Object.keys(DATA).forEach(key => {
@@ -296,7 +494,7 @@ Object.keys(DATA).forEach(key => {
   group.items.forEach(item => {
     const a = document.createElement('a');
     a.className = 'card';
-    a.href = BASE + item.slug;
+    a.href = BASE + item.slug + '.html';
     a.target = '_blank';
     const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
     a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
@@ -326,6 +524,13 @@ function renderMain(){
     btn.onclick = () => selectGroup(key);
     qaMain.appendChild(btn);
   });
+  if (FAQDATA.length > 0) {
+    const faqBtn = document.createElement('button');
+    faqBtn.className = 'qa-btn';
+    faqBtn.textContent = '❓ よくある質問';
+    faqBtn.onclick = selectFaqMain;
+    qaMain.appendChild(faqBtn);
+  }
   const divider = document.createElement('div');
   divider.className = 'qa-divider';
   qaMain.appendChild(divider);
@@ -389,12 +594,73 @@ function selectGroup(key){
 function showDetail(key, item){
   setTimeout(() => {
     const soonNote = item.soon ? `<br><span style="color:var(--brass-light);font-size:11.5px;">※現在サービス開発中です。公開まで今しばらくお待ちください。</span>` : '';
-    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${BASE + item.slug}" target="_blank">➔ ${item.title}専用ページを見る</a>`);
+    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${BASE + item.slug}.html" target="_blank">➔ ${item.title}専用ページを見る</a>`);
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
     back.className = 'qa-btn';
     back.textContent = '↩︎ 他のカテゴリを見る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 200);
+}
+
+function selectFaqMain(){
+  addMsg('よくある質問', true);
+  setTimeout(() => {
+    addMsg('どのジャンルのご質問ですか？');
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    FAQINDEX.order.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'qa-btn';
+      btn.textContent = `🔸 ${cat}`;
+      btn.onclick = () => selectFaqCategory(cat);
+      optDiv.appendChild(btn);
+    });
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function selectFaqCategory(cat){
+  addMsg(cat, true);
+  setTimeout(() => {
+    addMsg(`<strong>${cat}</strong>に関するご質問です。気になる項目をお選びください。`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    FAQINDEX.map[cat].forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'qa-btn';
+      btn.textContent = `❔ ${item.question}`;
+      btn.onclick = () => showFaqAnswer(item);
+      optDiv.appendChild(btn);
+    });
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function showFaqAnswer(item){
+  setTimeout(() => {
+    addMsg(`<strong>Q. ${item.question}</strong><br>${item.answer}`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
     back.onclick = backToMain;
     optDiv.appendChild(back);
     qaLog.appendChild(optDiv);
