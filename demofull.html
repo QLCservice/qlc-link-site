@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<base target="_top">
+<style>
+  :root{
+    --navy-deep:#0B1626;
+    --navy-panel:#13213A;
+    --navy-panel-2:#182943;
+    --navy-line:#2C3F5C;
+    --brass:#BD9A4B;
+    --brass-soft:#E6CC8C;
+    --cream:#F5EFE1;
+    --cream-dim:#EAE2CD;
+    --ink:#241F18;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 18% 18%, rgba(189,154,75,0.10), transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(189,154,75,0.06), transparent 50%),
+      var(--navy-deep);
+    font-family:'Noto Sans JP', sans-serif;
+    color:var(--cream);
+  }
+  .stage{
+    width:100vw; height:100vh;
+    display:flex; flex-direction:column;
+    animation:rise .8s ease both;
+  }
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Header ---------- */
+  .hdr{
+    flex:0 0 auto;
+    height:13vh;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(24px,4vw,52px);
+    border-bottom:1px solid var(--navy-line);
+  }
+  .hdr-left{display:flex; align-items:center; gap:16px;}
+  .crest{
+    width:clamp(34px,4vh,44px); height:clamp(34px,4vh,44px);
+    border-radius:50%;
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .crest::before{ content:""; width:46%; height:46%; border:1px solid var(--brass-soft); transform:rotate(45deg); }
+  .bldg-row{ display:flex; align-items:center; gap:10px; }
+  .bldg-name{
+    font-family:'Noto Serif JP', serif;
+    font-weight:600;
+    font-size:clamp(19px,2.8vh,27px);
+    letter-spacing:.04em;
+    color:var(--cream);
+  }
+  .demo-badge{
+    font-size:clamp(9px,1.05vh,11px);
+    letter-spacing:.12em;
+    color:var(--navy-deep);
+    background:var(--brass-soft);
+    padding:3px 9px 3px;
+    border-radius:999px;
+    font-weight:700;
+  }
+  .bldg-sub{
+    font-size:clamp(9px,1.05vh,11px);
+    letter-spacing:.28em;
+    color:#8B96A8;
+    margin-top:5px;
+  }
+  .hdr-right{ text-align:right; }
+  .clock-time{
+    font-size:clamp(19px,2.8vh,28px); font-weight:600;
+    letter-spacing:.02em; font-variant-numeric:tabular-nums; color:var(--cream);
+  }
+  .clock-date{ font-size:clamp(10px,1.1vh,12px); color:#7E8AA1; letter-spacing:.06em; margin-top:2px; }
+
+  /* ---------- Body split ---------- */
+  .body-split{
+    flex:1 1 auto;
+    display:flex;
+    min-height:0;
+  }
+
+  /* ---- Left: Remote Concierge (star) ---- */
+  .pane-hero{
+    flex:0 0 50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:clamp(18px,2.6vh,30px);
+    padding:clamp(20px,3vh,36px) clamp(24px,4vw,50px);
+    border-right:1px solid var(--navy-line);
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:clamp(10px,1.2vh,12px);
+    letter-spacing:.3em;
+    color:var(--brass);
+    margin:0;
+  }
+
+  .portrait-wrap{
+    position:relative;
+    width:clamp(220px,34vh,360px);
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .portrait-glow{
+    position:absolute; left:50%; top:48%;
+    width:120%; height:78%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(ellipse at center, rgba(189,154,75,0.16), transparent 70%);
+    z-index:0;
+  }
+  .portrait-ring{
+    position:absolute; z-index:0;
+    left:50%; top:40%;
+    width:78%; height:78%;
+    transform:translate(-50%,-50%);
+    border:1px solid var(--brass);
+    border-radius:50%;
+    opacity:.45;
+  }
+  .portrait-wrap img{
+    position:relative; z-index:1;
+    width:100%; height:auto;
+    display:block;
+    filter:drop-shadow(0 18px 28px rgba(0,0,0,0.45));
+  }
+
+  .btn-primary{
+    display:inline-block;
+    appearance:none; border:none; cursor:pointer;
+    padding:clamp(15px,2.1vh,19px) clamp(32px,4vw,46px);
+    border-radius:999px;
+    background:linear-gradient(180deg, var(--brass-soft), var(--brass));
+    color:#1A1306;
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:clamp(15px,1.95vh,18px);
+    letter-spacing:.03em;
+    text-decoration:none;
+    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:active{ transform:scale(.97); }
+
+  .hours-note{
+    font-size:clamp(9.5px,1.1vh,11px);
+    color:#6E7A91;
+    line-height:1.7;
+    max-width:38ch;
+  }
+
+  /* ---- Right: secondary navigation (3 tiles) ---- */
+  .pane-nav{
+    flex:0 0 50%;
+    display:flex; flex-direction:column;
+    min-height:0;
+  }
+
+  /* ---- Quick links (Service Menu / Contact) ---- */
+  .quick-links{
+    flex:1 1 50%;
+    min-height:0;
+    display:flex;
+    border-top:1px solid var(--navy-line);
+  }
+  .quick-link{
+    flex:1 1 50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    padding:clamp(14px,2vh,22px) clamp(10px,1.6vw,18px);
+    text-decoration:none;
+    color:#C9D2E0;
+    background:var(--navy-panel);
+    border-right:1px solid var(--navy-line);
+    transition:background .15s ease, color .15s ease;
+    text-align:center;
+  }
+  .quick-link:last-child{ border-right:none; }
+  .quick-link:hover, .quick-link:active{ background:var(--navy-panel-2); color:var(--brass-soft); }
+  .quick-icon{
+    width:clamp(38px,5.4vh,50px); height:clamp(38px,5.4vh,50px);
+    border-radius:50%;
+    border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--brass-soft); flex:0 0 auto;
+  }
+  .quick-icon svg{ width:46%; height:46%; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .quick-eyebrow{
+    font-size:clamp(8px,0.95vh,9.5px);
+    letter-spacing:.22em;
+    color:var(--brass);
+  }
+  .quick-label{
+    font-family:'Noto Serif JP', serif;
+    font-weight:600;
+    font-size:clamp(14px,1.7vh,17px);
+    color:var(--cream);
+  }
+  .quick-sub{
+    font-size:clamp(10px,1.15vh,12px);
+    color:#9AA7BC;
+    max-width:22ch;
+    line-height:1.5;
+  }
+
+  /* ---- Inline AI chat panel (常時表示) ---- */
+  .chat-panel{
+    display:flex;
+    flex:1 1 50%;
+    min-height:0;
+    background:var(--cream);
+    flex-direction:column;
+  }
+  .chat-panel-hdr{
+    flex:0 0 auto;
+    display:flex; align-items:baseline; gap:10px;
+    padding:clamp(14px,2vh,18px) clamp(20px,3vw,30px);
+    border-bottom:1px solid var(--cream-dim);
+  }
+  .chat-eyebrow{
+    font-size:clamp(8.5px,1vh,10px);
+    letter-spacing:.24em;
+    color:var(--brass);
+  }
+  .chat-panel-title{
+    font-family:'Noto Serif JP', serif; font-weight:600;
+    font-size:clamp(15px,1.9vh,18px); color:var(--ink);
+  }
+  .chat-scroll{
+    flex:1 1 auto; min-height:0; overflow-y:auto;
+    padding:clamp(16px,2.2vh,22px) clamp(20px,3vw,30px);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .chat-scroll::-webkit-scrollbar{ width:6px; }
+  .chat-scroll::-webkit-scrollbar-thumb{ background:var(--cream-dim); border-radius:4px; }
+
+  .quick-replies{ display:flex; flex-direction:column; gap:8px; }
+  .quick-reply-btn{
+    align-self:flex-start;
+    max-width:92%;
+    text-align:left;
+    background:#fff;
+    border:1px solid var(--brass);
+    color:var(--ink);
+    border-radius:999px;
+    padding:10px 16px;
+    font-size:clamp(12.5px,1.5vh,14px);
+    font-family:'Noto Sans JP', sans-serif;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .quick-reply-btn:hover, .quick-reply-btn:active{ background:var(--cream-dim); }
+  .bubble{
+    max-width:82%; padding:10px 14px; border-radius:14px;
+    font-size:clamp(12.5px,1.5vh,14.5px); line-height:1.6; white-space:pre-wrap;
+  }
+  .bubble.ai{ align-self:flex-start; background:#fff; border:1px solid var(--cream-dim); color:var(--ink); border-bottom-left-radius:4px; }
+  .bubble.user{ align-self:flex-end; background:linear-gradient(135deg, var(--navy-panel), var(--navy-deep)); color:var(--cream); border-bottom-right-radius:4px; }
+  .bubble.loading{ align-self:flex-start; color:#7A7160; font-style:italic; background:transparent; border:none; padding:0 4px; }
+  .chat-input-row{
+    flex:0 0 auto; display:flex; gap:9px;
+    padding:clamp(10px,1.6vh,14px) clamp(20px,3vw,30px) clamp(16px,2.2vh,20px);
+    border-top:1px solid var(--cream-dim);
+  }
+  .ai-input{
+    flex:1 1 auto; border:1px solid #DCD2B4; background:#fff; border-radius:999px;
+    padding:0 16px; height:clamp(38px,5vh,46px);
+    font-size:clamp(12.5px,1.5vh,14px); color:var(--ink);
+    font-family:'Noto Sans JP', sans-serif; outline:none;
+  }
+  .ai-input:focus{ border-color:var(--brass); }
+  .ai-send{
+    flex:0 0 auto; height:clamp(38px,5vh,46px); padding:0 clamp(16px,2.2vw,22px);
+    border:none; cursor:pointer; border-radius:999px;
+    background:var(--ink); color:var(--cream);
+    font-family:'Noto Sans JP', sans-serif; font-weight:600; font-size:clamp(12px,1.4vh,13px);
+  }
+  .ai-send:disabled{ background:#A39C86; }
+
+  /* ---------- モバイル（QRコードでスマホ閲覧する場合）対応 ----------
+     ※ Google Sites埋め込み時、iframeの見た目サイズではなく
+        実機の物理画面（screen.width/height）で判定するため、
+        CSSの@mediaではなくJSが付与するクラスで切り替える */
+  html.mobile-layout, html.mobile-layout body{ height:100%; overflow:hidden; }
+  html.mobile-layout .stage{ height:100vh; min-height:100vh; display:flex; flex-direction:column; }
+
+  html.mobile-layout .hdr{ flex:0 0 auto; height:auto; padding:10px 14px; flex-wrap:wrap; gap:6px; }
+  html.mobile-layout .bldg-name{ font-size:15px; }
+  html.mobile-layout .demo-badge{ font-size:8px; padding:2px 7px; }
+  html.mobile-layout .bldg-sub{ font-size:7.5px; }
+  html.mobile-layout .clock-time{ font-size:15px; }
+  html.mobile-layout .clock-date{ font-size:9px; }
+
+  html.mobile-layout .body-split{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+
+  html.mobile-layout .pane-hero{
+    flex:0 0 auto;
+    display:flex; flex-direction:row; align-items:center; justify-content:center;
+    gap:14px;
+    border-right:none;
+    border-bottom:1px solid var(--navy-line);
+    padding:10px 14px;
+  }
+  html.mobile-layout .portrait-wrap{ width:60px; margin:0; flex:0 0 auto; }
+  html.mobile-layout .portrait-wrap img{ filter:drop-shadow(0 8px 12px rgba(0,0,0,0.45)); }
+  html.mobile-layout .eyebrow{ display:none; }
+  html.mobile-layout .btn-primary{ display:block; width:auto; font-size:12px; padding:10px 16px; text-align:center; flex:0 0 auto; }
+  html.mobile-layout .hours-note{ display:none; }
+
+  html.mobile-layout .pane-nav{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .chat-panel{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .chat-panel-hdr{ padding:8px 14px; }
+  html.mobile-layout .chat-eyebrow{ font-size:8px; }
+  html.mobile-layout .chat-panel-title{ font-size:13px; }
+  html.mobile-layout .chat-scroll{ flex:1 1 auto; min-height:0; max-height:none; padding:10px 14px; }
+  html.mobile-layout .bubble{ font-size:12.5px; padding:8px 11px; }
+  html.mobile-layout .chat-input-row{ padding:8px 14px 10px; }
+  html.mobile-layout .ai-input{ height:36px; font-size:12.5px; }
+  html.mobile-layout .ai-send{ height:36px; font-size:11px; padding:0 14px; }
+
+  html.mobile-layout .quick-links{ flex:0 0 auto; display:flex; flex-direction:row; }
+  html.mobile-layout .quick-link{ padding:8px 8px; gap:4px; }
+  html.mobile-layout .quick-icon{ width:26px; height:26px; }
+  html.mobile-layout .quick-icon svg{ width:50%; height:50%; }
+  html.mobile-layout .quick-eyebrow{ display:none; }
+  html.mobile-layout .quick-label{ font-size:11px; }
+  html.mobile-layout .quick-sub{ display:none; }
+</style>
+</head>
+<body>
+
+<div class="stage">
+
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="crest"></div>
+      <div>
+        <div class="bldg-row">
+          <span class="bldg-name">QLCマンション</span>
+          <span class="demo-badge">DEMO</span>
+        </div>
+        <div class="bldg-sub">REMOTE CONCIERGE DEMONSTRATION</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="clock-time" id="clockTime">--:--</div>
+      <div class="clock-date" id="clockDate">----年--月--日</div>
+    </div>
+  </header>
+
+  <div class="body-split">
+
+    <section class="pane-hero">
+      <p class="eyebrow">REMOTE CONCIERGE</p>
+
+      <div class="portrait-wrap">
+        <div class="portrait-glow"></div>
+        <div class="portrait-ring"></div>
+        <img src="https://drive.google.com/thumbnail?id=1J-BJ0qKsXxQGvdnrFwdD29Ifv8xkYnja&sz=w1000" alt="リモートコンシェルジュ">
+      </div>
+
+      <a class="btn-primary" href="https://meet.virtualstore.jp/direct-sessions/awbPKE">コンシェルジュを呼ぶ（ビデオ通話）</a>
+
+      <p class="hours-note">運営時間　10:00〜19:00（土日祝は18:00まで）　不在時は自動でビデオ通話に切り替わります。<br>※本画面はデモンストレーション用に作成されたサンプル画面です。</p>
+    </section>
+
+    <nav class="pane-nav">
+      <div class="chat-panel active">
+        <div class="chat-panel-hdr">
+          <span class="chat-eyebrow">24H AI ASSIST</span>
+          <span class="chat-panel-title">AIコンシェルジュ</span>
+        </div>
+        <div class="chat-scroll" id="chatScroll">
+          <div class="bubble ai">こんにちは。こちらはマンション専用のAIコンシェルジュです。館内ルールや周辺情報についてお答えします。知りたいカテゴリのボタンをタップしてください。</div>
+          <div class="quick-replies" id="quickReplies">
+            <button class="quick-reply-btn" type="button" onclick="sendAI('館内ルール・規約について')">館内ルール・規約について</button>
+            <button class="quick-reply-btn" type="button" onclick="sendAI('提供サービス・便利メニューについて')">提供サービス・便利メニューについて</button>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input type="text" id="aiInput" class="ai-input" placeholder="または、自由にご質問を入力ください…" onkeypress="if(event.key==='Enter')sendAI()">
+          <button id="aiSend" class="ai-send" type="button" onclick="sendAI()">送信</button>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a class="quick-link" href="https://www.qlc-service.com/">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></span>
+          <span class="quick-eyebrow">SERVICE MENU</span>
+          <span class="quick-label">サービスメニュー</span>
+          <span class="quick-sub">宅配・清掃・来客対応などのご案内</span>
+        </a>
+        <a class="quick-link" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="3.5" y="5.5" width="17" height="13" rx="1.5"/><path d="M4 7l8 5.5L20 7"/></svg></span>
+          <span class="quick-eyebrow">CONTACT</span>
+          <span class="quick-label">お問い合わせ</span>
+          <span class="quick-sub">コンシェルジュへメッセージを送る</span>
+        </a>
+      </div>
+    </nav>
+
+  </div>
+
+</div>
+
+<script>
+  // Google Sites埋め込み（iframe）の見た目サイズに左右されず、
+  // 実機の物理画面サイズ・向きでレイアウトを切り替える
+  // （iOSのscreen.width/heightが回転後も更新されない既知の不具合があるため、
+  //   対応ブラウザではScreen Orientation APIを優先して使用する）
+  function applyResponsiveLayout(){
+    var w = window.screen.width;
+    var h = window.screen.height;
+    var isMobile;
+    if (window.screen.orientation && window.screen.orientation.type) {
+      // 向きAPIが使える場合は、それだけで判定する（幅の条件と混在させない）
+      isMobile = window.screen.orientation.type.indexOf('portrait') === 0;
+    } else {
+      // 向きAPIが使えない場合のみ、フォールバックとして幅も見る
+      isMobile = (h > w) || (Math.min(w, h) <= 760);
+    }
+    document.documentElement.classList.toggle('mobile-layout', isMobile);
+  }
+  applyResponsiveLayout();
+  window.addEventListener('resize', applyResponsiveLayout);
+  window.addEventListener('orientationchange', applyResponsiveLayout);
+  if (window.screen.orientation && window.screen.orientation.addEventListener) {
+    window.screen.orientation.addEventListener('change', applyResponsiveLayout);
+  }
+
+  function updateClock(){
+    var now = new Date();
+    var h = String(now.getHours()).padStart(2,'0');
+    var m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('clockTime').textContent = h + ':' + m;
+    var days = ['日','月','火','水','木','金','土'];
+    document.getElementById('clockDate').textContent =
+      now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日（' + days[now.getDay()] + '）';
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
+
+  function sendAI(presetText){
+    var input = document.getElementById('aiInput');
+    var sendBtn = document.getElementById('aiSend');
+    var text = (typeof presetText === 'string') ? presetText : input.value.trim();
+    if(!text) return;
+
+    var qr = document.getElementById('quickReplies');
+    if (qr) qr.remove();
+
+    appendBubble(text, 'user');
+    if (typeof presetText !== 'string') input.value = '';
+    input.disabled = true; sendBtn.disabled = true;
+    var loading = appendBubble('お調べしております…', 'loading');
+
+    google.script.run
+      .withSuccessHandler(function(res){
+        loading.remove();
+        appendBubble(res, 'ai');
+        input.disabled = false; sendBtn.disabled = false; input.focus();
+      })
+      .withFailureHandler(function(){
+        loading.remove();
+        appendBubble('ただいま通信が不安定になっております。恐れ入りますが、左の「コンシェルジュを呼ぶ」よりお問い合わせください。', 'ai');
+        input.disabled = false; sendBtn.disabled = false; input.focus();
+      })
+      .askAI(text);
+  }
+
+  function appendBubble(text, kind){
+    var scroll = document.getElementById('chatScroll');
+    var div = document.createElement('div');
+    div.className = 'bubble ' + kind;
+    div.textContent = text;
+    scroll.appendChild(div);
+    scroll.scrollTop = scroll.scrollHeight;
+    return div;
+  }
+</script>
+
+</body>
+</html>
