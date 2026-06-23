@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ペットシッター｜QLC Link</title>
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
+  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
+  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
+  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
+  .qsteps{margin:0 0 16px;padding:0;list-style:none;}
+  .qsteps li{display:flex;gap:10px;font-size:13px;line-height:1.7;margin-bottom:8px;}
+  .qsteps li .qnum{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--brass);color:var(--navy);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .qfeat{margin-bottom:16px;}
+  .qfeat .qfh{font-weight:500;font-size:13px;color:var(--navy);margin-bottom:3px;}
+  .qfeat .qfb{font-size:12.5px;color:var(--charcoal);line-height:1.7;margin-bottom:10px;}
+  .qstore{font-size:12.5px;line-height:1.9;color:var(--charcoal);background:var(--cream-card);border:1px solid #E8E0CE;border-radius:8px;padding:12px 14px;margin-bottom:14px;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:10px 12px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qqr{width:100px;height:100px;background:#EDE5D3;border:1px dashed #C9BB99;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#B5A883;font-size:10px;margin:0 auto 16px;text-align:center;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  .qgallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+  .qgallery img{width:100%;border-radius:6px;}
+  .qclist{border-collapse:collapse;width:100%;font-size:12.5px;margin-bottom:8px;}
+  .qclist td{padding:9px 6px;border-bottom:1px solid #E8E0CE;vertical-align:top;}
+  .qclist td:first-child{font-weight:500;color:var(--navy);white-space:nowrap;padding-right:10px;}
+  .qclist a{color:var(--navy);text-decoration:underline;}
+  .qoffercard{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:16px;margin-bottom:14px;}
+  .qofferbadge{display:inline-block;background:var(--brass);color:var(--navy);font-size:12px;font-weight:600;padding:5px 12px;border-radius:14px;margin-bottom:10px;}
+  .qoffername{font-weight:600;font-size:14.5px;color:var(--navy);margin-bottom:6px;}
+  .qofferbody{font-size:12.5px;line-height:1.8;color:var(--charcoal);margin-bottom:10px;}
+  .qlegal h2{font-family:"Noto Serif JP",serif;font-weight:600;font-size:15.5px;color:var(--navy);margin:20px 0 8px;}
+  .qlegal p{font-size:12.5px;line-height:1.9;color:var(--charcoal);margin:0 0 8px;}
+  .qlegal ul{margin:0 0 10px;padding-left:18px;}
+  .qlegal li{font-size:12.5px;line-height:1.85;color:var(--charcoal);margin-bottom:4px;}
+  a{cursor:pointer;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
+<div class="qbody">
+<div class="qplaque"><span>ペットシッター</span></div>
+<div class="qlisted">掲載サービス：ポピンズペットケア</div>
+
+<div class="qprovider">
+  <div class="qpname">ポピンズペットケア</div>
+  <div class="qarea">対応エリアは基本的に関東になります。詳しくは下記URLをご確認ください。</div>
+  <div class="qctarow">
+    <a class="qbtn qbtn-outline" target="_blank" href="https://poppins-petcare.jp/area/">対応エリア確認</a>
+    <a class="qbtn qbtn-filled" target="_blank" href="https://www.poppins.co.jp/familycare/petcare/">公式サイトを見る</a>
+  </div>
+</div>
+
+<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+</div>
+</div>
+</body>
+</html>

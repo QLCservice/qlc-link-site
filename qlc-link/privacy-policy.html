@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>個人情報保護方針｜QLC Link</title>
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
+  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
+  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
+  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
+  .qsteps{margin:0 0 16px;padding:0;list-style:none;}
+  .qsteps li{display:flex;gap:10px;font-size:13px;line-height:1.7;margin-bottom:8px;}
+  .qsteps li .qnum{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--brass);color:var(--navy);font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .qfeat{margin-bottom:16px;}
+  .qfeat .qfh{font-weight:500;font-size:13px;color:var(--navy);margin-bottom:3px;}
+  .qfeat .qfb{font-size:12.5px;color:var(--charcoal);line-height:1.7;margin-bottom:10px;}
+  .qstore{font-size:12.5px;line-height:1.9;color:var(--charcoal);background:var(--cream-card);border:1px solid #E8E0CE;border-radius:8px;padding:12px 14px;margin-bottom:14px;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:10px 12px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qqr{width:100px;height:100px;background:#EDE5D3;border:1px dashed #C9BB99;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#B5A883;font-size:10px;margin:0 auto 16px;text-align:center;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  .qgallery{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:14px;}
+  .qgallery img{width:100%;border-radius:6px;}
+  .qclist{border-collapse:collapse;width:100%;font-size:12.5px;margin-bottom:8px;}
+  .qclist td{padding:9px 6px;border-bottom:1px solid #E8E0CE;vertical-align:top;}
+  .qclist td:first-child{font-weight:500;color:var(--navy);white-space:nowrap;padding-right:10px;}
+  .qclist a{color:var(--navy);text-decoration:underline;}
+  .qoffercard{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:16px;margin-bottom:14px;}
+  .qofferbadge{display:inline-block;background:var(--brass);color:var(--navy);font-size:12px;font-weight:600;padding:5px 12px;border-radius:14px;margin-bottom:10px;}
+  .qoffername{font-weight:600;font-size:14.5px;color:var(--navy);margin-bottom:6px;}
+  .qofferbody{font-size:12.5px;line-height:1.8;color:var(--charcoal);margin-bottom:10px;}
+  .qlegal h2{font-family:"Noto Serif JP",serif;font-weight:600;font-size:15.5px;color:var(--navy);margin:20px 0 8px;}
+  .qlegal p{font-size:12.5px;line-height:1.9;color:var(--charcoal);margin:0 0 8px;}
+  .qlegal ul{margin:0 0 10px;padding-left:18px;}
+  .qlegal li{font-size:12.5px;line-height:1.85;color:var(--charcoal);margin-bottom:4px;}
+  a{cursor:pointer;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
+<div class="qbody">
+<div class="qplaque"><span>個人情報保護方針</span></div>
+
+
+<div class="qlegal">
+<h2>1．個人情報保護基本方針</h2>
+<p>株式会社クオリティライフ・コンシェルジュは、各種サービスの提供、個別の請負業務や採用選考その他人事管理に関する個人情報の重要性を認識し、個人情報に関する法令・規範などを遵守し、以下の基本方針に基づき、継続的に個人情報の保護の徹底に努めます。</p>
+<ul>
+<li>①個人情報の保護に関する責任者を明確にし、社内規程を制定することにより管理体制を整備します。</li>
+<li>②個人情報は、あらかじめ本人に通知し、または公表した利用目的の達成に必要な範囲内で、適正かつ適切に取得し取り扱います。</li>
+<li>③個人情報の紛失、破壊、改ざん、漏洩等を防止する為、適切な安全管理措置を講じます。</li>
+<li>④個人情報を第三者に提供する際には、法令に従い必要な措置を講じます。</li>
+<li>⑤個人情報の開示、訂正、利用停止等のご要望及びお問合せに対しては、できる限り速やかに対応します。</li>
+<li>⑥社内教育・啓発活動を実施して個人情報の適正な取扱いについて周知徹底に努めるとともに、管理体制を継続的に見直します。</li>
+<li>⑦当社のウェブサイトでは個人情報をご提供していただくサービスには、SSLを採用しています。</li>
+</ul>
+<h2>2．個人情報の定義</h2>
+<p>個人情報とは、生存する個人に関する情報であって、個人の氏名、生年月日、住所、電話番号、メールアドレスその他の記載等により個人を識別できるもの（他の情報と容易に照合することができ、それにより特定の個人を識別することができることとなるものを含みます。）あるいは個人識別符号が含まれるものを指します。</p>
+<h2>3．個人情報の収集</h2>
+<p>（1）当社が個人情報を収集するのは、各業務または採用選考に必要な場合に限り、収集に当たっては適法かつ公正な手段を用います。<br>
+（2）当社は、個人情報を収集するに当たっては、必要な場合に限り、かつ、できる限りその目的を限定して行います。収集する個人情報の範囲は、収集の目的を達成するため必要な限度を超えないものとし、適法かつ公正な手段により行います。情報主体以外の者から収集する場合は、原則として情報主体の同意を得るものとします（法令に基づく等の正当な理由がある場合を除く）。</p>
+<h2>4．個人情報の利用目的</h2>
+<p>当社が収集した個人情報の利用又は提供は、以下の利用目的の範囲に限り、情報主体の権利利益を損なうことのないよう十分配慮します。</p>
+<ul>
+<li>1. 採用活動における応募者への面接日時や面接結果、採用後のスケジュール連絡などのため</li>
+<li>2. 従業員の人事労務・給与支払い・業務管理のため</li>
+<li>3. 各種サービスの契約締結及び履行のため</li>
+<li>4. 各種サービス申込者へのフォローのため</li>
+<li>5. 各種サービス申込者へサービスの変更やメンテナンスの連絡のため</li>
+<li>6. お問い合わせに回答するため</li>
+<li>7. 従業員・各種サービス利用者へのアンケート調査のため</li>
+<li>8. 各種サービス利用料金の請求業務のため</li>
+<li>9. 各種サービス申込者へのキャンペーン等の情報提供のため</li>
+<li>10. 各種サービス利用者の荷物及び資材等の配送のため</li>
+<li>11. ウェブサイトの利用状況に関する統計分析のため</li>
+<li>12. ウェブサイトの行動履歴からウェブサイトの改善すべき内容の把握のため</li>
+<li>13. ウェブサイトの閲覧履歴や購買履歴等の情報を分析して、本人の趣味・嗜好に応じた広告を配信するため</li>
+<li>14. 当社及び各種サービスへの関心の高い方への広告配信のため</li>
+</ul>
+<h2>5．個人情報の第三者提供</h2>
+<p>当社は、あらかじめお客様の同意を得ずに、取得した個人情報を第三者に提供することはいたしません。ただし、次の各号のいずれかに該当すると認めるときは、情報主体の権利利益に最大限の配慮を払いつつ利用目的以外の目的のために個人情報を利用し、又は提供することがあります。</p>
+<ul>
+<li>一　法令の規定に基づき、利用又は提供しなければならないとき。</li>
+<li>二　人の生命、身体又は財産の保護のために必要がある場合であって、本人の同意を得ることが困難であるとき。</li>
+<li>三　公衆衛生の向上又は児童の健全な育成の推進のために特に必要がある場合であって本人の同意を得ることが困難であるとき。</li>
+<li>四　国の機関若しくは地方公共団体又はその委託を受けた者が法令の定める事務を遂行することに対して協力する必要がある場合であって、本人の同意を得ることにより当該事務の遂行に支障を及ぼすおそれがあるとき。</li>
+</ul>
+<h2>6．個人情報の管理方法</h2>
+<p>当社が個人情報を管理するに当たっては、当該情報への不正なアクセス又は当該情報の紛失、破壊、改ざん、漏えいの防止その他の個人情報の適切な管理のために必要な措置を講じます。当社は、その管理に係る個人情報につき、利用目的に応じ正確かつ最新なものに保つよう努めます。</p>
+<h2>7．個人情報の委託</h2>
+<p>当社は個人情報を含めた業務の全部または一部を委託する場合があります。この場合、特定した利用目的の達成に必要な範囲内において適法かつ適切に行います。お客様の個人情報の取扱いを委託する場合は、十分な管理水準を有する委託先を選定し、必要かつ適切な監督を行います。</p>
+<h2>8．個人情報の開示及び訂正等</h2>
+<p>当社は、情報主体から自己に関する個人情報の開示の請求があったときは、当該請求に係る個人情報について遅滞なく開示します。次の各号のいずれかに該当すると認めるときは、当該請求に係る個人情報の全部又は一部について開示をしないことがあります。</p>
+<ul>
+<li>一　当社の業務の遂行に著しい支障を及ぼすとき。</li>
+<li>二　個人の生命、身体、財産その他の利益を害するおそれのあるとき。</li>
+</ul>
+<p>当社は、情報主体から自己に関する個人情報の訂正等（訂正、追加又は削除）の申出があったときは、遅滞なく調査を行い、誤りや保存期間経過その他訂正等を必要とする事由があると認めるときは、遅滞なく訂正等を行います。</p>
+<h2>9．個人情報に関する問い合わせ先</h2>
+<p>個人情報（第三者に提供し又は提供を受けた情報を含む）の開示、情報の訂正、利用停止、削除をご希望の場合は、以下までご連絡ください。<br>担当：株式会社クオリティライフ・コンシェルジュ 個人情報保護担当<br>メールアドレス：qlc-info@ql-c.co.jp</p>
+<h2>10．匿名加工情報・仮名加工情報の取り扱いについて</h2>
+<p>1．匿名加工情報：当社では取得した個人情報から匿名加工情報（特定の個人を識別することができないように加工し、復元できないようにしたもの）を継続的に作成し、第三者提供を行う場合があります。法令に従い、安全措置を講じて匿名加工情報取扱事業者等の義務を順守します。含まれる項目：メールアドレス、電話番号。提供方法：セキュリティが確保されたシステムを介して行います。</p>
+<p>2．仮名加工情報：当社では取得した個人情報から仮名加工情報（他の情報と照合しない限り特定の個人を識別できないように加工した情報）を作成する場合、法令で定める基準に従って適正な加工を施します。</p>
+<h2>11．ウェブサイトを閲覧する際に取得する情報の取り扱いについて</h2>
+<p>当社ではウェブサイト訪問者の個人関連情報（クッキー情報等の技術で取得したアクセス情報など、個人情報・仮名加工情報・匿名加工情報のいずれにも該当しないもの）を以下の目的のため取得します。第三者から個人関連情報を取得し当社の情報と照合することで容易に個人を特定できる場合は、事前に同意を得るものといたします。</p>
+<p>取得する主な内容：①ブラウザの種類・バージョン ②OS ③閲覧されたページ（URL） ④閲覧日時 ⑤使用デバイス ⑥行動履歴 ⑦サイトへの流入経路</p>
+<p>利用目的：①利用状況の統計分析 ②サイト改善内容の把握 ③閲覧・購買履歴の分析による広告配信 ④関心の高い方への広告配信 ⑤一度訪問された方への広告配信</p>
+<p>※ブラウザの設定により、いつでもクッキーの受け取りを拒否したり、警告を表示することが可能です。ただし、その場合、当ウェブサイトの機能が十分にご利用できない可能性があります。設定方法はご利用のブラウザの「ヘルプ」をご覧ください。当社は、広告配信を委託する第三者を経由してクッキー情報を保存・参照する場合があります。無効化したい場合は、各社のオプトアウトページをご利用ください（Yahoo!・Google・Facebook・Instagram・Twitter・LINE等）。</p>
+<h2>12．Googleアナリティクスからの情報取得について</h2>
+<p>本ウェブサイトでは、アクセス状況の把握とサイト改善のためGoogle社のGoogleアナリティクスを利用しています。取得データはGoogle社のプライバシーポリシーに基づいて管理されます。利用者は本ウェブサイトの利用により、当該データ処理に同意したものとみなされます。Googleアナリティクスオプトアウトアドオンからオプトアウト設定も可能です。</p>
+<h2>13．プライバシーポリシーの変更について</h2>
+<p>当社は、必要に応じて、このプライバシーポリシーの内容を変更します。この場合、変更後のプライバシーポリシーの施行時期と内容を適切な方法により周知または通知します。法令によりお客様から同意を得る必要がある変更については、その同意を得るための手続きを行ったうえで変更いたします。</p>
+<p>制定：平成18年3月　改定：平成27年12月　改定：令和4年10月<br>株式会社クオリティライフ・コンシェルジュ　東京都港区芝5-13-15 4F　代表取締役 西川 尚希</p>
+</div>
+
+<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+</div>
+</div>
+</body>
+</html>
