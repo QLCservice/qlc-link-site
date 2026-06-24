@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
 <style>
+  /* ▼▼DESIGN▼▼ この:root内は管理パネルの「デザイン」タブから自動生成されます（手で書かない） ▼▼ */
   :root{
     --navy-deep:#11213D;
     --navy-mid:#1B2D52;
@@ -15,7 +16,11 @@
     --brass-light:#E3C988;
     --cream:#F6F1E4;
     --ink:#0B1626;
+    --text-scale:1;
+    --wide-max:1220px;
+    --texture:1;
   }
+  /* ▲▲DESIGN▲▲ */
   *{box-sizing:border-box;}
   body{
     margin:0;
@@ -76,7 +81,7 @@
     margin:0 auto 14px;
     max-width:440px;
     line-height:1.7;
-    font-size:13.5px;
+    font-size:calc(13.5px * var(--text-scale));
     color:#DCE2EE;
   }
   .nameplate{
@@ -124,7 +129,7 @@
   }
   .qa-log{
     flex:1; overflow-y:auto; padding:14px 15px; max-height:360px;
-    color:var(--cream); font-size:14px; line-height:1.75;
+    color:var(--cream); font-size:calc(14px * var(--text-scale)); line-height:1.75;
   }
   .qa-log::-webkit-scrollbar{width:6px;}
   .qa-log::-webkit-scrollbar-thumb{background:rgba(201,163,97,0.35); border-radius:3px;}
@@ -139,7 +144,7 @@
     color:var(--cream);
     padding:9px 14px;
     border-radius:18px;
-    font-size:13.5px;
+    font-size:calc(13.5px * var(--text-scale));
     text-align:left;
     cursor:pointer;
   }
@@ -195,8 +200,8 @@
   }
   .card:hover{transform:translateY(-2px); box-shadow:0 8px 18px rgba(17,33,61,0.15);}
   .card .icon{font-size:23px;}
-  .card .title{font-weight:700; font-size:14.5px; line-height:1.4;}
-  .card .desc{font-size:12.5px; color:#5b6275; line-height:1.65;}
+  .card .title{font-weight:700; font-size:calc(14.5px * var(--text-scale)); line-height:1.4;}
+  .card .desc{font-size:calc(12.5px * var(--text-scale)); color:#5b6275; line-height:1.65;}
 
   /* ===== フッター ===== */
   footer{
@@ -217,29 +222,29 @@
     body{
       background-color:var(--cream);
       background-image:
-        radial-gradient(ellipse 900px 600px at 8% 0%, rgba(201,163,97,0.10), transparent 60%),
-        radial-gradient(ellipse 900px 700px at 100% 100%, rgba(27,45,82,0.07), transparent 60%);
+        radial-gradient(ellipse 900px 600px at 8% 0%, rgba(201,163,97,calc(0.10 * var(--texture))), transparent 60%),
+        radial-gradient(ellipse 900px 700px at 100% 100%, rgba(27,45,82,calc(0.07 * var(--texture))), transparent 60%);
       background-attachment:fixed;
       background-repeat:no-repeat;
     }
     .quick-nav{ justify-content:center; }
     .hero{ padding:46px 24px 38px; }
     .hero h1{ font-size:30px; line-height:1.5; }
-    .hero p{ max-width:620px; font-size:15px; }
+    .hero p{ max-width:620px; font-size:calc(15px * var(--text-scale)); }
     .nameplate{ font-size:13px; padding:8px 26px; }
     .intro{ max-width:900px; padding:24px 16px 32px; }
     .qa-widget{ min-height:340px; }
     .qa-header{ padding:14px 20px; }
     .qa-header span.title{ font-size:14.5px; }
-    .qa-log{ font-size:15px; padding:18px 22px; max-height:420px; }
-    .qa-btn{ font-size:14.5px; padding:11px 16px; }
-    .service-section{ max-width:1220px; padding:0 24px 14px; }
+    .qa-log{ font-size:calc(15px * var(--text-scale)); padding:18px 22px; max-height:420px; }
+    .qa-btn{ font-size:calc(14.5px * var(--text-scale)); padding:11px 16px; }
+    .service-section{ max-width:var(--wide-max); padding:0 24px 14px; }
     .section-bar{ font-size:17px; padding:13px 0; }
     .card-grid{ gap:16px; }
     .card{ flex:1 1 230px; padding:18px 16px; }
     .card .icon{ font-size:27px; }
-    .card .title{ font-size:16px; }
-    .card .desc{ font-size:13.5px; line-height:1.7; }
+    .card .title{ font-size:calc(16px * var(--text-scale)); }
+    .card .desc{ font-size:calc(13.5px * var(--text-scale)); line-height:1.7; }
     footer{ font-size:12.5px; padding:32px 16px; }
   }
 
