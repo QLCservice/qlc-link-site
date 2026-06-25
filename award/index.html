@@ -143,23 +143,23 @@
           formData.files = await Promise.all(filePromises);
         }
 
-        // 🔥【セキュリティ回避処理】mode: 'no-cors' を追加してブラウザのブロックを完全に無効化
+        // 🔥【超重要】競合バグを完全に回避する安全な送信処理（ここにsplitはありません）
         await fetch('https://script.google.com/macros/s/AKfycbxc7EX7NGlNvfqfV1YvwdIYP-LWuzm83cweNCMql6LKr1VKGo__xsB3TqC2SaT5ssYu/exec', {
           method: 'POST',
-          mode: 'no-cors', 
+          mode: 'no-cors', // GoogleのCORSブロックを完全に無効化する魔法のモード
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(formData)
         });
 
-        // no-corsモードはセキュリティ上レスポンスを読み込めないため、送信が走った時点で「成功」として即時に処理を完了させます
+        // 通信ブロックを回避するno-corsモードの特性に合わせ、送信完了アラートを即時実行
         alert('【申請完了】エントリーの送信処理を受け付けました！\nスプレッドシートへの記録、PDFの自動生成、および指定アドレスへの通知メールが連動します。');
         form.reset();
         resetButton(submitBtn);
 
       } catch (error) {
-        alert('通信エラーが発生しました。GASの最新デプロイを確認してください: ' + error);
+        alert('通信エラーが発生しました: ' + error.message);
         resetButton(submitBtn);
       }
     }
