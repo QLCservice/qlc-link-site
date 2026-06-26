@@ -6,98 +6,181 @@
   <title>サービス促進賞 申請フォーム</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
+<body class="bg-[#f4f5f7] min-h-screen py-8 px-4 sm:px-6 lg:px-8">
 
-  <div class="max-w-3xl mx-auto bg-white p-8 rounded-xl shadow-md">
-    <h2 class="text-2xl font-bold text-gray-800 border-b pb-4 mb-6 text-center">
-      🏆 サービス促進賞 WEB申請システム
-    </h2>
+  <div class="max-w-3xl mx-auto">
 
-    <form id="awardForm" onsubmit="handleSubmit(event)" class="space-y-6">
-      
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-2">推薦者の種別 <span class="text-red-500">*</span></label>
-        <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
-          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-            <input type="radio" name="recommendType" value="自薦" required class="h-4 w-4 text-indigo-600">
-            <span class="ml-2 text-sm text-gray-700">自薦</span>
-          </label>
-          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-            <input type="radio" name="recommendType" value="物件担当者" class="h-4 w-4 text-indigo-600">
-            <span class="ml-2 text-sm text-gray-700">物件担当者</span>
-          </label>
-          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-            <input type="radio" name="recommendType" value="スタッフ担当者" class="h-4 w-4 text-indigo-600">
-            <span class="ml-2 text-sm text-gray-700">スタッフ担当者</span>
-          </label>
-          <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
-            <input type="radio" name="recommendType" value="サービス開発室からの推薦" class="h-4 w-4 text-indigo-600">
-            <span class="ml-2 text-sm text-gray-700">サービス開発室</span>
-          </label>
+    <!-- ヘッダーバナー -->
+    <div class="rounded-t-2xl bg-gradient-to-r from-[#1e3a5f] to-[#15293f] px-8 py-7 text-center relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-1.5 bg-[#c9a84c]"></div>
+      <p class="text-3xl mb-1">🏆</p>
+      <h1 class="text-2xl font-bold text-white tracking-wide">サービス促進賞 WEB申請システム</h1>
+      <p class="text-[#c9a84c] text-sm mt-2">居住者様への取り組みで成果のあった事例を表彰します</p>
+    </div>
+
+    <div class="bg-white rounded-b-2xl shadow-lg px-6 py-8 sm:px-10">
+      <form id="awardForm" onsubmit="handleSubmit(event)" class="space-y-10">
+
+        <!-- ===== 申請者情報 ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-1.5 h-5 bg-[#c9a84c] rounded-full"></span>
+            <h2 class="text-base font-bold text-[#1e3a5f]">申請者情報</h2>
+          </div>
+
+          <div class="mb-5">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+              申請者名（あなたのお名前） <span class="text-red-500">*</span>
+            </label>
+            <input type="text" name="applicantName" required placeholder="例：井上 祐輔"
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]">
+            <p class="text-xs text-gray-400 mt-1">このフォームを送信する方のお名前です（送信元確認のため必須）</p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">推薦者の種別 <span class="text-red-500">*</span></label>
+            <div class="grid grid-cols-2 gap-2 sm:grid-cols-4">
+              <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="radio" name="recommendType" value="自薦" required class="h-4 w-4 text-[#1e3a5f]">
+                <span class="ml-2 text-sm text-gray-700">自薦</span>
+              </label>
+              <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="radio" name="recommendType" value="物件担当者" class="h-4 w-4 text-[#1e3a5f]">
+                <span class="ml-2 text-sm text-gray-700">物件担当者</span>
+              </label>
+              <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="radio" name="recommendType" value="スタッフ担当者" class="h-4 w-4 text-[#1e3a5f]">
+                <span class="ml-2 text-sm text-gray-700">スタッフ担当者</span>
+              </label>
+              <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="radio" name="recommendType" value="サービス開発室からの推薦" class="h-4 w-4 text-[#1e3a5f]">
+                <span class="ml-2 text-sm text-gray-700">サービス開発室</span>
+              </label>
+            </div>
+          </div>
+        </section>
+
+        <hr class="border-gray-200">
+
+        <!-- ===== 対象情報 ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-1.5 h-5 bg-[#c9a84c] rounded-full"></span>
+            <h2 class="text-base font-bold text-[#1e3a5f]">対象情報</h2>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-4 mb-4">
+            <div class="sm:col-span-1">
+              <label class="block text-sm font-semibold text-gray-700 mb-1">物件番号 <span class="text-red-500">*</span></label>
+              <input type="text" name="propertyNo" required inputmode="numeric" placeholder="例：0257" maxlength="10"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]">
+            </div>
+            <div class="sm:col-span-3">
+              <label class="block text-sm font-semibold text-gray-700 mb-1">対象物件名 <span class="text-red-500">*</span></label>
+              <input type="text" name="propertyName" required
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]">
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="block text-sm font-semibold text-gray-700 mb-1">対象スタッフ名 <span class="text-red-500">*</span></label>
+            <input type="text" name="staffName" required
+              class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]">
+          </div>
+
+          <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-2">対象スタッフの区分（複数選択可） <span class="text-red-500">*</span></label>
+            <div class="flex flex-wrap gap-2" id="staffCategoryGroup">
+              <label class="flex items-center px-4 py-2 border rounded-full cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="checkbox" name="staffCategory" value="コンシェルジュ" class="h-4 w-4 text-[#1e3a5f] rounded">
+                <span class="ml-2 text-sm text-gray-700">コンシェルジュ</span>
+              </label>
+              <label class="flex items-center px-4 py-2 border rounded-full cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="checkbox" name="staffCategory" value="管理員" class="h-4 w-4 text-[#1e3a5f] rounded">
+                <span class="ml-2 text-sm text-gray-700">管理員</span>
+              </label>
+              <label class="flex items-center px-4 py-2 border rounded-full cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="checkbox" name="staffCategory" value="カフェ" class="h-4 w-4 text-[#1e3a5f] rounded">
+                <span class="ml-2 text-sm text-gray-700">カフェ</span>
+              </label>
+              <label class="flex items-center px-4 py-2 border rounded-full cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="checkbox" name="staffCategory" value="ショップ" class="h-4 w-4 text-[#1e3a5f] rounded">
+                <span class="ml-2 text-sm text-gray-700">ショップ</span>
+              </label>
+              <label class="flex items-center px-4 py-2 border rounded-full cursor-pointer hover:bg-gray-50 has-[:checked]:border-[#1e3a5f] has-[:checked]:bg-[#1e3a5f]/5 has-[:checked]:ring-1 has-[:checked]:ring-[#1e3a5f]">
+                <input type="checkbox" name="staffCategory" value="その他" class="h-4 w-4 text-[#1e3a5f] rounded">
+                <span class="ml-2 text-sm text-gray-700">その他</span>
+              </label>
+            </div>
+            <p id="categoryError" class="text-red-500 text-xs mt-1 hidden">※区分を1つ以上選択してください。</p>
+          </div>
+        </section>
+
+        <hr class="border-gray-200">
+
+        <!-- ===== 推薦内容 ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-1.5 h-5 bg-[#c9a84c] rounded-full"></span>
+            <h2 class="text-base font-bold text-[#1e3a5f]">推薦内容</h2>
+          </div>
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">① 課題・背景 <span class="text-red-500">*</span></label>
+              <textarea name="q1" rows="3" required placeholder="どのような課題があり、なぜこれを行ったのか"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">② 実施内容 <span class="text-red-500">*</span></label>
+              <textarea name="q2" rows="3" required placeholder="具体的に何を行ったのか"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">③ 工夫したポイント <span class="text-red-500">*</span></label>
+              <textarea name="q3" rows="3" required placeholder="独自の工夫やこだわり"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">④ 実施結果 <span class="text-red-500">*</span></label>
+              <textarea name="q4" rows="3" required placeholder="売上データや掲示物の効果、周囲の反応など"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]"></textarea>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-1">⑤ 今後の展望</label>
+              <textarea name="q5" rows="3" placeholder="今後どのように展開していくか（任意）"
+                class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none focus:border-[#1e3a5f]"></textarea>
+            </div>
+          </div>
+        </section>
+
+        <hr class="border-gray-200">
+
+        <!-- ===== 添付ファイル ===== -->
+        <section>
+          <div class="flex items-center gap-2 mb-5">
+            <span class="w-1.5 h-5 bg-[#c9a84c] rounded-full"></span>
+            <h2 class="text-base font-bold text-[#1e3a5f]">添付ファイル</h2>
+          </div>
+          <label class="block text-sm font-semibold text-gray-700 mb-1">写真（最大4枚、最初の1枚をスライドへ自動配置）</label>
+          <input type="file" id="fileInput" accept="image/*" multiple
+            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
+          <p id="fileError" class="text-red-500 text-xs mt-1 hidden">※ファイルは最大4枚までしか添付できません。</p>
+        </section>
+
+        <div class="pt-2">
+          <button type="submit" id="submitBtn"
+            class="w-full bg-[#1e3a5f] text-white font-bold py-3 px-4 rounded-lg hover:bg-[#15293f] transition duration-200 flex justify-center items-center gap-2 shadow-md">
+            <span>申請を送信する</span>
+          </button>
         </div>
-      </div>
-
-      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">対象物件名 <span class="text-red-500">*</span></label>
-          <input type="text" name="propertyName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">対象スタッフ名 <span class="text-red-500">*</span></label>
-          <input type="text" name="staffName" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-        </div>
-      </div>
-
-      <hr class="border-gray-200 my-6">
-
-      <div class="space-y-4">
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">① 課題・背景 <span class="text-red-500">*</span></label>
-          <textarea name="q1" rows="3" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="どのような課題があり、なぜこれを行ったのか"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">② 実施内容 <span class="text-red-500">*</span></label>
-          <textarea name="q2" rows="3" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="具体的に何を行ったのか"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">③ 工夫したポイント <span class="text-red-500">*</span></label>
-          <textarea name="q3" rows="3" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="独自の工夫やこだわり"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">④ 実施結果 <span class="text-red-500">*</span></label>
-          <textarea name="q4" rows="3" required class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="売上データや掲示物の効果、周囲の反応など"></textarea>
-        </div>
-
-        <div>
-          <label class="block text-sm font-semibold text-gray-700 mb-1">⑤ 今後の展望</label>
-          <textarea name="q5" rows="3" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="今後どのように展開していくか（任意）"></textarea>
-        </div>
-      </div>
-
-      <div>
-        <label class="block text-sm font-semibold text-gray-700 mb-1">
-          添付ファイル（実施前後の写真、掲示物、売上データ等 / 最大4枚）
-        </label>
-        <input type="file" id="fileInput" accept="image/*" multiple class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100">
-        <p id="fileError" class="text-red-500 text-xs mt-1 hidden">※ファイルは最大4枚までしか添付できません。</p>
-      </div>
-
-      <div class="pt-4">
-        <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-200 flex justify-center items-center">
-          <span>申請を送信する</span>
-        </button>
-      </div>
-
-    </form>
+      </form>
+    </div>
   </div>
 
   <script>
     const fileInput = document.getElementById('fileInput');
     const fileError = document.getElementById('fileError');
-    
+
     fileInput.addEventListener('change', () => {
       if (fileInput.files.length > 4) {
         fileError.classList.remove('hidden');
@@ -114,21 +197,36 @@
       reader.onerror = error => reject(error);
     });
 
+    function getCheckedCategories() {
+      return Array.from(document.querySelectorAll('input[name="staffCategory"]:checked')).map(cb => cb.value);
+    }
+
     async function handleSubmit(event) {
       event.preventDefault();
-      
       const form = event.target;
       const submitBtn = document.getElementById('submitBtn');
-      
+      const categoryError = document.getElementById('categoryError');
+
+      const staffCategory = getCheckedCategories();
+      if (staffCategory.length === 0) {
+        categoryError.classList.remove('hidden');
+        document.getElementById('staffCategoryGroup').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      categoryError.classList.add('hidden');
+
       submitBtn.disabled = true;
       submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
       submitBtn.innerHTML = '送信中... データを処理しています';
 
       try {
         const formData = {
+          applicantName: form.applicantName.value,
           recommendType: form.recommendType.value,
+          propertyNo: form.propertyNo.value,
           propertyName: form.propertyName.value,
           staffName: form.staffName.value,
+          staffCategory: staffCategory,
           q1: form.q1.value,
           q2: form.q2.value,
           q3: form.q3.value,
@@ -143,21 +241,17 @@
           formData.files = await Promise.all(filePromises);
         }
 
-        // 🔥【超重要】競合バグを完全に回避する安全な送信処理（ここにsplitはありません）
-        await fetch('https://script.google.com/macros/s/AKfycbzR6ZkcoG8T9ASKYje3svpS2soL56Hx7Dif2BngMMELQsbqDwMFuKhIUicWLZRPpQen/exec', {
+        // GoogleのCORS制限を回避するため mode: 'no-cors' で通信
+        await fetch('https://script.google.com/macros/s/AKfycbxc7EX7NGlNvfqfV1YvwdIYP-LWuzm83cweNCMql6LKr1VKGo__xsB3TqC2SaT5ssYu/exec', {
           method: 'POST',
-          mode: 'no-cors', // GoogleのCORSブロックを完全に無効化する魔法のモード
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
 
-        // 通信ブロックを回避するno-corsモードの特性に合わせ、送信完了アラートを即時実行
-        alert('【申請完了】エントリーの送信処理を受け付けました！\nスプレッドシートへの記録、PDFの自動生成、および指定アドレスへの通知メールが連動します。');
+        alert('【申請完了】エントリーの送信処理を受け付けました！\nスプレッドシートへの記録、表彰スライド（PowerPoint）の自動生成、および指定アドレスへの通知メールが連動します。');
         form.reset();
         resetButton(submitBtn);
-
       } catch (error) {
         alert('通信エラーが発生しました: ' + error.message);
         resetButton(submitBtn);
