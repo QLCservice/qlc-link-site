@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QLC Link サービス一覧｜くらしのサポート</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  /* ▼▼DESIGN▼▼ この:root内は管理パネルの「デザイン」タブから自動生成されます（手で書かない） ▼▼ */
+  :root{
+    --navy-deep:#11213D;
+    --navy-mid:#1B2D52;
+    --brass:#C9A361;
+    --brass-light:#E3C988;
+    --cream:#F6F1E4;
+    --ink:#0B1626;
+    --text-scale:1;
+    --wide-max:1220px;
+    --texture:1;
+  }
+  /* ▲▲DESIGN▲▲ */
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Noto Sans JP','Hiragino Kaku Gothic ProN',Meiryo,sans-serif;
+    background:var(--cream);
+    color:var(--navy-deep);
+  }
+  a{color:inherit;}
+  .serif{font-family:'Noto Serif JP',serif;}
+
+  /* ===== ヘッダー（ロゴ＋クイックナビを1段に統合） ===== */
+  .quick-nav{
+    position:sticky; top:0; z-index:20;
+    display:flex; align-items:center; gap:10px; overflow-x:auto;
+    background:var(--navy-deep);
+    padding:9px 12px;
+    border-bottom:2px solid var(--brass);
+  }
+  .quick-nav .brand{
+    flex:0 0 auto;
+    font-family:'Noto Serif JP',serif;
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.04em;
+    color:var(--brass-light);
+    padding-right:6px;
+    border-right:1px solid rgba(201,163,97,0.3);
+    white-space:nowrap;
+  }
+  .quick-nav a{
+    flex:0 0 auto;
+    font-size:12px;
+    color:var(--cream);
+    background:rgba(246,241,228,0.06);
+    border:1px solid rgba(201,163,97,0.4);
+    border-radius:20px;
+    padding:6px 14px;
+    text-decoration:none;
+    white-space:nowrap;
+  }
+  .quick-nav a:hover{background:rgba(201,163,97,0.2);}
+
+  /* ===== ヒーロー ===== */
+  .hero{
+    background:linear-gradient(165deg, var(--navy-deep), var(--navy-mid));
+    color:var(--cream);
+    text-align:center;
+    padding:26px 20px 22px;
+  }
+  .hero h1{
+    font-family:'Noto Serif JP',serif;
+    font-weight:700;
+    font-size:clamp(18px,4.2vw,26px);
+    margin:0 0 8px;
+    letter-spacing:.02em;
+  }
+  .hero p{
+    margin:0 auto 14px;
+    max-width:440px;
+    line-height:1.7;
+    font-size:calc(13.5px * var(--text-scale));
+    color:#DCE2EE;
+  }
+  .nameplate{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--brass-light),var(--brass));
+    color:var(--ink);
+    font-family:'Noto Serif JP',serif;
+    font-weight:700;
+    font-size:12px;
+    letter-spacing:.22em;
+    padding:7px 22px;
+    border-radius:4px;
+    box-shadow:0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
+  }
+
+  /* ===== QAパネル（全幅・お問い合わせもメニューに統合） ===== */
+  .intro{
+    max-width:760px;
+    margin:0 auto;
+    padding:18px 16px 28px;
+  }
+  .qa-divider{
+    border-top:1px solid rgba(201,163,97,0.25);
+    margin:6px 0 2px;
+  }
+
+  /* ===== QAウィジェット ===== */
+  .qa-widget{
+    background:linear-gradient(165deg, var(--navy-deep) 0%, var(--navy-mid) 100%);
+    border:1px solid rgba(201,163,97,0.25);
+    border-radius:12px;
+    box-shadow:0 10px 24px rgba(17,33,61,0.25);
+    display:flex; flex-direction:column;
+    overflow:hidden;
+    min-height:290px;
+  }
+  .qa-header{
+    display:flex; align-items:center; gap:8px;
+    padding:12px 16px;
+    background:linear-gradient(135deg,var(--brass-light),var(--brass));
+  }
+  .qa-header span.title{
+    font-family:'Noto Serif JP',serif; font-weight:700; font-size:13px;
+    letter-spacing:.04em; color:var(--ink);
+  }
+  .qa-log{
+    flex:1; overflow-y:auto; padding:14px 15px; max-height:360px;
+    color:var(--cream); font-size:calc(14px * var(--text-scale)); line-height:1.75;
+  }
+  .qa-log::-webkit-scrollbar{width:6px;}
+  .qa-log::-webkit-scrollbar-thumb{background:rgba(201,163,97,0.35); border-radius:3px;}
+  .qa-msg{margin-bottom:10px; animation:fade .2s ease;}
+  @keyframes fade{from{opacity:0; transform:translateY(4px);} to{opacity:1; transform:translateY(0);}}
+  .qa-msg.user{text-align:right; color:var(--brass-light); font-weight:700;}
+  .qa-msg strong{font-family:'Noto Serif JP',serif; color:var(--brass-light); font-weight:500;}
+  .qa-options{display:flex; flex-direction:column; gap:6px; margin:8px 0;}
+  .qa-btn{
+    background:rgba(246,241,228,0.04);
+    border:1px solid rgba(201,163,97,0.3);
+    color:var(--cream);
+    padding:9px 14px;
+    border-radius:18px;
+    font-size:calc(13.5px * var(--text-scale));
+    text-align:left;
+    cursor:pointer;
+  }
+  .qa-btn:hover{background:rgba(201,163,97,0.14); border-color:var(--brass-light);}
+  .qa-link{
+    display:inline-block; margin-top:6px;
+    background:linear-gradient(135deg,var(--brass-light),var(--brass));
+    color:var(--ink); font-family:'Noto Serif JP',serif; font-weight:700;
+    font-size:12.5px; padding:8px 16px; border-radius:6px; text-decoration:none;
+    box-shadow:0 2px 6px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.3);
+  }
+
+  /* ===== サービスセクション ===== */
+  .service-section{max-width:980px; margin:0 auto; padding:0 16px 10px;}
+  .section-bar{
+    font-family:'Noto Serif JP',serif;
+    font-weight:700; font-size:15px; text-align:center;
+    color:var(--cream);
+    background:linear-gradient(90deg, var(--navy-deep), var(--navy-mid));
+    border-top:3px solid var(--brass);
+    border-bottom:3px solid var(--brass);
+    padding:11px 0;
+    margin:22px 0 16px;
+    letter-spacing:.06em;
+  }
+  .section-bar::before, .section-bar::after{content:"◆"; color:var(--brass-light); font-size:10px; margin:0 10px; vertical-align:middle;}
+  .card-grid{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+  }
+  .card{
+    flex:1 1 150px;
+    background:#fff;
+    border:1px solid rgba(17,33,61,0.08);
+    border-left:4px solid var(--brass);
+    border-radius:8px;
+    padding:14px 12px;
+    text-decoration:none;
+    color:var(--navy-deep);
+    display:flex; flex-direction:column; gap:6px;
+    position:relative;
+    transition:transform .15s, box-shadow .15s;
+  }
+  .soon-badge{
+    position:absolute; top:8px; right:8px;
+    background:linear-gradient(135deg,var(--brass-light),var(--brass));
+    color:var(--ink);
+    font-size:9.5px; font-weight:700;
+    padding:2px 9px; border-radius:10px;
+    letter-spacing:.04em;
+    box-shadow:0 1px 4px rgba(0,0,0,0.2);
+  }
+  .card:hover{transform:translateY(-2px); box-shadow:0 8px 18px rgba(17,33,61,0.15);}
+  .card .icon{font-size:23px;}
+  .card .title{font-weight:700; font-size:calc(14.5px * var(--text-scale)); line-height:1.4;}
+  .card .desc{font-size:calc(12.5px * var(--text-scale)); color:#5b6275; line-height:1.65;}
+
+  /* ===== フッター ===== */
+  footer{
+    background:var(--navy-deep); color:#B9C2D6;
+    text-align:center; padding:26px 16px; margin-top:26px;
+    font-size:11.5px; line-height:1.9;
+  }
+  footer a{color:var(--brass-light); text-decoration:none;}
+  footer .company{color:var(--cream); font-weight:700; font-family:'Noto Serif JP',serif; font-size:13px;}
+
+  /* =====================================================
+   * PC・タブレット横画面向け（900px以上）
+   * スマホの見た目は一切変更せず、広い画面のときだけ
+   * ①コンテンツ幅を広げる ②文字を大きくする
+   * ③余白を「意図的な背景」に見せる、の3点を調整します
+   * =====================================================*/
+  @media (min-width:900px){
+    body{
+      background-color:var(--cream);
+      background-image:
+        radial-gradient(ellipse 900px 600px at 8% 0%, rgba(201,163,97,calc(0.10 * var(--texture))), transparent 60%),
+        radial-gradient(ellipse 900px 700px at 100% 100%, rgba(27,45,82,calc(0.07 * var(--texture))), transparent 60%);
+      background-attachment:fixed;
+      background-repeat:no-repeat;
+    }
+    .quick-nav{ justify-content:center; }
+    .hero{ padding:46px 24px 38px; }
+    .hero h1{ font-size:30px; line-height:1.5; }
+    .hero p{ max-width:620px; font-size:calc(15px * var(--text-scale)); }
+    .nameplate{ font-size:13px; padding:8px 26px; }
+    .intro{ max-width:900px; padding:24px 16px 32px; }
+    .qa-widget{ min-height:340px; }
+    .qa-header{ padding:14px 20px; }
+    .qa-header span.title{ font-size:14.5px; }
+    .qa-log{ font-size:calc(15px * var(--text-scale)); padding:18px 22px; max-height:420px; }
+    .qa-btn{ font-size:calc(14.5px * var(--text-scale)); padding:11px 16px; }
+    .service-section{ max-width:var(--wide-max); padding:0 24px 14px; }
+    .section-bar{ font-size:17px; padding:13px 0; }
+    .card-grid{ gap:16px; }
+    .card{ flex:1 1 230px; padding:18px 16px; }
+    .card .icon{ font-size:27px; }
+    .card .title{ font-size:calc(16px * var(--text-scale)); }
+    .card .desc{ font-size:calc(13.5px * var(--text-scale)); line-height:1.7; }
+    footer{ font-size:12.5px; padding:32px 16px; }
+  }
+
+  /* 超ワイドモニター（1700px以上）でも幅が広がりすぎないよう上限を設定 */
+  @media (min-width:1700px){
+    .intro{ max-width:980px; }
+    .service-section{ max-width:1360px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="quick-nav">
+  <span class="brand">QLC Link</span>
+  <a href="#house">🧹 家事サポート</a>
+  <a href="#life">🚗 生活便利</a>
+  <a href="#storage">📦 荷物の保管・買取・整理</a>
+</nav>
+
+<section class="hero">
+  <h1>暮らしの中で、ちょっと助かる。<br>そんなサービスを集めました。</h1>
+  <p>アイコンをタップ（クリック）してお進みください。メニューにないサービスや、その他ご要望は、下のコンシェルジュの「お問い合わせ」メニューよりご連絡ください。</p>
+  <div class="nameplate">CONCIERGE</div>
+</section>
+
+<div class="intro">
+  <div class="qa-widget">
+    <div class="qa-header"><span>🛎️</span><span class="title">QLC Link コンシェルジュ</span></div>
+    <div class="qa-log" id="qaLog">
+      <div class="qa-msg">お気軽にご質問をどうぞ。<strong>QLC Link</strong>の提携サービスについてご案内いたします。知りたいカテゴリを選択してください。</div>
+      <div class="qa-options" id="qaMain"></div>
+    </div>
+  </div>
+</div>
+
+<div id="house" class="service-section"></div>
+<div id="life" class="service-section"></div>
+<div id="storage" class="service-section"></div>
+
+<footer>
+  <div class="company">株式会社クオリティライフ・コンシェルジュ</div>
+  [東京本社] 〒108-0014 東京都港区芝5-13-15<br>
+  <a href="https://www.qlc-service.com/qlc-link/privacy-policy">プライバシーポリシー</a> 　 <a href="https://www.qlc-service.com/qlc-link/compliance">コンプライアンスについて</a><br>
+  Copyright © 2026 QUALITY LIFE-CONCIERGE. All Rights Reserved
+</footer>
+
+<script>
+const BASE = 'https://www.qlc-service.com/qlc-link/';
+
+/* ▼▼ この2つは Google スプレッドシートの内容から自動生成されます（手で書かない） ▼▼ */
+const DATA = {
+  "house": {
+    "label": "家事サポート",
+    "icon": "🧹",
+    "items": [
+      {
+        "slug": "housekeeping",
+        "icon": "🧺",
+        "title": "家事代行",
+        "desc": "掃除・洗濯・料理など日常の家事をサポート"
+      },
+      {
+        "slug": "laundry-delivery",
+        "icon": "👕",
+        "title": "宅配クリーニング",
+        "desc": "自宅で受け取れる便利な衣類クリーニング"
+      },
+      {
+        "slug": "shoeshine",
+        "icon": "👞",
+        "title": "靴磨き・靴修理",
+        "desc": "熟練職人による靴・革製品の本格メンテナンス"
+      },
+      {
+        "slug": "chef",
+        "icon": "🍳",
+        "title": "出張料理",
+        "desc": "食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供"
+      },
+      {
+        "slug": "senior-care",
+        "icon": "👵",
+        "title": "シニアケア",
+        "desc": "ご家族の暮らしや介護を優しくサポート"
+      },
+      {
+        "slug": "housecleaning-tokyo",
+        "icon": "✨",
+        "title": "ハウスクリーニング（関東）",
+        "desc": "東京・神奈川エリア対応の専門クリーニング"
+      },
+      {
+        "slug": "childcare-tokyo",
+        "icon": "👶",
+        "title": "ベビーシッター（関東）",
+        "desc": "東京・神奈川、首都圏対応のベビーシッターサービス"
+      }
+    ]
+  },
+  "life": {
+    "label": "生活便利",
+    "icon": "🚗",
+    "items": [
+      {
+        "slug": "taxi",
+        "icon": "🚕",
+        "title": "タクシー手配",
+        "desc": "アプリで手軽に呼べる配車サービス"
+      },
+      {
+        "slug": "hirecar",
+        "icon": "🚘",
+        "title": "ハイヤー",
+        "desc": "大切な移動を支える上質なハイヤー"
+      },
+      {
+        "slug": "rentacarcontact",
+        "icon": "🚗",
+        "title": "レンタカー",
+        "desc": "お得な提携価格でご利用いただけます"
+      },
+      {
+        "slug": "water-delivery",
+        "icon": "💧",
+        "title": "お水の宅配",
+        "desc": "安心・美味しいお水のサーバー宅配"
+      },
+      {
+        "slug": "rental",
+        "icon": "🛠",
+        "title": "各種レンタル",
+        "desc": "ベビー用品やイベント用品を手軽にレンタル"
+      },
+      {
+        "slug": "flower-delivery",
+        "icon": "🌹",
+        "title": "フラワーデリバリー",
+        "desc": "お祝いや日常に彩りを添えるお花の宅配"
+      },
+      {
+        "slug": "food-delivery",
+        "icon": "🍱",
+        "title": "フードデリバリー",
+        "desc": "東京23区限定、レストランの味を自宅へ"
+      },
+      {
+        "slug": "petcare",
+        "icon": "🐶",
+        "title": "ペットケア",
+        "desc": "大切なペットのシッター・ホテルサービス"
+      },
+      {
+        "slug": "medical-night",
+        "icon": "🏥",
+        "title": "夜間の救急・医療相談",
+        "desc": "夜間の急な不調を専門家に相談"
+      },
+      {
+        "slug": "appliance-support",
+        "icon": "🔌",
+        "title": "家電サポート",
+        "desc": "家電の修理・設置・処分のお困りごとに対応"
+      },
+      {
+        "slug": "comingsoon-pc",
+        "icon": "💻",
+        "title": "パソコン訪問コンシェルジュ",
+        "desc": "スタッフが訪問し、データを守りながらPCのお困りごとを解決",
+        "soon": true
+      },
+      {
+        "slug": "comingsoon-mobile",
+        "icon": "📱",
+        "title": "スマホ・タブレット宅配修理",
+        "desc": "故障したスマホ・タブレットを宅配でお預かりして修理",
+        "soon": true
+      },
+      {
+        "slug": "comingsoon-iot",
+        "icon": "🏠",
+        "title": "デジタルホスピタル",
+        "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート",
+        "soon": true
+      }
+    ]
+  },
+  "storage": {
+    "label": "荷物の保管・買取・整理",
+    "icon": "📦",
+    "items": [
+      {
+        "slug": "storage",
+        "icon": "🔑",
+        "title": "宅配トランクルーム",
+        "desc": "スマホで預入・取出しできる収納サービス"
+      },
+      {
+        "slug": "reuse",
+        "icon": "💰",
+        "title": "不用品の宅配買取",
+        "desc": "箱に詰めて送るだけのリユース買取"
+      },
+      {
+        "slug": "book-reuse",
+        "icon": "📚",
+        "title": "本の買取・リユース",
+        "desc": "ブックオフが本・漫画を宅配買取"
+      },
+      {
+        "slug": "lifeorganize",
+        "icon": "🌱",
+        "title": "ライフオーガナイズ",
+        "desc": "くらし全体の最適化をサポート"
+      },
+      {
+        "slug": "photo-digitize",
+        "icon": "📷",
+        "title": "おもいで写真デジタイズ",
+        "desc": "古い写真・ビデオを劣化しないデータへ"
+      },
+      {
+        "slug": "delivery",
+        "icon": "📦",
+        "title": "宅配便の集荷連絡先",
+        "desc": "荷物発送に便利な集荷受付窓口"
+      },
+      {
+        "slug": "moving",
+        "icon": "🚚",
+        "title": "お引越し案内",
+        "desc": "大手引越し業者を提携割引でご案内"
+      },
+      {
+        "slug": "organizing-tokyo",
+        "icon": "🗄️",
+        "title": "整理収納・おかたづけ（関東）",
+        "desc": "東京・神奈川・埼玉・千葉エリア対応"
+      }
+    ]
+  }
+};
+const FAQDATA = [
+  {
+    "id": "F001",
+    "category": "提携サービス共通",
+    "question": "このサービスの料金はいくらですか？",
+    "answer": "料金の詳細は各サービスの案内ページをご確認ください。",
+    "order": 1
+  },
+  {
+    "id": "F004",
+    "category": "お問い合わせ",
+    "question": "回答はどのくらいで来ますか？",
+    "answer": "お問い合わせは緊急の連絡先ではございません。営業日に順番に内容を確認のうえ、担当より回答いたします。",
+    "order": 1
+  },
+  {
+    "id": "F002",
+    "category": "提携サービス共通",
+    "question": "申し込み方法を教えてください",
+    "answer": "案内ページに申し込み方法を記載しております。ページ内のご案内に沿ってお申し込みください。",
+    "order": 2
+  },
+  {
+    "id": "F003",
+    "category": "提携サービス共通",
+    "question": "このサービスは今すぐ使えますか？",
+    "answer": "サービスの提供可否や受付状況は案内ページにて最新情報をご確認いただけます。ご不明な点はお問い合わせボタンよりご連絡ください。",
+    "order": 3
+  }
+];
+/* ▲▲ ここまで自動生成 ▲▲ */
+
+const FAQINDEX = (function(){
+  const order = [];
+  const map = {};
+  FAQDATA.forEach(item => {
+    if (!map[item.category]) { map[item.category] = []; order.push(item.category); }
+    map[item.category].push(item);
+  });
+  order.forEach(c => map[c].sort((a,b) => (a.order||0) - (b.order||0)));
+  return { order, map };
+})();
+
+/* ---- カードグリッドを描画 ---- */
+Object.keys(DATA).forEach(key => {
+  const group = DATA[key];
+  const section = document.getElementById(key);
+  const bar = document.createElement('h2');
+  bar.className = 'section-bar';
+  bar.textContent = group.label;
+  const grid = document.createElement('div');
+  grid.className = 'card-grid';
+  group.items.forEach(item => {
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = BASE + item.slug + '.html';
+    a.target = '_blank';
+    const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
+    a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
+    grid.appendChild(a);
+  });
+  section.appendChild(bar);
+  section.appendChild(grid);
+});
+
+/* ---- QAコンシェルジュ ---- */
+const qaLog = document.getElementById('qaLog');
+function scrollLog(){
+  if (qaLog.scrollTo) {
+    try { qaLog.scrollTo({top: qaLog.scrollHeight, behavior:'smooth'}); return; } catch(e) {}
+  }
+  qaLog.scrollTop = qaLog.scrollHeight;
+}
+const qaMain = document.getElementById('qaMain');
+
+function renderMain(){
+  qaMain.innerHTML = '';
+  Object.keys(DATA).forEach(key => {
+    const group = DATA[key];
+    const btn = document.createElement('button');
+    btn.className = 'qa-btn';
+    btn.textContent = `${group.icon} ${group.label}`;
+    btn.onclick = () => selectGroup(key);
+    qaMain.appendChild(btn);
+  });
+  if (FAQDATA.length > 0) {
+    const faqBtn = document.createElement('button');
+    faqBtn.className = 'qa-btn';
+    faqBtn.textContent = '❓ よくある質問';
+    faqBtn.onclick = selectFaqMain;
+    qaMain.appendChild(faqBtn);
+  }
+  const divider = document.createElement('div');
+  divider.className = 'qa-divider';
+  qaMain.appendChild(divider);
+  const inquiryBtn = document.createElement('button');
+  inquiryBtn.className = 'qa-btn';
+  inquiryBtn.textContent = '📩 お問い合わせ';
+  inquiryBtn.onclick = showInquiry;
+  qaMain.appendChild(inquiryBtn);
+}
+renderMain();
+
+function addMsg(html, isUser){
+  const div = document.createElement('div');
+  div.className = 'qa-msg' + (isUser ? ' user' : '');
+  div.innerHTML = html;
+  qaLog.appendChild(div);
+  scrollLog();
+  return div;
+}
+
+function showInquiry(){
+  addMsg('お問い合わせ', true);
+  setTimeout(() => {
+    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-K3WlxTrrBdX2o2yRDZX4" target="_blank">➔ お問い合わせフォームを開く</a>');
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function selectGroup(key){
+  const group = DATA[key];
+  addMsg(group.label, true);
+  setTimeout(() => {
+    addMsg(`<strong>${group.label}</strong>ですね。気になる項目をお選びください。`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    group.items.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'qa-btn';
+      btn.textContent = `${item.icon} ${item.title}` + (item.soon ? '（近日公開）' : '');
+      btn.onclick = () => showDetail(key, item);
+      optDiv.appendChild(btn);
+    });
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function showDetail(key, item){
+  setTimeout(() => {
+    const soonNote = item.soon ? `<br><span style="color:var(--brass-light);font-size:11.5px;">※現在サービス開発中です。公開まで今しばらくお待ちください。</span>` : '';
+    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${BASE + item.slug}.html" target="_blank">➔ ${item.title}専用ページを見る</a>`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 他のカテゴリを見る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 200);
+}
+
+function selectFaqMain(){
+  addMsg('よくある質問', true);
+  setTimeout(() => {
+    addMsg('どのジャンルのご質問ですか？');
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    FAQINDEX.order.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = 'qa-btn';
+      btn.textContent = `🔸 ${cat}`;
+      btn.onclick = () => selectFaqCategory(cat);
+      optDiv.appendChild(btn);
+    });
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function selectFaqCategory(cat){
+  addMsg(cat, true);
+  setTimeout(() => {
+    addMsg(`<strong>${cat}</strong>に関するご質問です。気になる項目をお選びください。`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    FAQINDEX.map[cat].forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'qa-btn';
+      btn.textContent = `❔ ${item.question}`;
+      btn.onclick = () => showFaqAnswer(item);
+      optDiv.appendChild(btn);
+    });
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 250);
+}
+
+function showFaqAnswer(item){
+  setTimeout(() => {
+    addMsg(`<strong>Q. ${item.question}</strong><br>${item.answer}`);
+    const optDiv = document.createElement('div');
+    optDiv.className = 'qa-options';
+    const back = document.createElement('button');
+    back.className = 'qa-btn';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = backToMain;
+    optDiv.appendChild(back);
+    qaLog.appendChild(optDiv);
+    scrollLog();
+  }, 200);
+}
+
+function backToMain(){
+  addMsg('最初に戻る', true);
+  setTimeout(() => {
+    addMsg('知りたいカテゴリを選択してください。');
+    renderMain();
+    qaLog.appendChild(qaMain);
+    scrollLog();
+  }, 250);
+}
+</script>
+
+</body>
+</html>
