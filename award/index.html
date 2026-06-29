@@ -18,6 +18,18 @@
       <p class="text-[#c9a84c] text-sm mt-2">居住者様への取り組みで成果のあった事例を表彰します</p>
     </div>
 
+    <!-- お問い合わせ案内 -->
+    <div class="bg-[#fdf8ec] border-x border-b border-[#c9a84c]/40 px-6 py-6 sm:px-10 text-center">
+      <p class="text-sm text-gray-700 leading-relaxed mb-4">
+        皆様の取り組みをぜひサービス開発室までご共有ください。<br class="hidden sm:block">
+        申請にあたり不明点があれば、下のボタンよりお気軽にお問い合わせください。
+      </p>
+      <button type="button" onclick="openInquiryModal()"
+        class="w-full sm:w-auto bg-white border-2 border-[#1e3a5f] text-[#1e3a5f] font-bold text-base px-10 py-3.5 rounded-xl hover:bg-[#1e3a5f] hover:text-white transition shadow-sm">
+        ✉️ サービス開発室へお問い合わせ
+      </button>
+    </div>
+
     <div class="bg-white rounded-b-2xl shadow-lg px-6 py-8 sm:px-10">
       <form id="awardForm" onsubmit="handleSubmit(event)" class="space-y-10">
 
@@ -177,6 +189,70 @@
     </div>
   </div>
 
+  <!-- ===== お問い合わせモーダル ===== -->
+  <div id="inquiryOverlay" class="hidden fixed inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+    <div class="bg-[#f0ead6] rounded-2xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+      <div class="bg-[#15293f] text-white px-6 py-4 rounded-t-2xl flex items-center justify-between sticky top-0">
+        <h3 class="font-bold text-lg">お問い合わせ</h3>
+        <button type="button" onclick="closeInquiryModal()" class="text-white/70 hover:text-white text-2xl leading-none">&times;</button>
+      </div>
+      <form id="inquiryForm" onsubmit="handleInquirySubmit(event)" class="px-6 py-6 space-y-5">
+        <p class="text-xs text-gray-600 leading-relaxed">
+          こちらはサービス開発室への問い合わせです。緊急のご連絡先ではございません。順次内容を確認のうえ、担当よりご回答いたします。
+        </p>
+
+        <div>
+          <label class="block text-sm font-bold text-gray-800 mb-1">対象物件名</label>
+          <span class="text-red-500 text-xs font-bold">必須</span>
+          <input type="text" name="inqPropertyName" required placeholder="例：QLCマンション"
+            class="w-full mt-1 px-4 py-2.5 border-0 rounded-lg bg-white focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-gray-800 mb-1">申請者名</label>
+          <span class="text-red-500 text-xs font-bold">必須</span>
+          <input type="text" name="inqApplicantName" required placeholder="例：QLC太郎"
+            class="w-full mt-1 px-4 py-2.5 border-0 rounded-lg bg-white focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-gray-800 mb-1">希望する返信方法</label>
+          <span class="text-red-500 text-xs font-bold">必須</span>
+          <div class="flex flex-col gap-2 mt-2">
+            <label class="flex items-center gap-2 bg-white rounded-lg px-4 py-2.5 cursor-pointer">
+              <input type="checkbox" name="inqReplyMethod" value="物件への電話" class="h-4 w-4 text-[#1e3a5f] rounded">
+              <span class="text-sm text-gray-700">物件への電話</span>
+            </label>
+            <label class="flex items-center gap-2 bg-white rounded-lg px-4 py-2.5 cursor-pointer">
+              <input type="checkbox" name="inqReplyMethod" value="物件のメールアドレス" class="h-4 w-4 text-[#1e3a5f] rounded">
+              <span class="text-sm text-gray-700">物件のメールアドレス</span>
+            </label>
+            <label class="flex items-center gap-2 bg-white rounded-lg px-4 py-2.5 cursor-pointer">
+              <input type="checkbox" name="inqReplyMethod" value="ご自身のメールアドレス" class="h-4 w-4 text-[#1e3a5f] rounded">
+              <span class="text-sm text-gray-700">ご自身のメールアドレス</span>
+            </label>
+          </div>
+          <p id="inqReplyMethodError" class="text-red-500 text-xs mt-1 hidden">※返信方法を1つ以上選択してください。</p>
+          <p class="text-xs text-gray-500 mt-2 leading-relaxed">
+            ※ ご自身の電話番号・メールアドレスなど個人の連絡先の場合は、その連絡先を下の「質問事項」に追記してください。
+          </p>
+        </div>
+
+        <div>
+          <label class="block text-sm font-bold text-gray-800 mb-1">質問事項</label>
+          <span class="text-red-500 text-xs font-bold">必須</span>
+          <textarea name="inqQuestion" rows="5" required placeholder="ご質問内容をご記入ください"
+            class="w-full mt-1 px-4 py-2.5 border-0 rounded-lg bg-white focus:ring-2 focus:ring-[#1e3a5f] focus:outline-none"></textarea>
+        </div>
+
+        <button type="submit" id="inquirySubmitBtn"
+          class="w-full bg-[#1e3a5f] text-white font-bold py-3 rounded-lg hover:bg-[#15293f] transition">
+          送信する
+        </button>
+      </form>
+    </div>
+  </div>
+
   <script>
     const fileInput = document.getElementById('fileInput');
     const fileError = document.getElementById('fileError');
@@ -262,6 +338,58 @@
       btn.disabled = false;
       btn.classList.remove('opacity-50', 'cursor-not-allowed');
       btn.innerHTML = '<span>申請を送信する</span>';
+    }
+
+    // ===== お問い合わせモーダル =====
+    function openInquiryModal() {
+      document.getElementById('inquiryOverlay').classList.remove('hidden');
+    }
+    function closeInquiryModal() {
+      document.getElementById('inquiryOverlay').classList.add('hidden');
+    }
+
+    async function handleInquirySubmit(event) {
+      event.preventDefault();
+      const form = event.target;
+      const btn = document.getElementById('inquirySubmitBtn');
+
+      const replyMethods = Array.from(document.querySelectorAll('input[name="inqReplyMethod"]:checked')).map(cb => cb.value);
+      const replyMethodError = document.getElementById('inqReplyMethodError');
+      if (replyMethods.length === 0) {
+        replyMethodError.classList.remove('hidden');
+        replyMethodError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      replyMethodError.classList.add('hidden');
+
+      btn.disabled = true;
+      btn.textContent = '送信中...';
+
+      try {
+        const inquiryData = {
+          formType: 'inquiry',
+          propertyName: form.inqPropertyName.value,
+          applicantName: form.inqApplicantName.value,
+          replyMethod: replyMethods,
+          question: form.inqQuestion.value
+        };
+
+        await fetch('https://script.google.com/macros/s/AKfycbxIW_NGoQAQHFKROFLRpHtPrp17kz-g8crMuDxFaWZPfMQoJWcNK1e3tX-BGJNI17Ut/exec', {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(inquiryData)
+        });
+
+        alert('お問い合わせを送信しました。担当より順次ご回答いたします。');
+        form.reset();
+        closeInquiryModal();
+      } catch (error) {
+        alert('送信エラーが発生しました: ' + error.message);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = '送信する';
+      }
     }
   </script>
 </body>
