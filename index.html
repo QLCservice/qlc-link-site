@@ -274,7 +274,7 @@
   <div class="qa-widget">
     <div class="qa-header"><span>🛎️</span><span class="title">QLC Link コンシェルジュ</span></div>
     <div class="qa-log" id="qaLog">
-      <div class="qa-msg">お気軽にご質問をどうぞ。<strong>QLC Link</strong>の提携サービスについてご案内いたします。知りたいカテゴリを選択してください。</div>
+      <div class="qa-msg">お気軽にご質問をどうぞ。<strong>QLC Link</strong>の提携サービスについて案内人がご案内いたします。知りたいカテゴリを選択してください。</div>
       <div class="qa-options" id="qaMain"></div>
     </div>
   </div>
@@ -403,21 +403,27 @@ const DATA = {
         "desc": "夜間の急な不調を専門家に相談"
       },
       {
-        "slug": "comingsoon-pc",
+        "slug": "appliance-support",
+        "icon": "🔌",
+        "title": "家電サポート",
+        "desc": "家電の修理・設置・処分のお困りごとに対応"
+      },
+      {
+        "slug": "comingsoon",
         "icon": "💻",
         "title": "パソコン訪問コンシェルジュ",
         "desc": "スタッフが訪問し、データを守りながらPCのお困りごとを解決",
         "soon": true
       },
       {
-        "slug": "comingsoon-mobile",
+        "slug": "comingsoon",
         "icon": "📱",
         "title": "スマホ・タブレット宅配修理",
         "desc": "故障したスマホ・タブレットを宅配でお預かりして修理",
         "soon": true
       },
       {
-        "slug": "comingsoon-iot",
+        "slug": "comingsoon",
         "icon": "🏠",
         "title": "デジタルホスピタル",
         "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート",
@@ -486,28 +492,28 @@ const FAQDATA = [
     "category": "提携サービス共通",
     "question": "このサービスの料金はいくらですか？",
     "answer": "料金の詳細は各サービスの案内ページをご確認ください。",
-    "order": 1
-  },
-  {
-    "id": "F004",
-    "category": "お問い合わせ",
-    "question": "回答はどのくらいで来ますか？",
-    "answer": "お問い合わせは緊急の連絡先ではございません。営業日に順番に内容を確認のうえ、担当より回答いたします。",
-    "order": 1
+    "order": 1.0
   },
   {
     "id": "F002",
     "category": "提携サービス共通",
     "question": "申し込み方法を教えてください",
     "answer": "案内ページに申し込み方法を記載しております。ページ内のご案内に沿ってお申し込みください。",
-    "order": 2
+    "order": 2.0
   },
   {
     "id": "F003",
     "category": "提携サービス共通",
     "question": "このサービスは今すぐ使えますか？",
     "answer": "サービスの提供可否や受付状況は案内ページにて最新情報をご確認いただけます。ご不明な点はお問い合わせボタンよりご連絡ください。",
-    "order": 3
+    "order": 3.0
+  },
+  {
+    "id": "F004",
+    "category": "お問い合わせ",
+    "question": "回答はどのくらいで来ますか？",
+    "answer": "お問い合わせは緊急の連絡先ではございません。営業日に順番に内容を確認のうえ、担当より回答いたします。",
+    "order": 1.0
   }
 ];
 /* ▲▲ ここまで自動生成 ▲▲ */
@@ -535,7 +541,7 @@ Object.keys(DATA).forEach(key => {
   group.items.forEach(item => {
     const a = document.createElement('a');
     a.className = 'card';
-    a.href = BASE + item.slug + '.html';
+    a.href = item.external_url || (BASE + item.slug + '.html');
     a.target = '_blank';
     const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
     a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
@@ -595,7 +601,7 @@ function addMsg(html, isUser){
 function showInquiry(){
   addMsg('お問い合わせ', true);
   setTimeout(() => {
-    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-K3WlxTrrBdX2o2yRDZX4" target="_blank">➔ お問い合わせフォームを開く</a>');
+    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank">➔ お問い合わせフォームを開く</a>');
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
@@ -635,7 +641,7 @@ function selectGroup(key){
 function showDetail(key, item){
   setTimeout(() => {
     const soonNote = item.soon ? `<br><span style="color:var(--brass-light);font-size:11.5px;">※現在サービス開発中です。公開まで今しばらくお待ちください。</span>` : '';
-    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${BASE + item.slug}.html" target="_blank">➔ ${item.title}専用ページを見る</a>`);
+    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${item.external_url || (BASE + item.slug + '.html')}" target="_blank">➔ ${item.title}専用ページを見る</a>`);
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
