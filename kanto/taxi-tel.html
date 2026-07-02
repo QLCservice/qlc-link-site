@@ -19,25 +19,19 @@
   .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;}
   .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
   .qtop .brand{font-weight:600;letter-spacing:.04em;}
-
   .hero{background:var(--navy-light);padding:20px 20px 18px;color:#F3EFE6;}
   .hero-label{font-size:11px;letter-spacing:.1em;color:var(--brass-light);margin-bottom:6px;}
   .hero-title{font-size:20px;font-weight:700;font-family:"Noto Serif JP",serif;margin-bottom:8px;}
   .hero-area{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--brass-light);border:1px solid rgba(183,147,88,.45);border-radius:10px;padding:3px 10px;}
-
   .qbody{padding:20px 18px 32px;}
   .intro{font-size:13px;line-height:1.85;color:var(--charcoal-soft);margin-bottom:20px;}
-
   .section-head{font-size:12px;letter-spacing:.1em;color:var(--brass);font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--brass-light);display:flex;align-items:center;gap:8px;}
   .section-head::before{content:"";display:inline-block;width:3px;height:14px;background:var(--brass);border-radius:2px;}
-
   .taxi-card{background:var(--cream-card);border-radius:12px;border:1px solid #E8E0CE;margin-bottom:14px;overflow:hidden;}
   .taxi-header{background:var(--navy);color:#F3EFE6;padding:11px 16px;display:flex;align-items:center;gap:10px;}
   .taxi-icon{font-size:18px;}
   .taxi-name{font-size:14px;font-weight:700;letter-spacing:.04em;}
   .taxi-body{padding:14px 16px;}
-
-  /* 電話ボタン */
   .tel-btn{display:flex;align-items:center;justify-content:space-between;background:#F0EBE0;border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--navy);border:1.5px solid var(--brass-light);}
   .tel-btn:active{background:#E8E0CE;}
   .tel-left{display:flex;align-items:center;gap:10px;}
@@ -45,15 +39,13 @@
   .tel-label{font-size:11px;color:var(--charcoal-soft);margin-bottom:2px;}
   .tel-number{font-size:20px;font-weight:700;letter-spacing:.06em;color:var(--navy);}
   .tel-call-hint{font-size:11px;color:var(--brass);font-weight:500;white-space:nowrap;}
-
   .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.85;color:var(--charcoal-soft);margin-top:20px;}
-
   .qback{display:block;width:fit-content;margin:24px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
 </style>
 
 <div class="qlcwrap">
   <div class="qtop">
-    <a href="https://www.qlc-service.com/kanto/" target="_blank">← 戻る</a>
+    <a href="#" class="js-back">← 戻る</a>
     <span class="brand">QLC Link</span>
   </div>
 
@@ -67,64 +59,33 @@
     <div class="intro">
       お電話でタクシーを手配いただけます。電話番号はタップすると直接お電話できます。
     </div>
-
     <div class="section-head">各社の配車連絡先</div>
 
-    <!-- kmタクシー -->
     <div class="taxi-card">
-      <div class="taxi-header">
-        <span class="taxi-icon">🚕</span>
-        <span class="taxi-name">kmタクシー（国際自動車）</span>
-      </div>
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">kmタクシー（国際自動車）</span></div>
       <div class="taxi-body">
         <a class="tel-btn" href="tel:0355306001">
-          <div class="tel-left">
-            <span class="tel-icon">📞</span>
-            <div class="tel-info">
-              <div class="tel-label">お電話で配車</div>
-              <div class="tel-number">03-5530-6001</div>
-            </div>
-          </div>
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">03-5530-6001</div></div></div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
       </div>
     </div>
 
-    <!-- 日本交通 -->
     <div class="taxi-card">
-      <div class="taxi-header">
-        <span class="taxi-icon">🚕</span>
-        <span class="taxi-name">日本交通</span>
-      </div>
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">日本交通</span></div>
       <div class="taxi-body">
         <a class="tel-btn" href="tel:0503101699">
-          <div class="tel-left">
-            <span class="tel-icon">📞</span>
-            <div class="tel-info">
-              <div class="tel-label">お電話で配車</div>
-              <div class="tel-number">050-3101-6999</div>
-            </div>
-          </div>
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">050-3101-6999</div></div></div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
       </div>
     </div>
 
-    <!-- 日の丸交通 -->
     <div class="taxi-card">
-      <div class="taxi-header">
-        <span class="taxi-icon">🚕</span>
-        <span class="taxi-name">日の丸交通</span>
-      </div>
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">日の丸交通</span></div>
       <div class="taxi-body">
         <a class="tel-btn" href="tel:0338141111">
-          <div class="tel-left">
-            <span class="tel-icon">📞</span>
-            <div class="tel-info">
-              <div class="tel-label">お電話で配車</div>
-              <div class="tel-number">03-3814-1111</div>
-            </div>
-          </div>
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">03-3814-1111</div></div></div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
       </div>
@@ -137,7 +98,24 @@
     </div>
   </div>
 
-  <a class="qback" href="https://www.qlc-service.com/kanto/" target="_blank">← サービス一覧に戻る</a>
+  <a href="#" class="qback js-back">← サービス一覧に戻る</a>
 </div>
+
+<script>
+// URLパラメータ ?back=qlc-XXXX を読んで戻り先を決める
+// 例：taxi-tel.html?back=qlc-1097 → qlc-service.com/qlc-1097/services/ に戻る
+(function () {
+  var DEFAULT = 'https://www.qlc-service.com/kanto/';
+  var params  = new URLSearchParams(window.location.search);
+  var backId  = params.get('back');
+  var backUrl = backId ? 'https://qlc-service.com/' + backId + '/services/' : DEFAULT;
+
+  document.querySelectorAll('.js-back').forEach(function (el) {
+    el.href   = backUrl;
+    el.target = '_top'; // 同じタブで戻る（新しいタブは開かない）
+  });
+})();
+</script>
+
 </body>
 </html>
