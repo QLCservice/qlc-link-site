@@ -38,30 +38,13 @@
   .taxi-body{padding:14px 16px;}
 
   /* 電話ボタン */
-  .tel-btn{display:flex;align-items:center;justify-content:space-between;background:#F0EBE0;border-radius:10px;padding:13px 16px;margin-bottom:10px;text-decoration:none;color:var(--navy);border:1.5px solid var(--brass-light);}
+  .tel-btn{display:flex;align-items:center;justify-content:space-between;background:#F0EBE0;border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--navy);border:1.5px solid var(--brass-light);}
   .tel-btn:active{background:#E8E0CE;}
   .tel-left{display:flex;align-items:center;gap:10px;}
   .tel-icon{font-size:20px;}
   .tel-label{font-size:11px;color:var(--charcoal-soft);margin-bottom:2px;}
   .tel-number{font-size:20px;font-weight:700;letter-spacing:.06em;color:var(--navy);}
   .tel-call-hint{font-size:11px;color:var(--brass);font-weight:500;white-space:nowrap;}
-
-  /* WEB予約ボタン */
-  .web-btn{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;border-radius:10px;padding:12px 16px;margin-bottom:10px;text-decoration:none;font-size:13px;font-weight:500;}
-  .web-btn-left{display:flex;align-items:center;gap:8px;}
-  .web-btn-hint{font-size:11px;color:var(--brass-light);}
-
-  /* アプリ案内 */
-  .app-badge{display:inline-flex;align-items:center;gap:6px;background:#EEF0F5;border-radius:8px;padding:8px 12px;font-size:12.5px;color:var(--navy);font-weight:500;margin-bottom:10px;}
-
-  /* 料金表 */
-  .fee-block{background:#F8F4EC;border-radius:8px;padding:10px 12px;margin-bottom:4px;}
-  .fee-row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;padding:5px 0;border-bottom:1px solid #EDE8DC;}
-  .fee-row:last-child{border-bottom:none;}
-  .fee-label{color:var(--charcoal-soft);}
-  .fee-value{font-weight:700;color:var(--navy);}
-
-  .divider{height:1px;background:#EDE8DC;margin:10px 0;}
 
   .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.85;color:var(--charcoal-soft);margin-top:20px;}
 
@@ -82,7 +65,7 @@
 
   <div class="qbody">
     <div class="intro">
-      お電話またはアプリ・WEBからタクシーを手配いただけます。電話番号はタップすると直接お電話できます。
+      お電話でタクシーを手配いただけます。電話番号はタップすると直接お電話できます。
     </div>
 
     <div class="section-head">各社の配車連絡先</div>
@@ -104,13 +87,6 @@
           </div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
-        <div class="app-badge">📱 アプリ「S.RIDE」でも配車できます</div>
-        <div class="app-badge">🌐 WEBからも配車できます（要会員登録）</div>
-        <div class="divider"></div>
-        <div class="fee-block">
-          <div class="fee-row"><span class="fee-label">すぐ呼ぶ（迎車）</span><span class="fee-value">500円</span></div>
-          <div class="fee-row"><span class="fee-label">予約する</span><span class="fee-value">500円</span></div>
-        </div>
       </div>
     </div>
 
@@ -131,12 +107,6 @@
           </div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
-        <div class="app-badge">📱 アプリ「GO」でも配車できます</div>
-        <div class="divider"></div>
-        <div class="fee-block">
-          <div class="fee-row"><span class="fee-label">すぐ呼ぶ（迎車）</span><span class="fee-value">500円</span></div>
-          <div class="fee-row"><span class="fee-label">予約する</span><span class="fee-value">500円</span></div>
-        </div>
       </div>
     </div>
 
@@ -151,28 +121,12 @@
           <div class="tel-left">
             <span class="tel-icon">📞</span>
             <div class="tel-info">
-              <div class="tel-label">すぐ呼ぶ（迎車）</div>
+              <div class="tel-label">お電話で配車</div>
               <div class="tel-number">03-3814-1111</div>
             </div>
           </div>
           <div class="tel-call-hint">タップで発信 →</div>
         </a>
-        <a class="web-btn" href="https://hinomaru.tokyo/reservation_with_login" target="_blank">
-          <div class="web-btn-left">
-            <span>🌐</span>
-            <div>
-              <div>WEBから予約する（会員登録不要）</div>
-              <div class="web-btn-hint">hinomaru.tokyo から予約できます</div>
-            </div>
-          </div>
-          <span style="color:var(--brass-light);">→</span>
-        </a>
-        <div class="app-badge">📱 アプリ「Uber」でも配車できます</div>
-        <div class="divider"></div>
-        <div class="fee-block">
-          <div class="fee-row"><span class="fee-label">すぐ呼ぶ（迎車）</span><span class="fee-value">400円</span></div>
-          <div class="fee-row"><span class="fee-label">予約する</span><span class="fee-value">500円</span></div>
-        </div>
       </div>
     </div>
 
