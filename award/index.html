@@ -174,28 +174,8 @@
             <h2 class="text-base font-bold text-[#1e3a5f]">添付ファイル</h2>
           </div>
           <label class="block text-sm font-semibold text-gray-700 mb-1">写真（最大4枚、最初の1枚をスライドへ自動配置）</label>
-          <div class="space-y-2">
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-gray-500 w-12">1枚目</label>
-              <input type="file" id="fileInput1" accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
-            </div>
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-gray-500 w-12">2枚目</label>
-              <input type="file" id="fileInput2" accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
-            </div>
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-gray-500 w-12">3枚目</label>
-              <input type="file" id="fileInput3" accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
-            </div>
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-gray-500 w-12">4枚目</label>
-              <input type="file" id="fileInput4" accept="image/*"
-                class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
-            </div>
-          </div>
+          <input type="file" id="fileInput" accept="image/*" multiple
+            class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#1e3a5f]/10 file:text-[#1e3a5f] hover:file:bg-[#1e3a5f]/20">
           <p id="fileError" class="text-red-500 text-xs mt-1 hidden">※ファイルは最大4枚までしか添付できません。</p>
         </section>
 
@@ -274,12 +254,17 @@
   </div>
 
   <script>
-    const fileInputs = [
-      document.getElementById('fileInput1'),
-      document.getElementById('fileInput2'),
-      document.getElementById('fileInput3'),
-      document.getElementById('fileInput4')
-    ];
+    const fileInput = document.getElementById('fileInput');
+    const fileError = document.getElementById('fileError');
+
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 4) {
+        fileError.classList.remove('hidden');
+        fileInput.value = '';
+      } else {
+        fileError.classList.add('hidden');
+      }
+    });
 
     const toBase64 = file => new Promise((resolve, reject) => {
       const reader = new FileReader();
@@ -326,18 +311,14 @@
           files: []
         };
 
-        const filePromises = [];
-        for (const input of fileInputs) {
-          if (input.files && input.files[0]) {
-            filePromises.push(toBase64(input.files[0]));
-          }
-        }
-        if (filePromises.length > 0) {
+        const files = fileInput.files;
+        if (files.length > 0) {
+          const filePromises = Array.from(files).map(file => toBase64(file));
           formData.files = await Promise.all(filePromises);
         }
 
         // GoogleのCORS制限を回避するため mode: 'no-cors' で通信
-        await fetch('https://script.google.com/macros/s/AKfycbxIW_NGoQAQHFKROFLRpHtPrp17kz-g8crMuDxFaWZPfMQoJWcNK1e3tX-BGJNI17Ut/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbzOA_VPbtxiKAV6LxWy_qcdo-yw9lHtTz_CTpoL41JwwZew1Dgz5-amddpAW7pAhcNYrg/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
@@ -393,7 +374,7 @@
           question: form.inqQuestion.value
         };
 
-        await fetch('https://script.google.com/macros/s/AKfycbxIW_NGoQAQHFKROFLRpHtPrp17kz-g8crMuDxFaWZPfMQoJWcNK1e3tX-BGJNI17Ut/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbzOA_VPbtxiKAV6LxWy_qcdo-yw9lHtTz_CTpoL41JwwZew1Dgz5-amddpAW7pAhcNYrg/exec', {
           method: 'POST',
           mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
