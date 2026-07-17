@@ -318,8 +318,9 @@
         }
 
         // GoogleのCORS制限を回避するため mode: 'no-cors' で通信
-        await fetch('https://script.google.com/macros/s/AKfycbxIW_NGoQAQHFKROFLRpHtPrp17kz-g8crMuDxFaWZPfMQoJWcNK1e3tX-BGJNI17Ut/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbzjN8eY5MwQV3BED6tzS4vbZy_uVxNiVGmtpfkoId5ou6VyumdVa5LdAkdrQtR8S4BL-A/exec', {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(formData)
         });
@@ -373,8 +374,9 @@
           question: form.inqQuestion.value
         };
 
-        await fetch('https://script.google.com/macros/s/AKfycbxIW_NGoQAQHFKROFLRpHtPrp17kz-g8crMuDxFaWZPfMQoJWcNK1e3tX-BGJNI17Ut/exec', {
+        await fetch('https://script.google.com/macros/s/AKfycbzjN8eY5MwQV3BED6tzS4vbZy_uVxNiVGmtpfkoId5ou6VyumdVa5LdAkdrQtR8S4BL-A/exec', {
           method: 'POST',
+          mode: 'no-cors',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(inquiryData)
         });
