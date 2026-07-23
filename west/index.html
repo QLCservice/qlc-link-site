@@ -274,7 +274,7 @@
   <div class="qa-widget">
     <div class="qa-header"><span>🛎️</span><span class="title">QLC Link コンシェルジュ</span></div>
     <div class="qa-log" id="qaLog">
-      <div class="qa-msg">お気軽にご質問をどうぞ。<strong>QLC Link</strong>の提携サービスについてご案内いたします。知りたいカテゴリを選択してください。</div>
+      <div class="qa-msg">お気軽にご質問をどうぞ。<strong>QLC Link</strong>の提携サービスについて案内人がご案内いたします。知りたいカテゴリを選択してください。</div>
       <div class="qa-options" id="qaMain"></div>
     </div>
   </div>
@@ -422,6 +422,13 @@ const DATA = {
         "title": "デジタルホスピタル",
         "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート",
         "soon": true
+      },
+      {
+        "slug": "knife-sharpening",
+        "icon": "🔪",
+        "title": "包丁研ぎサービス",
+        "desc": "ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。",
+        "soon": true
       }
     ]
   },
@@ -535,7 +542,7 @@ Object.keys(DATA).forEach(key => {
   group.items.forEach(item => {
     const a = document.createElement('a');
     a.className = 'card';
-    a.href = BASE + item.slug + '.html';
+    a.href = item.external_url || (BASE + item.slug + '.html');
     a.target = '_blank';
     const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
     a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
@@ -595,7 +602,7 @@ function addMsg(html, isUser){
 function showInquiry(){
   addMsg('お問い合わせ', true);
   setTimeout(() => {
-    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-K3WlxTrrBdX2o2yRDZX4" target="_blank">➔ お問い合わせフォームを開く</a>');
+    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank">➔ お問い合わせフォームを開く</a>');
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
@@ -635,7 +642,7 @@ function selectGroup(key){
 function showDetail(key, item){
   setTimeout(() => {
     const soonNote = item.soon ? `<br><span style="color:var(--brass-light);font-size:11.5px;">※現在サービス開発中です。公開まで今しばらくお待ちください。</span>` : '';
-    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${BASE + item.slug}.html" target="_blank">➔ ${item.title}専用ページを見る</a>`);
+    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${item.external_url || (BASE + item.slug + '.html')}" target="_blank">➔ ${item.title}専用ページを見る</a>`);
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
