@@ -2,6 +2,12 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>QLC Link サービス一覧｜くらしのサポート</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -341,6 +347,13 @@ const DATA = {
         "icon": "👵",
         "title": "シニアケア",
         "desc": "ご家族の暮らしや介護を優しくサポート"
+      },
+      {
+        "slug": "knife sharpening",
+        "icon": "🔪",
+        "title": "包丁研ぎサービス",
+        "desc": "ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。",
+        "soon": true
       }
     ]
   },
@@ -429,13 +442,6 @@ const DATA = {
         "title": "タクシー手配（電話・WEB）",
         "desc": "※ 対応エリアは3社とも東京23区・武蔵野市・三鷹市です。",
         "external_url": "https://qlc-service.com/kanto/taxi-tel.html"
-      },
-      {
-        "slug": "knife-sharpening",
-        "icon": "🔪",
-        "title": "包丁研ぎサービス",
-        "desc": "ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。",
-        "soon": true
       }
     ]
   },
@@ -551,6 +557,7 @@ Object.keys(DATA).forEach(key => {
     a.className = 'card';
     a.href = item.external_url || (BASE + item.slug + '.html');
     a.target = '_blank';
+    a.rel = 'noopener noreferrer';
     const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
     a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
     grid.appendChild(a);
@@ -609,7 +616,7 @@ function addMsg(html, isUser){
 function showInquiry(){
   addMsg('お問い合わせ', true);
   setTimeout(() => {
-    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank">➔ お問い合わせフォームを開く</a>');
+    addMsg('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br><a class="qa-link" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank" rel="noopener noreferrer">➔ お問い合わせフォームを開く</a>');
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
@@ -649,7 +656,7 @@ function selectGroup(key){
 function showDetail(key, item){
   setTimeout(() => {
     const soonNote = item.soon ? `<br><span style="color:var(--brass-light);font-size:11.5px;">※現在サービス開発中です。公開まで今しばらくお待ちください。</span>` : '';
-    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${item.external_url || (BASE + item.slug + '.html')}" target="_blank">➔ ${item.title}専用ページを見る</a>`);
+    addMsg(`<strong>【${item.title}】</strong><br>${item.desc}。${soonNote}<br><a class="qa-link" href="${item.external_url || (BASE + item.slug + '.html')}" target="_blank" rel="noopener noreferrer">➔ ${item.title}専用ページを見る</a>`);
     const optDiv = document.createElement('div');
     optDiv.className = 'qa-options';
     const back = document.createElement('button');
