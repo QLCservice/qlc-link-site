@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>ページが見つかりません｜QLC Link</title>
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --charcoal:#33312C; --charcoal-soft:#6B6760;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;}
+  body{
+    font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;
+    background:var(--cream);color:var(--charcoal);
+    display:flex;align-items:center;justify-content:center;min-height:100vh;
+    padding:24px;
+  }
+  .wrap{max-width:460px;width:100%;text-align:center;}
+  .code{
+    font-family:"Noto Serif JP",serif;font-size:72px;font-weight:700;
+    color:var(--navy);letter-spacing:.04em;line-height:1;margin-bottom:8px;
+  }
+  .code em{color:var(--brass);font-style:normal;}
+  .plaque{display:flex;align-items:center;gap:12px;margin:22px 0 18px;}
+  .plaque::before,.plaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .plaque span{font-weight:600;font-size:17px;letter-spacing:.06em;color:var(--brass);white-space:nowrap;}
+  .msg{font-size:14px;line-height:2;color:var(--charcoal);margin-bottom:6px;}
+  .sub{font-size:12.5px;color:var(--charcoal-soft);line-height:1.9;margin-bottom:32px;}
+  .btnrow{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+  .qback{
+    display:inline-block;border-radius:20px;padding:11px 26px;font-size:13px;
+    font-weight:500;text-decoration:none;
+  }
+  .qback.filled{background:var(--brass);color:var(--navy);}
+  .qback.outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .brand{margin-top:44px;font-size:12px;color:var(--charcoal-soft);letter-spacing:.06em;}
+  .brand strong{color:var(--navy);font-weight:600;}
+</style>
+
+<div class="wrap">
+  <div class="code">4<em>0</em>4</div>
+  <div class="plaque"><span>ページが見つかりません</span></div>
+  <div class="msg">お探しのページは移動または削除された可能性があります。</div>
+  <div class="sub">URLをご確認いただくか、下記よりサービス一覧へお進みください。</div>
+  <div class="btnrow">
+    <a class="qback filled" href="https://www.qlc-service.com/">サービス一覧トップへ</a>
+    <a class="qback outline" href="javascript:history.back()">前のページに戻る</a>
+  </div>
+  <div class="brand">🔗 <strong>QLC Link</strong>｜くらしのサポートサービス一覧</div>
+</div>
+
+</body>
+</html>
