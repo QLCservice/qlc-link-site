@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
 <title>パソコン訪問コンシェルジュ｜QLC Link</title>
 </head>
 <body>
@@ -10,77 +11,33 @@
 <style>
   :root{
     --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
-    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760;
   }
-  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
-  .qlcwrap *{box-sizing:border-box;}
-  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  *{box-sizing:border-box;}
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);min-height:100vh;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;}
   .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
   .qtop .brand{font-weight:600;letter-spacing:.04em;}
-  .qbody{padding:22px 20px 30px;}
-  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qbody{padding:60px 24px 40px;text-align:center;}
+  .qicon{font-size:44px;margin-bottom:18px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
   .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
-  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
-  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
-  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
-  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
-  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
-  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
-  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
-  .qpriceblock{margin-bottom:14px;}
-  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
-  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
-  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
-  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
-  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
-  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
-  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
-  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
-  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
-  .qbtn{flex:1;min-width:120px;text-align:center;padding:10px 12px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
-  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
-  .qbtn-filled{background:var(--brass);color:var(--navy);}
-  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
-  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
-  a{cursor:pointer;}
+  .qplaque span{font-weight:600;font-size:19px;letter-spacing:.06em;color:var(--brass);white-space:nowrap;}
+  .qmsg{font-size:14px;line-height:2;color:var(--charcoal);margin-bottom:8px;}
+  .qsub{font-size:12.5px;color:var(--charcoal-soft);line-height:1.9;margin-bottom:30px;}
+  .qbadge{display:inline-block;background:var(--navy);color:var(--brass-light);font-size:12px;font-weight:600;letter-spacing:.06em;padding:7px 20px;border-radius:20px;margin-bottom:26px;}
+  .qback{display:inline-block;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:10px 26px;font-size:13px;font-weight:500;text-decoration:none;}
 </style>
 <div class="qlcwrap">
 <div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
 <div class="qbody">
+<div class="qicon">🛠️</div>
+<div class="qbadge">近日公開</div>
 <div class="qplaque"><span>パソコン訪問コンシェルジュ</span></div>
-<div class="qlisted">掲載サービス：デジホ（PCホスピタル）</div>
-
-<div class="qprovider">
-  <div class="qpname">デジホ（PCホスピタル）</div>
-  <div class="qarea">全国対応（離島・一部地域を除く）</div>
-  <div class="qdesc">パソコンの故障・設定はもちろん、ネットワーク機器・IoT機器・スマート家電の接続設定まで、専門資格を持ったスタッフがご自宅に訪問して対応します。<br>専門用語を使わず丁寧に説明。<br>故障箇所以外も無料で診断する「3つの安心診断」付きで、作業前に必ず見積を提示します。</div>
-  <div class="qpriceblock">
-    <div class="qpricehead">基本料金・出張料金</div>
-    <div class="qprow"><span>基本料金（3台まで）</span><span>	11,000円</span></div>
-    <div class="qprow"><span>出張料金</span><span>	5,500円（店頭・宅配修理は0円）</span></div>
-    <div class="qprow"><span>作業料金</span><span>3,300円〜</span></div>
-  </div>
-  <div class="qpriceblock">
-    <div class="qpricehead">作業メニュー一例</div>
-    <div class="qprow"><span>メールアカウント設定</span><span>3,300円</span></div>
-    <div class="qprow"><span>インターネット接続設定</span><span>6,600円</span></div>
-    <div class="qprow"><span>家庭用プリンター設定</span><span>6,600円</span></div>
-    <div class="qprow"><span>ウイルス駆除</span><span>8,800円</span></div>
-    <div class="qprow"><span>データバックアップ・移行（50GB）</span><span>11,000円</span></div>
-    <div class="qprow"><span>PC起動不可からの復旧</span><span>22,000円</span></div>
-  </div>
-  <div class="qpriceblock">
-    <div class="qpricehead">オールインワンセット（新規購入PC設定）</div>
-    <div class="qprow"><span>オールインワンセット</span><span>26,400円</span></div>
-  </div>
-  <div class="qnote">作業保証期間30日。<br>※離島等一部地域は別途遠方料金。<br>※4台目以降は診断料3,300円/台。<br>※記載料金は税込・予告なく変更の場合あり。<br><br>運営：日本PCサービス株式会社（名証ネクスト上場）</div>
-  <div class="qctarow">
-    <a class="qbtn qbtn-filled" target="_blank" href=" 0120-000-000">お電話でお問い合わせ</a>
-  </div>
-</div>
-
-</div>
+<div class="qmsg">ただいま、このサービスのご案内ページを準備しております。</div>
+<div class="qsub">公開まで今しばらくお待ちください。<br>ご不明な点はコンシェルジュカウンターのお問い合わせよりご連絡ください。</div>
 <a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+</div>
 </div>
 </body>
 </html>
