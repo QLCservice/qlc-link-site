@@ -32,6 +32,8 @@
 
     <div class="bg-white rounded-b-2xl shadow-lg px-6 py-8 sm:px-10">
       <form id="awardForm" onsubmit="handleSubmit(event)" class="space-y-10">
+        <!-- ハニーポット（スパムボット対策用の隠し項目） -->
+<input type="text" name="hp_email" style="display:none !important;" tabindex="-1" autocomplete="off">
 
         <!-- ===== 申請者情報 ===== -->
         <section>
@@ -312,6 +314,7 @@
 
       try {
         const formData = {
+          hp_email: form.hp_email ? form.hp_email.value : '',
           applicantName: form.applicantName.value,
           recommendType: form.recommendType.value,
           propertyNo: form.propertyNo.value,
