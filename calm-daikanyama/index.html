@@ -1,1 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>サービスメニュー｜CALM代官山</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
 
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;background:var(--cream);color:var(--charcoal);}
+  a{cursor:pointer;color:inherit;}
+
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:14px 20px;}
+  .qtop .brand{font-weight:700;letter-spacing:.04em;font-size:15px;}
+  .qtop .sub{font-size:10.5px;color:var(--brass-light);letter-spacing:.12em;margin-top:2px;}
+
+  .hero{max-width:820px;margin:0 auto;padding:28px 20px 8px;text-align:center;}
+  .hero .eyebrow{font-size:11px;letter-spacing:.25em;color:var(--brass);margin-bottom:8px;}
+  .hero h1{font-family:"Noto Serif JP",serif;font-size:22px;color:var(--navy);margin:0 0 10px;}
+  .hero p{font-size:12.5px;color:var(--charcoal-soft);line-height:1.8;max-width:52ch;margin:0 auto;}
+
+  main{max-width:820px;margin:0 auto;padding:10px 20px 50px;}
+
+  .section-head{
+    font-family:"Noto Serif JP",serif;font-size:15px;color:var(--navy);
+    display:flex;align-items:center;gap:10px;margin:34px 0 14px;padding-bottom:8px;
+    border-bottom:1px solid #E8E0CE;
+  }
+  .section-head .icon{font-size:17px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;}
+  .card{
+    background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;
+    padding:16px;display:flex;flex-direction:column;gap:6px;text-decoration:none;
+    transition:box-shadow .15s;
+  }
+  .card:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);}
+  .card .cicon{font-size:22px;}
+  .card h3{margin:0;font-size:14px;color:var(--charcoal);}
+  .card p{margin:0;font-size:12px;color:var(--charcoal-soft);line-height:1.6;flex:1;}
+  .card .cta{align-self:flex-start;font-size:11.5px;font-weight:600;color:var(--navy);margin-top:4px;}
+  .card .cta::after{content:" ➔";}
+
+  .card.featured{border:1.5px solid var(--brass);background:linear-gradient(180deg,#FFFDF7,var(--cream-card));}
+  .card.featured .badge{
+    display:inline-block;font-size:10px;font-weight:700;letter-spacing:.04em;
+    background:var(--navy);color:var(--brass-light);padding:2px 9px;border-radius:9px;
+    align-self:flex-start;margin-bottom:2px;
+  }
+
+  footer{text-align:center;padding:20px;font-size:11px;color:var(--charcoal-soft);}
+</style>
+
+<div class="qtop">
+  <div>
+    <div class="brand">CALM代官山</div>
+    <div class="sub">SERVICE MENU</div>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="eyebrow">SERVICE MENU</div>
+  <h1>ご利用いただけるサービス</h1>
+  <p>コンシェルジュが直接お取次ぎするサービスと、提携事業者によるサービスをご案内しています。アイコンをタップしてお進みください。</p>
+</div>
+
+<main>
+
+  <div class="section-head"><span class="icon">🏢</span>CALM代官山コンシェルジュ取次ぎサービス</div>
+  <div class="grid">
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/laundry.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">🧺</div>
+      <h3>クリーニング</h3>
+      <p>お洗濯物をコンシェルジュカウンターでお預かりし、提携クリーニング店へお取次ぎいたします。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/delivery.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">📦</div>
+      <h3>宅配便</h3>
+      <p>発送物をお預かりし、ヤマト運輸の集荷をお取次ぎいたします。ご自身での依頼も可能です。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://qlc-service.com/netshop/calm-daikanyama/" target="_blank">
+      <span class="badge">ネットショップ</span>
+      <div class="cicon">🛒</div>
+      <h3>ネットショップ</h3>
+      <p>日用品などをお部屋からご注文いただけます。コンシェルジュがお受け取りをサポートします。</p>
+      <span class="cta">ショップを見る</span>
+    </a>
+  </div>
+
+  <div class="section-head"><span class="icon">🧹</span>家事サポート</div>
+  <div class="grid">
+    <a class="card" href="https://www.qlc-service.com/qlc-link/housecleaning.html" target="_blank"><div class="cicon">✨</div><h3>ハウスクリーニング</h3><p>専門スタッフによる水まわり・空調等の徹底清掃</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/housekeeping.html" target="_blank"><div class="cicon">🧹</div><h3>家事代行</h3><p>掃除・洗濯・料理など日常の家事をサポート</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/childcare.html" target="_blank"><div class="cicon">👶</div><h3>ベビーシッター</h3><p>大切なお子様を安心してお任せできるチャイルドケア</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/chef.html" target="_blank"><div class="cicon">🍳</div><h3>出張料理</h3><p>食のエキスパートがあなたのご自宅にお伺いし、ご希望に合わせた料理を提供いたします</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/senior-care.html" target="_blank"><div class="cicon">🧓</div><h3>シニアケア</h3><p>ご家族の暮らしや介護を優しくサポートいたします</p><span class="cta">詳しく見る</span></a>
+  </div>
+
+  <div class="section-head"><span class="icon">🚗</span>生活便利</div>
+  <div class="grid">
+    <a class="card" href="https://www.qlc-service.com/qlc-link/taxi.html" target="_blank"><div class="cicon">🚕</div><h3>タクシー手配</h3><p>アプリで手軽に呼べる配車サービス</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/water-delivery.html" target="_blank"><div class="cicon">💧</div><h3>お水の宅配</h3><p>安心・美味しい水のサーバー宅配いたします</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/flower-delivery.html" target="_blank"><div class="cicon">🌷</div><h3>フラワーデリバリー</h3><p>お祝いや日常に彩りを添えるお花を宅配いたします</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/food-delivery.html" target="_blank"><div class="cicon">🍽️</div><h3>フードデリバリー</h3><p>東京23区限定、レストランの味をご自宅へお届けいたします</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/petcare.html" target="_blank"><div class="cicon">🐾</div><h3>ペットケア</h3><p>大切なペットのシッター・ホテルサービス</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/pchospital.html" target="_blank"><div class="cicon">💻</div><h3>パソコン訪問コンシェルジュ</h3><p>プロのサービスマンがご自宅へ訪問し、データを守りながらPCのお困りごとを解決いたします</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/smahospital.html" target="_blank"><div class="cicon">📱</div><h3>スマホ・タブレット宅配修理</h3><p>故障したスマホ・タブレットを宅配でお預かりして修理を承ります</p><span class="cta">詳しく見る</span></a>
+  </div>
+
+  <div class="section-head"><span class="icon">📦</span>荷物の保管・買取・整理</div>
+  <div class="grid">
+    <a class="card" href="https://www.qlc-service.com/qlc-link/storage.html" target="_blank"><div class="cicon">🔑</div><h3>宅配トランクルーム</h3><p>スマホで預入・取出しできる収納サービス</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/reuse.html" target="_blank"><div class="cicon">💰</div><h3>不用品の宅配買取</h3><p>箱に詰めて送るだけのリユース買取</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/organizing.html" target="_blank"><div class="cicon">🗄️</div><h3>整理収納・おかたづけ</h3><p>プロが収納の仕組み作りをサポート</p><span class="cta">詳しく見る</span></a>
+    <a class="card" href="https://www.qlc-service.com/qlc-link/moving.html" target="_blank"><div class="cicon">🚚</div><h3>お引越し案内</h3><p>大手引越し業者を提携割引でご案内</p><span class="cta">詳しく見る</span></a>
+  </div>
+
+</main>
+
+<footer>
+  株式会社クオリティライフ・コンシェルジュ｜CALM代官山専用ページ
+</footer>
+
+</body>
+</html>
