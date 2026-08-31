@@ -8,16 +8,21 @@
  * 動作：
  *   .qtop a（画面上部の「← 戻る」）と .qback（画面下部の「← サービス一覧に戻る」）を
  *   自動的に検出し、以下の優先順位で戻り先を決定する。
- *   ① URLパラメータ ?back=qlc-XXXX → その物件のサービスメニューへ
- *   ② ブラウザの履歴がある → history.back()
- *   ③ どちらもない → デフォルトの汎用ページ（全国トップ）へ
+ *   ① URLパラメータ ?back=... がある → その指定先へ（下記2形式に対応）
+ *      ・back=/calm-daikanyama/ のように「/」始まりの値 → そのパスへそのまま遷移
+ *        （物件専用の独立LINKサイト用。カード側で ?back=%2F{物件slug}%2F を付けておく）
+ *      ・back=qlc-XXXX のようにIDのみの値 → https://qlc-service.com/qlc-XXXX/services/ へ
+ *        （リモートコンシェルジュの物件用、従来からの形式）
+ *   ② URLパラメータが無く、ブラウザの履歴がある → history.back()
+ *   ③ どちらも無い → フォールバック
+ *      ・自分のいるディレクトリ（例: /calm-daikanyama/xxx.html なら calm-daikanyama）が
+ *        'qlc-link' 以外 → そのディレクトリのトップ（/calm-daikanyama/ 等）へ
+ *      ・'qlc-link' 配下（物件非依存の全国共通サービスページ）→ サイトトップへ
  *
- * ★2026-08-31修正★ 個別物件のLINKサイト（例：calm-daikanyama/）のカードは
- * target="_blank"で新規タブを開くため、②の履歴が無い状態（history.length===1）が
- * 常態化する。以前はこの場合に「関東版」へ飛ばしていたが、物件やユーザーの所在地に
- * 関わらず関東版へ誘導するのは不適切なため、全国トップページへ変更した。
- * なお、①のback=パラメータは「/{id}/services/」（リモートコンシェルジュの物件）専用の
- * 仕組みで、calm-daikanyamaのような独立LINKサイト（/{id}/）には現状対応していない。
+ * ★2026-09-01修正★ 個別物件のLINKサイト（calm-daikanyama等）から qlc-link/ 配下の
+ * 共通サービスページを新規タブ（target="_blank"）で開くと、①の back= が無ければ
+ * これまで常にサイトトップへ戻っていた。物件のトップへ戻れるよう、①に完全パス指定
+ * （back=/物件slug/）を追加し、③のフォールバックも自分のディレクトリを見るよう変更。
  */
 (function () {
   var DEFAULT_BACK_URL = 'https://www.qlc-service.com/';
@@ -25,12 +30,25 @@
   function getBackUrl() {
     try {
       var p = new URLSearchParams(window.location.search);
-      var buildingId = p.get('back');
-      if (buildingId) {
-        return 'https://qlc-service.com/' + encodeURIComponent(buildingId) + '/services/';
+      var back = p.get('back');
+      if (back) {
+        if (back.charAt(0) === '/') {
+          return window.location.origin + back;
+        }
+        return 'https://qlc-service.com/' + encodeURIComponent(back) + '/services/';
       }
     } catch (e) {}
     return null;
+  }
+
+  function getDefaultBackUrl() {
+    try {
+      var parts = window.location.pathname.split('/').filter(Boolean);
+      if (parts.length >= 2 && parts[0] !== 'qlc-link') {
+        return window.location.origin + '/' + parts[0] + '/';
+      }
+    } catch (e) {}
+    return DEFAULT_BACK_URL;
   }
 
   function goBack() {
@@ -40,7 +58,7 @@
     } else if (history.length > 1) {
       history.back();
     } else {
-      window.location.href = DEFAULT_BACK_URL;
+      window.location.href = getDefaultBackUrl();
     }
   }
 
