@@ -28,11 +28,11 @@
   .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
   .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
   .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
-  .qbtn{flex:1;min-width:120px;text-align:center;padding:10px 12px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
   .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
   .qbtn-filled{background:var(--brass);color:var(--navy);}
   .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
-  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
   .qbadge{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 10px;border-radius:10px;background:var(--navy);color:var(--brass-light);margin-bottom:10px;}
   a{cursor:pointer;}
 </style>
@@ -66,7 +66,7 @@
 <div class="qprovider">
   <div class="qpname">日本郵便（ゆうパック）</div>
   <div class="qdesc">Web、またはお電話にてお部屋への集荷をご依頼いただけます。</div>
-  <div class="qnote">集荷専用電話番号：0800-0800-111（通話料無料）<br>※日本郵便の規定により、保冷荷物（チルドゆうパック・冷凍等）のお部屋への直接集荷はお受けできません。常温の荷物のみ対象です。</div>
+  <div class="qnote">集荷専用電話番号：<a href="tel:0800800111" style="color:var(--navy);font-weight:600;text-decoration:underline;">0800-0800-111</a>（通話料無料・タップで発信）<br>※日本郵便の規定により、保冷荷物（チルドゆうパック・冷凍等）のお部屋への直接集荷はお受けできません。常温の荷物のみ対象です。</div>
   <div class="qctarow">
     <a class="qbtn qbtn-filled" target="_blank" href="https://mgr.post.japanpost.jp/C20P02Action.do?ssoparam=0&termtype=2">集荷を申し込む</a>
   </div>
@@ -75,5 +75,6 @@
 </div>
 <a class="qback" href="https://www.qlc-service.com/calm-daikanyama/" target="_blank">&#8592; サービスメニューに戻る</a>
 </div>
+<script src="/back-nav.js"></script>
 </body>
 </html>
