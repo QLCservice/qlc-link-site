@@ -10,10 +10,17 @@
  *   自動的に検出し、以下の優先順位で戻り先を決定する。
  *   ① URLパラメータ ?back=qlc-XXXX → その物件のサービスメニューへ
  *   ② ブラウザの履歴がある → history.back()
- *   ③ どちらもない → デフォルトの汎用ページへ
+ *   ③ どちらもない → デフォルトの汎用ページ（全国トップ）へ
+ *
+ * ★2026-08-31修正★ 個別物件のLINKサイト（例：calm-daikanyama/）のカードは
+ * target="_blank"で新規タブを開くため、②の履歴が無い状態（history.length===1）が
+ * 常態化する。以前はこの場合に「関東版」へ飛ばしていたが、物件やユーザーの所在地に
+ * 関わらず関東版へ誘導するのは不適切なため、全国トップページへ変更した。
+ * なお、①のback=パラメータは「/{id}/services/」（リモートコンシェルジュの物件）専用の
+ * 仕組みで、calm-daikanyamaのような独立LINKサイト（/{id}/）には現状対応していない。
  */
 (function () {
-  var DEFAULT_BACK_URL = 'https://www.qlc-service.com/kanto/';
+  var DEFAULT_BACK_URL = 'https://www.qlc-service.com/';
 
   function getBackUrl() {
     try {
