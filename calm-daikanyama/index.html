@@ -159,7 +159,14 @@
     } catch(e){}
   }
   log('pageview', document.title);
+
+  // 各カードのリンクに ?back=/calm-daikanyama/ を付与しておくことで、
+  // 新規タブで開いた先のページの「戻る」（back-nav.js）が、サイトトップではなく
+  // このCALM代官山のトップページへ戻れるようにする。
+  var backParam = 'back=' + encodeURIComponent('/' + BID + '/');
   document.querySelectorAll('a.card').forEach(function(a){
+    var sep = a.href.indexOf('?') === -1 ? '?' : '&';
+    a.href = a.href + sep + backParam;
     a.addEventListener('click', function(){
       var h3 = a.querySelector('h3');
       log('click', h3 ? h3.textContent : a.href);
