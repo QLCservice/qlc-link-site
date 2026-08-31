@@ -107,13 +107,21 @@
 </div>
 
 <script>
-// URLパラメータ ?back=qlc-XXXX を読んで戻り先を決める
-// 例：taxi-tel.html?back=qlc-1097 → qlc-service.com/qlc-1097/services/ に戻る
+// URLパラメータ ?back=... を読んで戻り先を決める
+// ・back=/calm-daikanyama/ のように「/」始まり → そのパスへそのまま戻る（独立LINKサイトの物件用）
+// ・back=qlc-1097 のようにIDのみ → qlc-service.com/qlc-1097/services/ に戻る（リモートコンシェルジュの物件用）
 (function () {
   var DEFAULT = 'https://www.qlc-service.com/kanto/';
   var params  = new URLSearchParams(window.location.search);
-  var backId  = params.get('back');
-  var backUrl = backId ? 'https://qlc-service.com/' + backId + '/services/' : DEFAULT;
+  var back    = params.get('back');
+  var backUrl;
+  if (back) {
+    backUrl = back.charAt(0) === '/'
+      ? (window.location.origin + back)
+      : ('https://qlc-service.com/' + encodeURIComponent(back) + '/services/');
+  } else {
+    backUrl = DEFAULT;
+  }
 
   document.querySelectorAll('.js-back').forEach(function (el) {
     el.href   = backUrl;
