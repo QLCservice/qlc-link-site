@@ -58,6 +58,11 @@
   }
 
   footer{text-align:center;padding:20px;font-size:11px;color:var(--charcoal-soft);}
+
+  .inquiry-box{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:18px;}
+  .inquiry-box p{font-size:12.5px;line-height:1.85;color:var(--charcoal-soft);margin:0 0 16px;}
+  .inquiry-btn{display:inline-block;background:var(--brass);color:var(--navy);font-weight:600;font-size:12.5px;padding:10px 24px;border-radius:18px;text-decoration:none;}
+  .inquiry-btn::after{content:" ➔";}
 </style>
 
 <div class="qtop">
@@ -127,11 +132,40 @@
     <a class="card" href="https://www.qlc-service.com/qlc-link/moving.html" target="_blank"><div class="cicon">🚚</div><h3>お引越し案内</h3><p>大手引越し業者を提携割引でご案内</p><span class="cta">詳しく見る</span></a>
   </div>
 
+  <div class="section-head"><span class="icon">✉️</span>お問い合わせ</div>
+  <div class="inquiry-box">
+    <p>
+      こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br>
+      また、こちらはCALM代官山のコンシェルジュへのお問い合わせ窓口ではございません。あらかじめご了承ください。
+    </p>
+    <a class="inquiry-btn" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank" id="inquiryBtn">お問い合わせフォームを開く</a>
+  </div>
+
 </main>
 
 <footer>
   株式会社クオリティライフ・コンシェルジュ｜CALM代官山専用ページ
 </footer>
+
+<script>
+(function(){
+  var BID = 'calm-daikanyama';
+  var LOG_URL = 'https://script.google.com/macros/s/AKfycbz07q7G3kYMk25qL6eu64IMKClKTscHtt4JWagyDkXWCW4c6SDmRiKUTqjCuh8UyfZH/exec';
+  function log(type, label){
+    try {
+      var img = new Image();
+      img.src = LOG_URL + '?log=1&bid=' + encodeURIComponent(BID) + '&type=' + encodeURIComponent(type) + '&label=' + encodeURIComponent(label || '') + '&t=' + Date.now();
+    } catch(e){}
+  }
+  log('pageview', document.title);
+  document.querySelectorAll('a.card').forEach(function(a){
+    a.addEventListener('click', function(){
+      var h3 = a.querySelector('h3');
+      log('click', h3 ? h3.textContent : a.href);
+    });
+  });
+})();
+</script>
 
 </body>
 </html>
