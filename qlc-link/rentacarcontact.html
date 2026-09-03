@@ -3,62 +3,257 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>レンタカー｜QLC Link</title>
+<meta name="robots" content="noindex, nofollow">
+<title>日産レンタカー 特別優待プログラム｜QLC Link</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+    background: transparent;
+    color: #2b3641;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { text-decoration: none; color: inherit; }
+  .container { max-width: 760px; margin: 0 auto; padding: 10px 0; }
+
+  /* パンくず */
+  .breadcrumb {
+    font-size: 11px; color: #7a6050; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .breadcrumb a { color: #b8860b; }
+  .breadcrumb a:hover { text-decoration: underline; }
+  .breadcrumb svg { width: 12px; height: 12px; stroke: #b8860b; fill: none; stroke-width: 2; }
+
+  /* ヒーロー */
+  .hero {
+    position: relative; border-radius: 12px; overflow: hidden;
+    margin-bottom: 28px; background: #3a1a0e; padding: 32px 36px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 18px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.012) 0, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 18px),
+      linear-gradient(160deg, #4a1e0a 0%, #2a0e04 60%, #1a0a02 100%);
+    z-index: 0;
+  }
+  .hero-icon {
+    position: relative; z-index: 1;
+    width: 60px; height: 60px; background: rgba(212,175,55,0.15);
+    border: 1px solid rgba(212,175,55,0.4); border-radius: 14px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .hero-icon svg { width: 30px; height: 30px; stroke: #d4af37; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+  .hero-text { position: relative; z-index: 1; }
+  .hero-cat { font-size: 10px; letter-spacing: 0.2em; color: #d4af37; text-transform: uppercase; margin-bottom: 6px; font-weight: 600; }
+  .hero-title { font-size: 21px; font-weight: 700; color: #fff; margin-bottom: 6px; line-height: 1.3; }
+  .hero-tagline { font-size: 12.5px; color: rgba(255,255,255,0.65); }
+
+  /* セクション見出し */
+  .section-label {
+    font-size: 10px; font-weight: 700; letter-spacing: 0.12em;
+    color: #b8860b; text-transform: uppercase;
+    margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::after { content: ''; flex: 1; height: 1px; background: #e8ddd0; }
+
+  /* ステップカード */
+  .steps-wrap { display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px; }
+  .step-card {
+    background: #fff; border: 1px solid #e8ddd0; border-radius: 12px;
+    overflow: hidden; display: flex; align-items: stretch;
+  }
+  .step-num-col {
+    width: 56px; background: #2a1208; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .step-num {
+    width: 32px; height: 32px; background: rgba(212,175,55,0.2);
+    border: 1px solid rgba(212,175,55,0.4); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #d4af37;
+  }
+  .step-body { padding: 16px 20px; flex: 1; }
+  .step-title { font-size: 14px; font-weight: 700; color: #2a1208; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .step-title svg { width: 16px; height: 16px; stroke: #b8860b; fill: none; stroke-width: 2; flex-shrink: 0; }
+  .step-desc { font-size: 12.5px; color: #5a4030; line-height: 1.8; }
+  .step-desc strong { color: #2a1208; font-weight: 700; }
+
+  /* CTA エリア */
+  .cta-box {
+    background: #2a1208; border-radius: 14px; padding: 28px 26px;
+    margin-bottom: 28px; text-align: center; position: relative; overflow: hidden;
+  }
+  .cta-box::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 18px),
+      repeating-linear-gradient(-45deg, rgba(255,255,255,0.01) 0, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 18px);
+  }
+  .cta-eyebrow { position: relative; font-size: 11px; color: rgba(255,255,255,0.55); margin-bottom: 8px; letter-spacing: 0.05em; }
+  .cta-title { position: relative; font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 18px; }
+  .cta-btn {
+    position: relative; display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 36px; background: #d4af37; color: #2a1208;
+    font-size: 14px; font-weight: 700; letter-spacing: 0.05em;
+    border-radius: 30px; transition: background 0.25s; margin-bottom: 20px;
+  }
+  .cta-btn:hover { background: #c09c2a; }
+  .cta-btn svg { width: 16px; height: 16px; stroke: #2a1208; fill: none; stroke-width: 2.3; }
+
+  .qr-wrap { position: relative; display: inline-block; background: #fff; padding: 12px; border-radius: 10px; }
+  .qr-wrap img { width: 150px; height: 150px; display: block; }
+  .qr-caption { position: relative; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 10px; }
+
+  /* 注意事項 */
+  .notes-block {
+    background: #fafafa; border: 1px solid #e8ddd0; border-radius: 8px;
+    padding: 16px 20px; margin-bottom: 28px;
+  }
+  .notes-title {
+    font-size: 12px; font-weight: 700; color: #2a1208;
+    margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+  }
+  .notes-title svg { width: 14px; height: 14px; stroke: #b8860b; fill: none; stroke-width: 2; }
+  .notes-list { list-style: none; }
+  .notes-list li {
+    font-size: 12px; color: #5a4030; line-height: 1.7;
+    padding-left: 14px; position: relative;
+  }
+  .notes-list li::before { content: '・'; position: absolute; left: 0; color: #b8860b; }
+
+  /* 戻るリンク */
+  .back-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: #7a6050; margin-top: 8px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: #b8860b; }
+  .back-link svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  /* フッター */
+  .footer { margin-top: 40px; text-align: center; padding-top: 22px; border-top: 1px solid #e8ddd0; }
+  .footer-company { font-size: 13px; font-weight: 700; color: #2a1208; margin-bottom: 4px; }
+  .footer-address { font-size: 11px; color: #7a6050; margin-bottom: 12px; }
+  .footer-links { font-size: 11px; margin-bottom: 14px; }
+  .footer-links a { color: #7a6050; margin: 0 8px; }
+  .footer-links a:hover { color: #b8860b; }
+  .footer-copyright { font-size: 10px; color: #aaa; }
+</style>
 </head>
 <body>
+<div class="container">
 
-<style>
-  :root{
-    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
-    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
-  }
-  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
-  .qlcwrap *{box-sizing:border-box;}
-  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
-  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
-  .qtop .brand{font-weight:600;letter-spacing:.04em;}
-  .qbody{padding:22px 20px 30px;}
-  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
-  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
-  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
-  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
-  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
-  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
-  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
-  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
-  .qpriceblock{margin-bottom:14px;}
-  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
-  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
-  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
-  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
-  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
-  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
-  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
-  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
-  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
-  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
-  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
-  .qbtn-filled{background:var(--brass);color:var(--navy);}
-  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
-  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
-  a{cursor:pointer;}
-</style>
-<div class="qlcwrap">
-<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
-<div class="qbody">
-<div class="qplaque"><span>レンタカー</span></div>
-<div class="qlisted">掲載サービス：</div>
+  <!-- パンくず -->
+  <nav class="breadcrumb">
+    <a href="https://www.qlc-service.com/">QLC Link トップ</a>
+    <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    <span>日産レンタカー 特別優待プログラム</span>
+  </nav>
 
-<div class="qprovider">
-  <div class="qpname"></div>
-  <div class="qctarow">
-    <a class="qbtn qbtn-filled" target="_blank" href="https://form.run/@ql-c-Ox5Cv1drybFfC7pBKSyT">特別優待お申し込みフォーム</a>
+  <!-- ヒーロー -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-icon">
+      <svg viewBox="0 0 24 24"><path d="M3 11l2-4h14l2 4"/><path d="M1 17h2v2h2v-2h14v2h2v-2h2v-4a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2v4z"/><circle cx="6" cy="15" r="1"/><circle cx="18" cy="15" r="1"/></svg>
+    </div>
+    <div class="hero-text">
+      <div class="hero-cat">Nissan Rent a Car — 特別優待プログラム</div>
+      <h1 class="hero-title">日産レンタカー 特別優待プログラム</h1>
+      <p class="hero-tagline">WEB完結・アプリで即時利用可能。会員優待レートでお得にご利用いただけます。</p>
+    </div>
   </div>
-</div>
 
-</div>
-<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+  <!-- ご利用の手順 -->
+  <div class="section-label">ご利用の手順</div>
+  <div class="steps-wrap">
+
+    <div class="step-card">
+      <div class="step-num-col"><div class="step-num">1</div></div>
+      <div class="step-body">
+        <div class="step-title">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          お申し込み
+        </div>
+        <div class="step-desc">下記の「特別優待お申し込みフォーム」ボタン、またはQRコードから専用フォームへアクセスし、<strong>必要情報をご入力のうえ送信</strong>してください。</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col"><div class="step-num">2</div></div>
+      <div class="step-body">
+        <div class="step-title">
+          <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          限定パスコードの取得
+        </div>
+        <div class="step-desc">送信完了後、画面に表示される<strong>「ご利用マニュアル（PDF）」</strong>を開き、専用の【ID・パスワード】をご確認ください。</div>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num-col"><div class="step-num">3</div></div>
+      <div class="step-body">
+        <div class="step-title">
+          <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>
+          アプリで予約・出発
+        </div>
+        <div class="step-desc">ご自身の<strong>「日産レンタカーアプリ」</strong>に上記ID・パスワードを入力するだけで、いつでも<strong>会員優待レート</strong>でのご予約が可能になります。</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- お申し込みCTA -->
+  <div class="cta-box">
+    <div class="cta-title">まずはこちらからお申し込みください</div>
+    <div>
+      <a href="https://form.run/@ql-c-Ox5Cv1drybFfC7pBKSyT" target="_blank" class="cta-btn">
+        <svg viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        特別優待お申し込みフォームを開く
+      </a>
+    </div>
+    <div class="qr-wrap">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAADYCAIAAAAGQrq6AAAJaElEQVR4Aeyc25ITORAFWf7/n1nAhCNMop5qqaTWJYll8BzXNeu86GW///CPBCYg8P2bfyQwAQGNOMERHOHbN42oC6YgoBGnOINDaEQ9MAWBfYw4BU6HqCWgEWvJmZdKQCOm4rRYLQGNWEvOvFQCGjEVp8VqCWjEWnLmpRLQiKk4U4odWUQjHnn2+ZbWiPPd5MiJNOKRZ59vaY04302OnEgjHnn2+ZbWiPPdZJ+JbmyiEW/AMrQfAY3Yj62VbxBoNeJ/j/7holnjRCozhgrnGRnD7v0U7nVLaTXirWYGS6BEQCOWyKgPJaARh+K2WYnA5EYsja2+GwGNuNtFF90n34j9/vcVEcR13VmZr0tWZladwspZ3Vk5S6nb9CIr34gXzfxKAiUCGrFERn0oAY04FLfNSgQ0YolMsm65awIa8ZqP3w4iMMKIfANGlCwA7BWpzNcl61CJVI7EsHskKxLDmSNKpHJjzAgjNo5o+gkENOIJV15gR424wJFOGFEjnnDl1B37FNOIfbha9SaB/Y3IFyjfiTeh/Qln5T9fdPgna+YOo+WU3N+IOZys0pmARuwM2PIxAhoxxsmozgQ0YmfAlo8ReMKIscmMOoqARvz3uflKjbyRmfXv6p8qs6hEun9WXew3jbjYwXYdVyPuetnF9tKIix1s13E14q6XXWwvjdhyMHPTCIwwIl98ESVrxboXKCeMzJOVxTrcIjIPY1g5orBOujLCiOlDW3A/Ahpxv5suuZFGXPJs+w2tEfe76ZIbacQlz5Y+9OMF843I912WEoHFXnwV1sWwO+swJqJk1WEvVs5S2KtRyTdi40Cmn0lAI5559+m21ojTneTMgTTimXefbmuNON1Jzhyo1YjvN+kjHyI34zuRo9bVYRZ7MYYK52EdxkTqMKufwnluKa1GvNXMYAmUCGjEEhn1oQQ04lDcNisR0IglMupDCWjEobhtViLQakS+76iwN2OoRLIYw1chY75QOn8d2bRui0jlrOXSe7UaMWsx6xxOQCMeboBZ1teIs1zi8Dk04uEGmGV9jTjLJQ6fI9+IfPHxhcUYKpEsxlCJVKYJmEWFWVTqsrgFlUCvH4yJ1GEMlbq9OM9byTfiu7QfJBAnoBHjrIzsSEAjdoRr6TgBjRhnZWRHAhqxI1xLxwk8Y0S+wjgx32XMYgyVSBa7M4sKs+oUVuYWkcqsE8mKxNTNE6n8jrk24jvMDxLoS0Aj9uVr9SABjRgEZVhfAhqxL1+rBwloxCAow/oSeMaIkVcY34DMYgwVZkWIMiuiRCr3i+GE7MWYOmLMYq9byjNGvDViSrBFJiegESc/0CnjacRTLj35nhpx8gOdMp5GPOXSk++Zb0S+pyIvNWYRHGNYmQqzqLAXlawsTshedQonpMLK/eZhrwsl34gXzfwqgcCmJTTipoddbS2NuNrFNp1XI2562NXW0oirXWzTeUcYMevtNvJ9x5nZPRITsQ0rM4sx7M4sKsyqU1i5URlhxMYRTd+UwMdaGvEDh788RUAjPkXevh8ENOIHDn95ioBGfIq8fT8ItBqRr7k6hW+3jzF//xKJ+R34xQ9OyIS6mKwJWYcKZ6bCLSJKpA5jGpVWIza2N10CLwJLG/G1gj93IKARd7jiBjtoxA2OuMMKGnGHK26wQ6sR+ZqLKAQXec0xhr1YmUokKxLDylkKN2VlxlBh1rN7cZ630mrEdyE/SKCFgEZsoZeWayGNqAemIKARpziDQ2hEPTAFgXwj1r3dIq85xkR6ETOzWJlZdUpWL9bpN0+kVyTm1oT5RrzV3mAJvAhoxBcHfyYRqC2jEWvJmZdKQCOm4rRYLQGNWEvOvFQCI4wYeWHVxfC1S4W4IjGReSJ12J0K69QprEyFlbkpY6iwcqMywoiNI5p+AgGNeMKVF9hxPiMuAM0R8wloxHymVqwgoBEroJmSTyDfiHUvrEgWY/jiqyPEOuxVV5lZ7MWYiMI6kZkjWYyhEukV2eIdk2/Ed2k/SCBOQCPGWRnZkYBG7AfXyjcIaMQbsAztR0Aj9mNr5RsERhix7oXFrMjbjTERpV+vyCk4YSSrbua6ysyqm5l13soII76b+UECJQIasURGfSgBjTgU96LNBoytEQdAtsXXBDTi14yMGEBghBGzXliRd2I/ZNyC80S612VlVa7rXpcVmfkdM8KI72Z+kECJgEYskVEfSkAjDsVtsxKBQUYstVeXwIuARnxx8OfDBFqNyLckFa7ImDqFleved+zOOlQiWZyQWVkxrEyFvagwiwqzGpVWIza2N10CLwIa8cXBnw8T0IgPH8D2LwIa8cUh/NPAPgQ0Yh+uVr1JoNWIfEuOVLhs3fuOM7MOFWZxnpHKbPPc2r3ViLeaGSyBEgGNWCKjPpSARhyK22YlAhqxRGZ7fa4FNeJc9zh2mnwj8nWZpdQdiW9JKqwciWEWFdapU1iZCjkzhkokizOzTqOSb8TGgUw/k4BGPPPu022tEac7yZkDacQz7z7d1i1GnG4ZB1qXwAgj8s0VUeqYsnLkVRjpVVeZ3alEujOG80SUSB3GDFBGGHHAGrZYnYBGXP2Cm8yvETc55OpraMTVL7jJ/Brx1yH9+zgBjfjrBHzJUvkVd/8vX7KswV4RJasOe0UqR/ZinQtFI17A8atxBDTiONZ2uiCgES/g+NU4AhpxHGs7XRDQiBdwFvxq2ZF3M2LWGzDyKozERIwRqROJYS9mUcnKYp1bym5GvLW8wfMQ0Ijz3OLoSTTi0eefZ3mNOM8tjp5EIx59/nmWhxE7jMaXbESpG4SvQiqRynUTZmVxQlZmDBVmUYnwYRZ7NSojjNg4ouknENCIJ1x5gR014gJHOmFEjXjClRfYUSMucKQTRsw3Il9hWcrNe/wJ54uP80Ri/pS7/IeVL8NvfBmpXBfD3alw0EgMsy6UfCNeNPMrCZQIaMQSGfWhBDTiUNw2KxHQiCUy6kMJaMShuG1WItBqRL6eRircit1HxkS6c54vlZ8BrBxRfib+9R+z/gp46tdWIz41t303I6ARNzvoqutoxFUvt9ncGnGzg666jkZc9XKbza0RNzvo3OuUp9OIZTZ+M5CARhwI21ZlAhqxzMZvBhLQiANh26pMQCOW2fjNQAIacSBsW5UJrGbE8iZ+szQBjbj0+fYZXiPuc8ulN9GIS59vn+E14j63XHoTjbj0+fYZXiM+dUv7fhDQiB84/OUpAv8DAAD//02iSgMAAAAGSURBVAMARiyUKBnSNO8AAAAASUVORK5CYII=" alt="特別優待お申し込みフォーム二次元コード">
+    </div>
+    <div class="qr-caption">スマートフォンで二次元コードを読み取ってもアクセスできます</div>
+  </div>
+
+  <!-- ご利用にあたって -->
+  <div class="notes-block">
+    <div class="notes-title">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+      ご利用にあたって
+    </div>
+    <ul class="notes-list">
+      <li>お申し込みはWEB完結。フォーム送信後、すぐにご利用マニュアルが画面に表示されます</li>
+      <li>取得したID・パスワードは「日産レンタカーアプリ」にご入力いただくことでご利用いただけます</li>
+      <li>2回目以降のご予約は、アプリへのログインのみで会員優待レートをご利用いただけます</li>
+      <li>ご利用マニュアル（PDF）は、お手元の端末に保存されることをおすすめします</li>
+      <li>店舗・車種・料金プランの詳細は「日産レンタカーアプリ」内でご確認ください</li>
+    </ul>
+  </div>
+
+  <!-- 戻るリンク -->
+  <a href="https://www.qlc-service.com/" class="back-link qback">
+    <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+    サービス一覧に戻る
+  </a>
+
+  <!-- フッター -->
+  <footer class="footer">
+    <div class="footer-company">株式会社クオリティライフ・コンシェルジュ</div>
+    <div class="footer-address">〔東京本社〕〒108-0014 東京都港区芝5-13-15 4階</div>
+    <div class="footer-links">
+      <a href="https://www.qlc-service.com/qlc-link/privacy-policy.html" target="_blank">プライバシーポリシー</a>
+      <span style="color:#e8ddd0">|</span>
+      <a href="https://www.qlc-service.com/qlc-link/compliance.html" target="_blank">コンプライアンスについて</a>
+    </div>
+    <div class="footer-copyright">Copyright © 2026 QUALITY LIFE-CONCIERGE. All Rights Reserved.</div>
+  </footer>
+
 </div>
 <script src="/back-nav.js"></script>
 <script src="/text-size.js"></script>
