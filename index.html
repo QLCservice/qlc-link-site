@@ -311,6 +311,16 @@
 <script>
 const BASE = 'https://www.qlc-service.com/qlc-link/';
 
+const ACCESS_BID = 'national';
+const ACCESS_LOG_URL = 'https://script.google.com/macros/s/AKfycbz07q7G3kYMk25qL6eu64IMKClKTscHtt4JWagyDkXWCW4c6SDmRiKUTqjCuh8UyfZH/exec';
+function logAccess(type, label) {
+  try {
+    var img = new Image();
+    img.src = ACCESS_LOG_URL + '?log=1&bid=' + encodeURIComponent(ACCESS_BID) + '&type=' + encodeURIComponent(type) + '&label=' + encodeURIComponent(label || '') + '&t=' + Date.now();
+  } catch (e) {}
+}
+logAccess('pageview', document.title);
+
 /* ▼▼ この2つは Google スプレッドシートの内容から自動生成されます（手で書かない） ▼▼ */
 const DATA = {
   "house": {
@@ -554,6 +564,7 @@ Object.keys(DATA).forEach(key => {
     a.rel = 'noopener noreferrer';
     const badge = item.soon ? '<span class="soon-badge">近日公開</span>' : '';
     a.innerHTML = `${badge}<div class="icon">${item.icon}</div><div class="title">${item.title}</div><div class="desc">${item.desc}</div>`;
+    a.addEventListener('click', () => logAccess('click', item.title));
     grid.appendChild(a);
   });
   section.appendChild(bar);
