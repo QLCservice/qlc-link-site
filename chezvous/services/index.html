@@ -45,6 +45,13 @@
   }
   .card:hover{box-shadow:0 4px 14px rgba(0,0,0,.07);}
   .card .cicon{font-size:22px;}
+  .card.soon{position:relative;cursor:default;opacity:.72;}
+  .card.soon:hover{box-shadow:none;}
+  .card.soon .badge{
+    position:absolute;top:10px;right:10px;
+    background:linear-gradient(135deg,var(--brass-light),var(--brass));color:var(--navy);
+    font-size:9.5px;font-weight:700;padding:2px 9px;border-radius:10px;letter-spacing:.04em;
+  }
   .card h3{margin:0;font-size:14px;color:var(--charcoal);}
   .card p{margin:0;font-size:12px;color:var(--charcoal-soft);line-height:1.6;flex:1;}
   .card .cta{align-self:flex-start;font-size:11.5px;font-weight:600;color:var(--navy);margin-top:4px;}
@@ -73,19 +80,15 @@
 
 <main>
 
-  <div class="section-head"><span class="icon">🧹</span>お家のお手入れ・修理</div>
+  <div class="section-head"><span class="icon">🧹</span>お家のお手入れ・くらしのお手伝い</div>
   <div class="grid">
     <a class="card" href="https://www.qlc-service.com/qlc-link/laundry-delivery.html" target="_blank"><div class="cicon">👕👔</div><h3>宅配クリーニング</h3><p>自宅で受け取れる便利な衣類クリーニング</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/shoeshine.html" target="_blank"><div class="cicon">👞👟👜</div><h3>靴磨き・靴修理</h3><p>職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/knifesharpening.html" target="_blank"><div class="cicon">🔪</div><h3>包丁研ぎサービス</h3><p>ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">🤝</span>家事・くらしのお手伝い</div>
-  <div class="grid">
     <a class="card" href="https://www.qlc-service.com/qlc-link/chef.html" target="_blank"><div class="cicon">🍳</div><h3>出張料理</h3><p>食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/senior-care.html" target="_blank"><div class="cicon">👵</div><h3>シニアケア</h3><p>ご家族の暮らしや介護を優しくサポート</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/petcare.html" target="_blank"><div class="cicon">🐶</div><h3>ペットケア</h3><p>大切なペットのシッター・ホテルサービス</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/medical-night.html" target="_blank"><div class="cicon">🏥</div><h3>夜間の救急・医療相談</h3><p>夜間の急な不調を専門家に相談</p><span class="cta">詳しく見る</span></a>
+    <div class="card soon"><span class="badge">工事中</span><div class="cicon">🚗✨</div><h3>出張洗車</h3><p>近日公開予定です</p></div>
+    <div class="card soon"><span class="badge">工事中</span><div class="cicon">🛏️</div><h3>布団レンタル</h3><p>近日公開予定です</p></div>
   </div>
 
   <div class="section-head"><span class="icon">💻</span>パソコン・スマホのお困りごと</div>
@@ -112,7 +115,6 @@
 
   <div class="section-head"><span class="icon">📦</span>収納・整理・お引越し</div>
   <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/organizing-tokyo.html" target="_blank"><div class="cicon">🗄️</div><h3>整理収納・おかたづけ</h3><p>東京・神奈川・埼玉・千葉エリア対応</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/storage.html" target="_blank"><div class="cicon">🧳</div><h3>宅配トランクルーム</h3><p>スマホで預入・取出しできる収納サービス</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/reuse.html" target="_blank"><div class="cicon">👜👗</div><h3>不用品の宅配買取</h3><p>箱に詰めて送るだけのリユース買取</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/book-reuse.html" target="_blank"><div class="cicon">📚</div><h3>本の買取・リユース</h3><p>ブックオフが本・漫画を宅配買取</p><span class="cta">詳しく見る</span></a>
