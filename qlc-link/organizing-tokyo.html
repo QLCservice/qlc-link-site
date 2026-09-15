@@ -41,7 +41,10 @@
   .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
   .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
   .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
-  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
+  .qccoderow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .qccodetag{font-size:10.5px;color:#CFC8B8;letter-spacing:.04em;}
+  .qccode{display:inline-block;background:var(--brass-light);color:var(--navy);font-family:"Courier New",monospace;font-weight:700;font-size:16px;letter-spacing:.12em;padding:6px 16px;border-radius:6px;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:8px;line-height:1.7;}
   .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
   .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
   .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
@@ -59,7 +62,12 @@
 <div class="qprovider">
   <div class="qpname">ブックオフのおかたづけサービス</div>
   <div class="qarea">対応エリアは東京都・神奈川県・埼玉県・千葉県となります。</div>
-  <div class="qnote">ご申込の際に「紹介コード【106】」と必ずお伝えください。お見積金額より5％割引となります。※その他のクーポンとの併用はできません。</div>
+  <div class="qcoupon">
+    <div class="qclabel">居住者様限定特典</div>
+    <div class="qcval">お見積金額より5%割引</div>
+    <div class="qccoderow"><span class="qccodetag">紹介コード</span><span class="qccode">106</span></div>
+    <div class="qcsub">ご申込の際にこちらのコードを必ずお伝えください。他クーポンとの併用不可。</div>
+  </div>
   <div class="qctarow">
     <a class="qbtn qbtn-filled" target="_blank" href="https://www.bookoff.co.jp/os2/katazuke/">ブックオフおかたづけサービス</a>
   </div>
@@ -69,7 +77,12 @@
   <div class="qpname">インブルームのお片付けコンシェルジュ</div>
   <div class="qarea">【関東】東京メトロ青山一丁目駅より片道1.5時間以内／【関西】大阪駅・梅田駅より片道1時間以内／その他エリア外は特別プランで見積</div>
   <div class="qdesc">「整理収納」を通じてお片付けのお悩み解決をするプロフェッショナル集団です。13年間で12000件の実績を持つ整理収納サービスのパイオニア企業です。</div>
-  <div class="qnote">各コース500円割引。お申込フォーム備考欄に「クーポンコード【0001】」をご入力ください。※その他のクーポンとの併用はできません。</div>
+  <div class="qcoupon">
+    <div class="qclabel">居住者様限定特典</div>
+    <div class="qcval">各コース500円割引</div>
+    <div class="qccoderow"><span class="qccodetag">クーポンコード</span><span class="qccode">0001</span></div>
+    <div class="qcsub">お申し込みフォームの備考欄へこちらのコードをご入力ください。他クーポンとの併用不可。</div>
+  </div>
   <div class="qctarow">
     <a class="qbtn qbtn-filled" target="_blank" href="https://okataduke.me/seiri-shuno/form/">インブルームへ申込む</a>
   </div>
