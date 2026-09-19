@@ -64,6 +64,24 @@
 
   footer{text-align:center;padding:20px;font-size:11px;color:var(--charcoal-soft);}
 
+  .zone{border-radius:12px;padding:14px 18px;margin:30px 0 4px;}
+  .zone .ztitle{font-family:"Noto Serif JP",serif;font-size:16px;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .zone .zsub{font-size:12px;line-height:1.75;margin-top:4px;}
+  .zone-front{background:var(--navy);color:#F3EFE6;}
+  .zone-front .zsub{color:var(--brass-light);}
+  .zone-partner{background:transparent;border:1.5px dashed var(--brass);color:var(--navy);margin-top:44px;}
+  .zone-partner .zsub{color:var(--charcoal-soft);}
+  .zone + .grid{margin-top:14px;}
+
+  .qa{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .qa summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:13px;font-weight:500;color:var(--navy);display:flex;gap:10px;align-items:flex-start;line-height:1.7;}
+  .qa summary::-webkit-details-marker{display:none;}
+  .qa summary::before{content:"Q";flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--brass-light);font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .qa summary::after{content:"＋";margin-left:auto;color:var(--brass);font-weight:700;flex:0 0 auto;}
+  .qa[open] summary::after{content:"－";}
+  .qa .ans{position:relative;padding:0 16px 14px 48px;font-size:12.5px;line-height:1.85;color:var(--charcoal);}
+  .qa .ans::before{content:"A";position:absolute;left:16px;top:2px;width:22px;height:22px;border-radius:50%;background:var(--brass-light);color:var(--navy);font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;}
+
   .inquiry-box{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:18px;}
   .inquiry-box p{font-size:12.5px;line-height:1.85;color:var(--charcoal-soft);margin:0 0 16px;}
   .inquiry-btn{display:inline-block;background:var(--brass);color:var(--navy);font-weight:600;font-size:12.5px;padding:10px 24px;border-radius:18px;text-decoration:none;}
@@ -80,18 +98,21 @@
 <div class="hero">
   <div class="eyebrow">SERVICE MENU</div>
   <h1>ご利用いただけるサービス</h1>
-  <p>コンシェルジュが直接お取次ぎするサービスと、提携事業者によるサービスをご案内しています。アイコンをタップしてお進みください。</p>
+  <p>「コンシェルジュ取次ぎ」はフロントにお声がけください。「提携事業者のご紹介」は、各事業者へ直接お申込みいただくサービスです。アイコンをタップしてお進みください。</p>
 </div>
 
 <main>
 
-  <div class="section-head"><span class="icon">🏢</span>CALM代官山コンシェルジュ取次ぎサービス</div>
+  <div class="zone zone-front">
+    <div class="ztitle"><span>🏢</span>CALM代官山コンシェルジュ取次ぎサービス</div>
+    <div class="zsub">コンシェルジュカウンターにお声がけください。お預かり・お手配はフロントが承ります。</div>
+  </div>
   <div class="grid">
     <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/laundry.html" target="_blank">
       <span class="badge">フロント取次ぎ</span>
       <div class="cicon">🧺</div>
       <h3>クリーニング</h3>
-      <p>お洗濯物をコンシェルジュカウンターでお預かりし、提携クリーニング店へお取次ぎいたします。</p>
+      <p>クリーニング店は2社。大切なお洋服と普段着でお使い分けいただけます。フロントでお預かり・お引取り。</p>
       <span class="cta">詳しく見る</span>
     </a>
     <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/delivery.html" target="_blank">
@@ -101,20 +122,59 @@
       <p>発送物をお預かりし、ヤマト運輸の集荷をお取次ぎいたします。ご自身での依頼も可能です。</p>
       <span class="cta">詳しく見る</span>
     </a>
-    <a class="card featured" href="https://qlc-service.com/kanto/taxi-tel.html" target="_blank">
-      <span class="badge">電話で予約</span>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/taxi.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
       <div class="cicon">🚕</div>
-      <h3>タクシー手配（電話）</h3>
-      <p>※ 対応エリアは3社とも東京23区・武蔵野市・三鷹市です。</p>
+      <h3>タクシー手配</h3>
+      <p>フロントを通して手配すれば、ドライバーがエントランスを迷う心配がありません。</p>
       <span class="cta">詳しく見る</span>
     </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/shoeshine.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">👞</div>
+      <h3>靴磨き・靴修理</h3>
+      <p>集荷・納品ともにフロントへお持ちいただくだけ。鞄の修理・クリーニングも対応可能です。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/futon.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">🛏️</div>
+      <h3>布団レンタル・布団クリーニング</h3>
+      <p>来客用のお布団を、お部屋までお届け・お引取り。お布団のクリーニングも承ります。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/bulky.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">🗑️</div>
+      <h3>粗大ゴミ収集代行・ゴミ券販売</h3>
+      <p>粗大ゴミ収集の代行予約と、ゴミ券の販売をフロントで承ります。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/copyfax.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">🖨️</div>
+      <h3>コピー・FAX代行</h3>
+      <p>コピーやFAX送信が必要なときは、フロントにお申し付けください。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+    <a class="card featured" href="https://www.qlc-service.com/calm-daikanyama/supplies.html" target="_blank">
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon">🧰</div>
+      <h3>備品貸出</h3>
+      <p>傘・台車・脚立・空気入れ・工具などをお貸出しします。</p>
+      <span class="cta">詳しく見る</span>
+    </a>
+  </div>
+
+  <div class="zone zone-partner">
+    <div class="ztitle"><span>🤝</span>提携事業者のご紹介</div>
+    <div class="zsub">以下は提携事業者によるサービスです。詳細ページから、各事業者へ直接お申込み・お問い合わせください（コンシェルジュによるお取次ぎではありません）。</div>
   </div>
 
   <div class="section-head"><span class="icon">🧹</span>お家のお手入れ・修理</div>
   <div class="grid">
     <a class="card" href="https://www.qlc-service.com/qlc-link/housecleaning-tokyo.html" target="_blank"><div class="cicon">✨</div><h3>ハウスクリーニング</h3><p>東京・神奈川エリア対応の専門クリーニング</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/laundry-delivery.html" target="_blank"><div class="cicon">👕👔</div><h3>宅配クリーニング</h3><p>自宅で受け取れる便利な衣類クリーニング</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/shoeshine.html" target="_blank"><div class="cicon">👞👟👜</div><h3>靴磨き・靴修理</h3><p>職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/knifesharpening.html" target="_blank"><div class="cicon">🔪</div><h3>包丁研ぎサービス</h3><p>ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。</p><span class="cta">詳しく見る</span></a>
   </div>
 
@@ -160,6 +220,24 @@
     <a class="card" href="https://www.qlc-service.com/qlc-link/photo-digitize.html" target="_blank"><div class="cicon">📷🎞</div><h3>おもいで写真デジタイズ</h3><p>古い写真・ビデオを劣化しないデータへ</p><span class="cta">詳しく見る</span></a>
     <a class="card" href="https://www.qlc-service.com/qlc-link/moving.html" target="_blank"><div class="cicon">🚚</div><h3>お引越し案内</h3><p>大手引越し業者を提携割引でご案内</p><span class="cta">詳しく見る</span></a>
   </div>
+
+  <div class="section-head"><span class="icon">💬</span>よくあるご質問（お住まいのご案内）</div>
+  <details class="qa">
+    <summary>荷捌きエリアはどれくらい駐車していいのでしょうか</summary>
+    <div class="ans">通常、一時的な（1〜2時間程度）ご利用をお願いしております。他の居住者様にご配慮の上、ご駐車をお願いいたします。また、ご駐車の際はサイドミラーを閉じた上で、ご駐車ください。</div>
+  </details>
+  <details class="qa">
+    <summary>エントランス前の駐車はできますか</summary>
+    <div class="ans">エントランス前は乗降時のみご利用ください。一時的なご利用は荷捌きエリアをご利用ください。</div>
+  </details>
+  <details class="qa">
+    <summary>共用スペースでペットは歩かせていいでしょうか</summary>
+    <div class="ans">申し訳ありません。共用スペースでは、抱っこやキャリーバッグ等でのご移動をお願いいたします。</div>
+  </details>
+  <details class="qa">
+    <summary>フロントで荷物は預かっていただけますか</summary>
+    <div class="ans">申し訳ありません。安全上の為、フロントでのお荷物のお預かりは承っておりません。</div>
+  </details>
 
   <div class="section-head"><span class="icon">✉️</span>お問い合わせ</div>
   <div class="inquiry-box">
