@@ -50,6 +50,17 @@
     btn.addEventListener('click', toggle);
     document.body.appendChild(btn);
     apply();
+    reserveSpaceForButton();
+  }
+
+  // 固定表示のボタンがページ末尾のコンテンツ（「戻る」リンク等）に重ならないよう、
+  // ページ下部に余白を確保する。ボタンの高さ＋余白ぶんだけ body に padding-bottom を足す。
+  function reserveSpaceForButton() {
+    var existing = parseFloat(window.getComputedStyle(document.body).paddingBottom) || 0;
+    var needed = 78; // ボタンの高さ(約40px) + bottom位置(14px) + 余裕(約24px)
+    if (existing < needed) {
+      document.body.style.paddingBottom = needed + 'px';
+    }
   }
 
   if (document.readyState === 'loading') {
