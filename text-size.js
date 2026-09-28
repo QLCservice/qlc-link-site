@@ -45,12 +45,39 @@
       'background:#1C2B40', 'color:#F6F2EA', 'border:1.5px solid #B79358',
       'border-radius:20px', 'padding:10px 16px', 'font-size:12.5px', 'font-weight:600',
       'font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif',
-      'box-shadow:0 2px 10px rgba(0,0,0,.22)', 'cursor:pointer', 'line-height:1.4'
+      'box-shadow:0 2px 10px rgba(0,0,0,.22)', 'cursor:pointer', 'line-height:1.4',
+      'transition:opacity .2s ease,transform .2s ease'
     ].join(';');
     btn.addEventListener('click', toggle);
     document.body.appendChild(btn);
     apply();
     reserveSpaceForButton();
+    setupScrollShy();
+  }
+
+  // スクロール中は、下にあるカードのリンク等にボタンが重なって隠れてしまうため、
+  // 画面外へ一時的に退避させる。スクロールが止まったら、少し待って元に戻す。
+  function setupScrollShy() {
+    var hideTimer = null;
+    var hidden = false;
+    function hide() {
+      if (hidden) return;
+      hidden = true;
+      btn.style.transform = 'translateY(90px)';
+      btn.style.opacity = '0';
+      btn.style.pointerEvents = 'none';
+    }
+    function show() {
+      hidden = false;
+      btn.style.transform = '';
+      btn.style.opacity = '1';
+      btn.style.pointerEvents = 'auto';
+    }
+    window.addEventListener('scroll', function () {
+      hide();
+      if (hideTimer) clearTimeout(hideTimer);
+      hideTimer = setTimeout(show, 500);
+    }, { passive: true });
   }
 
   // 固定表示のボタンがページ末尾のコンテンツ（「戻る」リンク等）に重ならないよう、
