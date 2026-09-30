@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<title>宅配便のご案内｜サンプル物件</title>
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);text-align:center;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qsteps{counter-reset:step;margin-bottom:14px;}
+  .qstep{display:flex;gap:10px;padding:8px 0;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  .qstep .num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--brass-light);font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;}
+  .qex{padding:10px 0;border-bottom:1px dashed #E8E0CE;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  .qex:last-child{border-bottom:none;}
+  .qex b{display:block;color:var(--navy);font-size:13px;margin-bottom:2px;}
+  .qbadge{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 10px;border-radius:10px;background:var(--navy);color:var(--brass-light);margin-bottom:10px;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qctarow.col{flex-direction:column;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qctarow.col .qbtn{white-space:normal;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  a{cursor:pointer;}
+  .ph{background:#FFF3B0;color:#5a4a00;padding:0 3px;border-radius:3px;}
+  .sample-note{background:#FFF3B0;border:1px dashed #B79358;border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:#5a4a00;margin-bottom:16px;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/sample-property/" target="_blank">&#8592; 戻る</a><span class="brand">サンプル物件</span></div>
+<div class="qbody">
+<div class="sample-note">🔧 サンプルページです。<mark class="ph">黄色の部分</mark>が、物件ごとに書き換える箇所です（公開前に黄色の装飾ごと削除してください）。</div>
+<div class="qplaque"><span>宅配便のご案内</span></div>
+<div class="qlisted">フロント取次ぎ、またはご自身での集荷依頼のどちらもご利用いただけます</div>
+
+<div class="qprovider">
+  <div class="qbadge">おすすめ</div>
+  <div class="qpname">📦 フロント取次ぎ（<mark class="ph">契約業者名</mark>）</div>
+  <div class="qdesc">
+    コンシェルジュカウンターにて発送物をお預かりし、<mark class="ph">契約業者名</mark>の集荷を取次ぎいたします。
+  </div>
+  <div class="qnote">
+    <strong><mark class="ph">例）当日14:00までにお預けいただいた分は当日集荷</mark></strong>となります。<br>
+    <mark class="ph">例）14:00以降にお預けいただいた場合は、翌日の集荷となります。</mark><br>
+    ※お預かりはコンシェルジュ営業時間内のみとなります。
+  </div>
+</div>
+<div class="qhr"></div>
+<div class="qprovider">
+  <div class="qpname">ご自身で集荷を依頼される場合</div>
+  <div class="qdesc">Web、またはお電話にてお部屋への集荷を直接ご依頼いただくこともできます。</div>
+  <div class="qctarow">
+    <a class="qbtn qbtn-filled" target="_blank" href="https://shuka.kuronekoyamato.co.jp/shuka_req/TopAction_doInit.action">ヤマト運輸 集荷を申し込む</a>
+  </div>
+</div>
+<div class="qhr"></div>
+<div class="qprovider">
+  <div class="qpname">日本郵便（ゆうパック）</div>
+  <div class="qdesc">Web、またはお電話にてお部屋への集荷をご依頼いただけます。</div>
+  <div class="qnote">集荷専用電話番号：<a href="tel:0800800111" style="color:var(--navy);font-weight:600;text-decoration:underline;">0800-0800-111</a>（通話料無料・タップで発信）<br>※日本郵便の規定により、保冷荷物（チルドゆうパック・冷凍等）のお部屋への直接集荷は承れません。<mark class="ph">物件の事情で追記があれば</mark></div>
+  <div class="qctarow">
+    <a class="qbtn qbtn-filled" target="_blank" href="https://mgr.post.japanpost.jp/C20P02Action.do?ssoparam=0&termtype=2">集荷を申し込む</a>
+  </div>
+</div>
+
+</div>
+<a class="qback" href="https://www.qlc-service.com/sample-property/" target="_blank">&#8592; サービスメニューに戻る</a>
+</div>
+<script src="/back-nav.js"></script>
+<script src="/text-size.js"></script>
+</body>
+</html>
