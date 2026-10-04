@@ -99,6 +99,15 @@
   .contact-row a{color:var(--navy);font-weight:600;text-decoration:underline;}
   @media (max-width:520px){ .contact-row{flex-direction:column;gap:2px;} .contact-row .k{flex:none;} }
 
+  .qbig{max-width:820px;margin:18px auto 0;padding:0 20px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+  .qbig-btn{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:112px;padding:14px 8px;border-radius:14px;text-decoration:none;text-align:center;color:#F3EFE6;background:linear-gradient(180deg,var(--navy-light),var(--navy));border:1.5px solid var(--brass);box-shadow:0 3px 10px rgba(28,43,64,.18);transition:transform .12s,box-shadow .12s;}
+  .qbig-btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(28,43,64,.25);}
+  .qbig-btn .qi{font-size:26px;line-height:1;}
+  .qbig-btn .ql{font-family:"Noto Serif JP",serif;font-size:15px;font-weight:700;line-height:1.35;color:#fff;}
+  .qbig-btn .qs{font-size:10.5px;line-height:1.5;color:var(--brass-light);}
+  @media (max-width:420px){ .qbig{gap:8px;padding:0 14px;} .qbig-btn{min-height:104px;padding:12px 4px;} .qbig-btn .ql{font-size:13px;} .qbig-btn .qs{font-size:9.5px;} .qbig-btn .qi{font-size:23px;} }
+  #facility,#qa,#contacts{scroll-margin-top:14px;}
+
   .rnote{display:none;max-width:820px;margin:14px auto 0;background:#FFF8E6;border:1px solid #E8CF8E;border-left:4px solid #D8A431;border-radius:8px;padding:12px 14px;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
   body.remote-aware .rnote{display:block;}
   .rnote .rn-row{display:flex;gap:8px;align-items:flex-start;margin-top:4px;}
@@ -111,6 +120,8 @@
   body.remote-aware .rbanner{display:block;}
   .rbanner a.rbtn{display:inline-block;margin-top:8px;background:var(--brass);color:var(--navy);font-weight:600;font-size:12px;padding:8px 16px;border-radius:16px;text-decoration:none;}
   .badges{display:flex;gap:6px;flex-wrap:wrap;align-self:flex-start;margin-bottom:2px;}
+  .ibadge{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.03em;padding:2px 9px;border-radius:9px;align-self:flex-start;background:#E4F1E4;color:#2F6B2F;border:1px solid #BFD9BF;}
+  .rbtn-ic{display:inline-block;margin-top:8px;background:var(--brass);color:var(--navy);font-weight:600;font-size:12px;padding:8px 16px;border-radius:16px;text-decoration:none;}
 </style>
 
 <div class="qtop">
@@ -126,7 +137,13 @@
   <p>「コンシェルジュ取次ぎ」はフロントにお声がけください。「提携事業者のご紹介」は、各事業者へ直接お申込みいただくサービスです。アイコンをタップしてお進みください。</p>
 </div>
 
-<div class="rnote" style="margin:14px 20px 0;">
+<nav class="qbig" aria-label="よく使うメニュー">
+  <a class="qbig-btn" href="#facility"><span class="qi">🌿</span><span class="ql">共用施設</span><span class="qs">予約・料金・ルール</span></a>
+  <a class="qbig-btn" href="#qa"><span class="qi">💬</span><span class="ql">Q&amp;A</span><span class="qs">よくあるご質問</span></a>
+  <a class="qbig-btn" href="#contacts"><span class="qi">📞</span><span class="ql">管理会社・<br>緊急連絡先</span><span class="qs">水漏れ・設備の異常</span></a>
+</nav>
+
+<div class="rnote" style="margin:18px 20px 0;">
   <strong>有人日とリモート日について</strong><br>
   コンシェルジュがフロントにいる日（有人日）と、リモートコンシェルジュ（ビデオ通話）で対応する日があります。各サービスの「有人日のみ」「リモート日も可」の表示をご確認ください。リモート日にフロントの取次ぎができないものは、お部屋から直接お申込みいただける代わりのサービス（「リモート日はこちら」）をご用意しています。
 </div>
@@ -196,20 +213,20 @@
     </a>
   </div>
 
-  <div class="zone zone-facility">
+  <div class="zone zone-facility" id="facility">
     <div class="ztitle"><span>🌿</span>共用施設のご案内</div>
-    <div class="zsub">料金・ご利用条件・予約の開始日をご案内します。ご予約・お申込みは、フロントで承ります（電話予約はできません）。</div>
+    <div class="zsub">料金・ご利用条件・予約の開始日をご案内します。ご予約は、<strong>インターネットコンシェルジュ</strong>（居住者専用のポータルサイト）から受け付けています。電話での予約はできません。</div>
   </div>
   <div class="grid">
     <a class="card" href="https://www.qlc-service.com/terrace-toyocho/facilities.html#guestroom" target="_blank">
-      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="rbadge rb-only">予約は有人日のみ</span></div>
+      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="ibadge">ネットで予約</span></div>
       <div class="cicon">🛏️</div>
       <h3>ゲストルーム（和室）</h3>
       <p>3,000円／1泊（リネン別途1,500円／1組）。2か月前の1日10時から予約できます。</p>
       <span class="cta">詳しく見る</span>
     </a>
     <a class="card" href="https://www.qlc-service.com/terrace-toyocho/facilities.html#partyroom" target="_blank">
-      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="rbadge rb-only">予約は有人日のみ</span></div>
+      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="ibadge">ネットで予約</span></div>
       <div class="cicon">🎉</div>
       <h3>パーティールーム</h3>
       <p>500円／1時間。10時〜21時、1回4時間まで。1か月前の1日10時から予約できます。</p>
@@ -223,14 +240,14 @@
       <span class="cta">詳しく見る</span>
     </a>
     <a class="card" href="https://www.qlc-service.com/terrace-toyocho/facilities.html#parking" target="_blank">
-      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="rbadge rb-only">予約は有人日のみ</span></div>
+      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="ibadge">ネットで予約</span></div>
       <div class="cicon">🚗</div>
       <h3>来客用駐車場・一時駐車場</h3>
       <p>9時間以内は100円／1時間。2週間前の午前10時から予約できます。</p>
       <span class="cta">詳しく見る</span>
     </a>
     <a class="card" href="https://www.qlc-service.com/terrace-toyocho/facilities.html#bicycle" target="_blank">
-      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="rbadge rb-only">予約は有人日のみ</span></div>
+      <div class="badges"><span class="badge" style="display:inline-block;font-size:10px;font-weight:700;background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;padding:2px 9px;border-radius:9px;">共用施設</span><span class="ibadge">ネットで予約</span></div>
       <div class="cicon">🚲</div>
       <h3>来客用駐輪場</h3>
       <p>無料・3区画（駐輪証をお貸出し）。2週間前の午前10時から予約できます。</p>
@@ -256,7 +273,7 @@
 
   <div class="zone zone-partner">
     <div class="ztitle"><span>🤝</span>提携事業者のご紹介</div>
-    <div class="zsub">以下は提携事業者によるサービスです。詳細ページから、各事業者へ直接お申込み・お問い合わせください（コンシェルジュによるお取次ぎではありません）。有人日・リモート日を問わず、お部屋からお申込みいただけます。</div>
+    <div class="zsub">以下は提携事業者によるサービスです。詳細ページから、各事業者へ直接お申込み・お問い合わせください（コンシェルジュによるお取次ぎではありません）。有人日・リモート日を問わず、お部屋からお申込みいただけます。掲載しているサービスの内容やご連絡先は、提携事業者様のご都合により変更・終了となる場合がございます。</div>
   </div>
 
   <div class="section-head"><span class="icon">🧹</span>お家のお手入れ・修理</div>
@@ -314,10 +331,10 @@
     <a class="card" href="https://www.qlc-service.com/qlc-link/postcard-print.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">✉️</div><h3>はがき印刷・年賀状印刷</h3><p>転居のご挨拶状や年賀状などを、Webから注文</p><span class="cta">詳しく見る</span></a>
   </div>
 
-  <div class="section-head"><span class="icon">💬</span>よくあるご質問</div>
+  <div class="section-head" id="qa"><span class="icon">💬</span>よくあるご質問</div>
   <details class="qa">
     <summary>共用施設の予約は、どうすればよいですか</summary>
-    <div class="ans">フロントで承ります。電話での予約はできません（空き状況のお問い合わせは可能です）。予約の受付開始は、ゲストルームが利用月の2か月前の1日10時から、パーティールームが1か月前の1日10時から、来客用の駐車場・駐輪場が2週間前の午前10時からです。受付は先着順で、抽選はありません。</div>
+    <div class="ans">インターネットコンシェルジュ（居住者専用のポータルサイト）から受け付けています。電話での予約はできません（空き状況のお問い合わせは、フロントへご相談ください）。予約の受付開始は、ゲストルームが利用月の2か月前の1日10時から、パーティールームが1か月前の1日10時から、来客用の駐車場・駐輪場が2週間前の午前10時からです。受付は先着順で、抽選はありません。</div>
   </details>
   <details class="qa">
     <summary>共用施設の利用料は、どのように支払いますか</summary>
@@ -372,13 +389,12 @@
     <div class="contact-row"><span class="k">お部屋の売却・賃貸のご相談</span><span class="v"><a href="tel:0120-683-109">0120-683-109</a><small>売買・賃貸ご相談窓口（フリーダイヤル）</small></span></div>
   </div>
 
-  <div class="section-head"><span class="icon">✉️</span>お問い合わせ</div>
+  <div class="section-head" id="ask"><span class="icon">🙋</span>ご不明な点は</div>
   <div class="inquiry-box">
     <p>
-      掲載しているサービスの内容やご連絡先は、提携事業者様のご都合により変更・終了となる場合がございます。おつながりにくい場合や情報が古いと感じられた際は、お手数ですがこちらからご連絡ください。最新の状況を確認のうえご案内いたします。<br>こちらは、本ページでご案内している提携サービスに関するお問い合わせ窓口です。緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、QLCサービス開発室の担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。<br>
-      また、こちらはテラス東陽町ネクスタワーのコンシェルジュへのお問い合わせ窓口ではございません。あらかじめご了承ください。
+      サービスのご利用についてのご質問は、<strong>有人日はフロントのコンシェルジュ</strong>へ、<strong>リモート日はリモートコンシェルジュ（ビデオ通話）</strong>へ、直接お問い合わせください。
     </p>
-    <a class="inquiry-btn" href="https://form.run/@ql-c-vQpklahxKsM7wKGR06T5" target="_blank" id="inquiryBtn">お問い合わせフォームを開く</a>
+    <a class="inquiry-btn" href="https://qlc-service.com/qlc-0380/" target="_blank">リモートコンシェルジュを開く</a>
   </div>
 
 </main>
@@ -398,6 +414,13 @@
     } catch(e){}
   }
   log('pageview', document.title);
+
+  document.querySelectorAll('a.qbig-btn').forEach(function(a){
+    a.addEventListener('click', function(){
+      var l = a.querySelector('.ql');
+      log('click', l ? l.textContent.replace(/\s+/g, '') : a.getAttribute('href'));
+    });
+  });
 
   var backParam = 'back=' + encodeURIComponent('/' + BID + '/');
   document.querySelectorAll('a.card').forEach(function(a){
