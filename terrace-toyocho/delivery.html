@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<title>宅配便・ゆうパック｜テラス東陽町ネクスタワー</title>
+</head>
+<body class="remote-aware">
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);text-align:center;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;line-height:1.7;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;scroll-margin-top:12px;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qsteps{margin-bottom:10px;}
+  .qstep{display:flex;gap:10px;padding:8px 0;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  .qstep .num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--brass-light);font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .qul{margin:6px 0 0;padding-left:1.25em;font-size:12.5px;line-height:1.85;color:var(--charcoal);}
+  .qul li{margin-bottom:4px;}
+  .qkv{display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed #EFE8D6;font-size:12.5px;line-height:1.75;}
+  .qkv:last-of-type{border-bottom:none;}
+  .qkv .k{flex:0 0 7.6em;color:var(--charcoal-soft);font-weight:500;}
+  .qkv .v{flex:1;color:var(--charcoal);}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;gap:12px;border-bottom:1px dashed #EFE8D6;}
+  .qprow:last-child{border-bottom:none;}
+  .qprow span:first-child{flex:1;line-height:1.6;}
+  .qprow span:last-child{color:var(--navy);font-weight:600;white-space:nowrap;}
+  .qbadge{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 10px;border-radius:10px;background:var(--navy);color:var(--brass-light);margin-bottom:10px;margin-right:6px;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qctarow.col{flex-direction:column;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:normal;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  a{cursor:pointer;}
+  .rbadge{display:none;font-size:10px;font-weight:700;letter-spacing:.03em;padding:2px 9px;border-radius:9px;align-self:flex-start;}
+  body.remote-aware .rbadge{display:inline-block;}
+  .rb-only{background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;}
+  .rb-ok{background:#E4F1E4;color:#2F6B2F;border:1px solid #BFD9BF;}
+  .rb-alt{background:#FFF1D1;color:#8A5A00;border:1px solid #E8CF8E;}
+  .rbanner{display:none;background:#FFF8E6;border:1px solid #E8CF8E;border-left:4px solid #D8A431;border-radius:8px;padding:12px 14px;margin:0 0 14px;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  body.remote-aware .rbanner{display:block;}
+  .rbanner a.rbtn{display:inline-block;margin-top:8px;background:var(--brass);color:var(--navy);font-weight:600;font-size:12px;padding:8px 16px;border-radius:16px;text-decoration:none;}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;align-self:flex-start;margin-bottom:2px;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/terrace-toyocho/" target="_blank">&#8592; 戻る</a><span class="brand">テラス東陽町ネクスタワー</span></div>
+<div class="qbody">
+<div class="qplaque"><span>宅配便・ゆうパック</span></div>
+<div class="qlisted">フロント取次ぎ、またはご自身での集荷依頼のどちらもご利用いただけます</div>
+
+<div class="qprovider">
+  <div class="qbadge">フロント取次ぎ</div><span class="rbadge rb-only">有人日のみ</span>
+  <div class="qpname">📦 ヤマト運輸（宅急便）</div>
+  <div class="qdesc">
+    コンシェルジュカウンターで発送物をお預かりし、ヤマト運輸の集荷をお取次ぎします。年中無休です。
+  </div>
+
+  <div class="qpriceblock">
+    <div class="qpricehead">お預けの流れ</div>
+    <div class="qsteps">
+      <div class="qstep"><span class="num">1</span><span>荷物をフロントへお持ちください（受付時間：コンシェルジュ在席時間内）。伝票にご記入いただきます</span></div>
+      <div class="qstep"><span class="num">2</span><span>縦・横・高さの三辺の合計と重さを測ります。<strong>サイズと重さのうち、大きい方の区分</strong>で運賃が決まります（取扱いは200サイズまでです）</span></div>
+      <div class="qstep"><span class="num">3</span><span>届け先に応じた運賃・お届け予定日と、時間指定をご案内します。運賃をお支払いいただき、伝票の1枚目（お客様控え）をお渡しします</span></div>
+      <div class="qstep"><span class="num">4</span><span>荷物はフロントでお預かりし、ヤマト運輸が集荷します</span></div>
+    </div>
+  </div>
+
+  <div class="qnote">
+    ※当日の集荷をご希望の場合は、<strong>16:00まで</strong>にお預けください。<br>
+    ※<strong>クール便・生ものは取り扱いできません。</strong><br>
+    ※お届けまでの日数は、届け先によって異なります。受付の際にお届け予定日をご案内します。
+  </div>
+
+  <div class="qpriceblock">
+    <div class="qpricehead">伝票の種類と割引</div>
+    <ul class="qul">
+      <li><strong>元払い</strong>：発送時にフロントで運賃をお支払いいただく、通常の伝票です。</li>
+      <li><strong>着払い</strong>：お届け先で運賃をお支払いいただく伝票です。お預けの際の運賃はかかりません（サイズと重さを測り、金額を記入します）。</li>
+      <li><strong>往復伝票</strong>：往路と復路の運賃の合計から、<strong>100円割引</strong>になります。</li>
+      <li><strong>複数口</strong>：同じお届け先へ複数の荷物を送る場合（1件に5個まで）、荷物1個につき<strong>100円割引</strong>になります。ゴルフバッグ・スーツケース・スキー板など、宿泊施設宛の荷物には利用できません。</li>
+    </ul>
+  </div>
+
+  <div class="qpriceblock">
+    <div class="qpricehead">ゴルフ・スキー・スーツケースなどのカバー代金（目安）</div>
+    <div class="qprow"><span>ゴルフバッグ（L）</span><span>700円</span></div>
+    <div class="qprow"><span>スキー板</span><span>400円</span></div>
+    <div class="qprow"><span>スノーボード</span><span>600円</span></div>
+    <div class="qprow"><span>スキーザック</span><span>400円</span></div>
+    <div class="qprow"><span>ボストンバッグ（L）</span><span>290円</span></div>
+    <div class="qprow"><span>ボストンバッグ（M）</span><span>180円</span></div>
+    <div class="qprow"><span>スーツケース</span><span>510円</span></div>
+    <div class="qnote" style="margin:8px 0 0">
+      ※160サイズ未満は実際のサイズ、160サイズ以上は160サイズで受け付けます。<br>
+      ※ゴルフ・スキー・航空便は、プレー日・搭乗日の前日に届くよう受け付けます。お早めにお預けください。
+    </div>
+  </div>
+
+  <div class="qpriceblock">
+    <div class="qpricehead">空港への荷物の手数料</div>
+    <div class="qprow"><span>成田空港</span><span>片道 660円／往復 660円</span></div>
+    <div class="qprow"><span>関西空港</span><span>片道 660円／往復 1,320円</span></div>
+    <div class="qprow"><span>その他の空港</span><span>片道 660円／往復 660円</span></div>
+  </div>
+</div>
+
+<div class="qprovider">
+  <div class="qbadge">フロント取次ぎ</div><span class="rbadge rb-only">有人日のみ</span>
+  <div class="qpname">日本郵便（ゆうパック）</div>
+  <div class="qdesc">フロントで発送物をお預かりし、郵便局へ集荷を依頼します。</div>
+    <ul class="qul">
+      <li>当日の集荷は、<strong>14:00まで</strong>のお預かりが対象です。</li>
+      <li>1年以内に同じ宛先へ送ったことがある場合は、前回の控えをご提示いただくと、<strong>同一宛先割引（60円）</strong>が適用されます。</li>
+      <li>お届け日の指定がある場合は、お預かりの際に郵便局へ確認します。</li>
+    </ul>
+</div>
+
+<div class="qhr"></div>
+<div class="qprovider">
+  <div class="qpname">ご自身で集荷を依頼される場合</div>
+  <div class="qdesc">Web、またはお電話で、お部屋への集荷を直接ご依頼いただけます。コンシェルジュが不在の日や、夜間にもご利用いただけます。</div>
+  <div class="qctarow col">
+    <a class="qbtn qbtn-filled" target="_blank" href="https://shuka.kuronekoyamato.co.jp/shuka_req/TopAction_doInit.action">ヤマト運輸 集荷を申し込む（Web）</a>
+    <a class="qbtn qbtn-outline" href="tel:0120-01-9625">ヤマト運輸 集荷依頼　0120-01-9625（8:00〜21:00）</a>
+    <a class="qbtn qbtn-outline" target="_blank" href="https://mgr.post.japanpost.jp/C20P02Action.do?ssoparam=0&termtype=2">日本郵便 集荷を申し込む（Web）</a>
+    <a class="qbtn qbtn-outline" href="tel:0800-0800-111">日本郵便 集荷専用　0800-0800-111（通話無料）</a>
+  </div>
+  <div class="qnote" style="margin:14px 0 0">
+    ※日本郵便の規定により、保冷荷物（チルドゆうパック・冷凍等）のお部屋への直接集荷はお受けできません。常温の荷物のみ対象です。
+  </div>
+</div>
+
+</div>
+<a class="qback" href="https://www.qlc-service.com/terrace-toyocho/" target="_blank">&#8592; サービスメニューに戻る</a>
+</div>
+<script src="/back-nav.js"></script>
+<script src="/text-size.js"></script>
+</body>
+</html>
