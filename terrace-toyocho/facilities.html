@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<title>共用施設のご案内｜テラス東陽町ネクスタワー</title>
+</head>
+<body class="remote-aware">
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);text-align:center;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;line-height:1.7;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;scroll-margin-top:12px;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qsteps{margin-bottom:10px;}
+  .qstep{display:flex;gap:10px;padding:8px 0;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  .qstep .num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:var(--navy);color:var(--brass-light);font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .qul{margin:6px 0 0;padding-left:1.25em;font-size:12.5px;line-height:1.85;color:var(--charcoal);}
+  .qul li{margin-bottom:4px;}
+  .qkv{display:flex;gap:10px;padding:7px 0;border-bottom:1px dashed #EFE8D6;font-size:12.5px;line-height:1.75;}
+  .qkv:last-of-type{border-bottom:none;}
+  .qkv .k{flex:0 0 7.6em;color:var(--charcoal-soft);font-weight:500;}
+  .qkv .v{flex:1;color:var(--charcoal);}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:6px 0;gap:12px;border-bottom:1px dashed #EFE8D6;}
+  .qprow:last-child{border-bottom:none;}
+  .qprow span:first-child{flex:1;line-height:1.6;}
+  .qprow span:last-child{color:var(--navy);font-weight:600;white-space:nowrap;}
+  .qbadge{display:inline-block;font-size:10.5px;font-weight:600;letter-spacing:.04em;padding:3px 10px;border-radius:10px;background:var(--navy);color:var(--brass-light);margin-bottom:10px;margin-right:6px;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qctarow.col{flex-direction:column;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:normal;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  a{cursor:pointer;}
+  .rbadge{display:none;font-size:10px;font-weight:700;letter-spacing:.03em;padding:2px 9px;border-radius:9px;align-self:flex-start;}
+  body.remote-aware .rbadge{display:inline-block;}
+  .rb-only{background:#EFE9D9;color:#6B5A2F;border:1px solid #D8C7A0;}
+  .rb-ok{background:#E4F1E4;color:#2F6B2F;border:1px solid #BFD9BF;}
+  .rb-alt{background:#FFF1D1;color:#8A5A00;border:1px solid #E8CF8E;}
+  .rbanner{display:none;background:#FFF8E6;border:1px solid #E8CF8E;border-left:4px solid #D8A431;border-radius:8px;padding:12px 14px;margin:0 0 14px;font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  body.remote-aware .rbanner{display:block;}
+  .rbanner a.rbtn{display:inline-block;margin-top:8px;background:var(--brass);color:var(--navy);font-weight:600;font-size:12px;padding:8px 16px;border-radius:16px;text-decoration:none;}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;align-self:flex-start;margin-bottom:2px;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/terrace-toyocho/" target="_blank">&#8592; 戻る</a><span class="brand">テラス東陽町ネクスタワー</span></div>
+<div class="qbody">
+<div class="qplaque"><span>共用施設のご案内</span></div>
+<div class="qlisted">テラス東陽町ネクスタワー</div>
+
+<div class="qnote" style="background:#fff;border-color:var(--brass);color:var(--charcoal)">
+  <strong>ご予約・お申込みについて</strong>
+    <ul class="qul">
+      <li>ご予約・お申込みは、フロントで承ります（<strong>電話での予約はできません</strong>。空き状況のお問い合わせは可能です。特別なご事情がある場合は、ご相談ください）</li>
+      <li>1時間単位のご予約です（実際のご利用が1.5時間でも、2時間分の料金になります）</li>
+      <li>受付は先着順で、抽選はありません</li>
+      <li>共用施設の利用料（リネン代を含む）は、毎月末にとりまとめ、<strong>翌月27日に口座引落</strong>となります（現金でのお支払いはありません）</li>
+    </ul>
+</div>
+
+<div class="qprovider" id="guestroom">
+  <div class="qpname">🛏️ ゲストルーム（和室）</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">15時〜翌11時</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">3,000円／1泊　（リネン 1,500円／1組）</span></div>
+    <div class="qkv"><span class="k">飲食・喫煙</span><span class="v">飲食〇　酒類〇　喫煙×</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>1回のお申込みで<strong>2泊3日まで</strong>、1か月に最大3回までご利用いただけます（連続利用はできません）。ただし、宿泊開始日の1週間前（同じ曜日）に前後の予約がない場合は、最大3泊4日までご利用いただけます。</li>
+      <li>定員は規約上3名です（お布団は4組あります）。</li>
+      <li>リネン（枕カバー、掛け布団カバー、敷布団のカバー）が<strong>必須</strong>です。レンタル（1,500円／1組）、またはご持参ください。</li>
+      <li>ご希望により、鍵のお渡し・ご返却をポスト投函で対応することもできます。</li>
+      <li>備品の一覧は、フロントラックの申込書の後ろにあります。</li>
+      <li>年末年始は別予約となり、2泊3日までのご利用です。</li>
+    </ul>
+    <div class="qpricehead">ご予約・キャンセル</div>
+    <div class="qkv"><span class="k">予約受付開始</span><span class="v">利用月の2か月前の1日 10時〜（例：5/15にご利用の場合、3/1から予約できます）</span></div>
+    <div class="qkv"><span class="k">キャンセル料</span><span class="v">7日前〜前日：室料の20％　／　当日：室料の100％</span></div>
+</div>
+
+<div class="qprovider" id="partyroom">
+  <div class="qpname">🎉 パーティールーム</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">10時〜21時</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">500円／1時間</span></div>
+    <div class="qkv"><span class="k">飲食・喫煙</span><span class="v">飲食〇　酒類〇　喫煙×</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>1回の予約で<strong>4時間まで</strong>です（ご利用当日に空きがあれば延長できます）。</li>
+      <li>ホットプレートはご利用いただけます。<strong>カセットボンベ式のコンロなど、火気は厳禁</strong>です。</li>
+      <li>既設の設備のみご利用いただけます。冷蔵庫はありません（クーラーボックスはあります）。IHコンロ・魚グリル・オーブンレンジがあります。</li>
+      <li>20名以上でご利用の場合は、「利用確認書」の提出と、申込書の余白に理由のご記入が必要です。</li>
+      <li>受付時間外の鍵のお渡し・ご返却は、ポスト投函で対応します。</li>
+      <li>年末年始は閉室です。</li>
+    </ul>
+    <div class="qpricehead">ご予約・キャンセル</div>
+    <div class="qkv"><span class="k">予約受付開始</span><span class="v">利用月の1か月前の1日 10時〜（例：5/15にご利用の場合、4/1から予約できます）</span></div>
+    <div class="qkv"><span class="k">キャンセル料</span><span class="v">当日：100％</span></div>
+</div>
+
+<div class="qprovider" id="kidsroom">
+  <div class="qpname">🧒 キッズルーム</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">9時〜18時（常時開放）</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">無料</span></div>
+    <div class="qkv"><span class="k">飲食・喫煙</span><span class="v">食事×　酒類×　喫煙×</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>お子様だけでもご利用いただけます（<strong>小学6年生まで</strong>）。未就学のお子様は、保護者の方がご同伴ください。</li>
+      <li>18時に、コンシェルジュが消灯・施錠します。</li>
+      <li>ご利用後は、おもちゃを片付け、エアコンをOFFにしてください（換気扇は24時間換気のため、そのままで構いません）。</li>
+      <li>年末年始は閉室です。</li>
+    </ul>
+
+</div>
+
+<div class="qprovider" id="parking">
+  <div class="qpname">🚗 来客用駐車場（3台）・一時駐車場（2台）</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">24時間</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">9時間以内：100円／1時間<br>10時間以上24時間以内：一律1,000円（1泊）</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>1回の予約で原則<strong>5時間以内</strong>です（利用開始時に空きがあれば、+2時間まで延長できます）。</li>
+      <li>ゲストルームにご宿泊の方は、最大3泊4日までご利用いただけます。</li>
+      <li>駐車証にご記入のうえ、お渡しします。お部屋にご宿泊の方は、宿泊期間中ご利用いただけます（終了が未定の長期は、ご相談ください）。</li>
+      <li>駐車位置は、ラミネート加工された「来客用駐車場マップ」をご確認ください。障害のある方のご希望を除き、区画の指定はできません。空いている区画をご利用ください。</li>
+      <li>一時駐車場（2区画）は、1時間程度であればご利用いただけます。ただし、<strong>火曜・金曜の13時〜14時は、清掃車の集荷のため使用できません</strong>。</li>
+      <li>ご利用した時間の分だけ、ご請求します。当日のキャンセル・時間変更もできます。</li>
+    </ul>
+    <div class="qpricehead">ご予約・キャンセル</div>
+    <div class="qkv"><span class="k">予約受付開始</span><span class="v">2週間前の午前10時〜（例：5/15にご利用の場合、5/1から予約できます）</span></div>
+</div>
+
+<div class="qprovider" id="bicycle">
+  <div class="qpname">🚲 来客用駐輪場（3台分）</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">24時間</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">無料</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>駐輪証に記載の番号で、3区画をご利用いただけます（駐輪証をお貸出しします）。</li>
+      <li>1住戸につき4台以上のご利用の場合は、駐車場（100円／1時間）をご利用ください。1区画に8台ほど停められます。</li>
+      <li>3区画とも貸出中の場合は、レンタサイクル区画、または空いている区画のご利用について、ご相談ください。</li>
+    </ul>
+    <div class="qpricehead">ご予約・キャンセル</div>
+    <div class="qkv"><span class="k">予約受付開始</span><span class="v">2週間前の午前10時〜（例：5/15にご利用の場合、5/1から予約できます）</span></div>
+</div>
+
+<div class="qprovider" id="garden">
+  <div class="qpname">🌿 プライベートガーデン</div>
+    <div class="qkv"><span class="k">ご利用時間</span><span class="v">24時間</span></div>
+    <div class="qkv"><span class="k">料金</span><span class="v">無料</span></div>
+    <div class="qkv"><span class="k">禁止事項</span><span class="v">ボール遊び×　縄跳び×　ペットの散歩×</span></div>
+    <div class="qpricehead">ご利用にあたって</div>
+    <ul class="qul">
+      <li>隔月でご利用いただけます。<strong>ご利用いただけるのは、4月・6月・8月・10月・12月</strong>です（1〜3月はご利用いただけません）。</li>
+      <li>ご利用いただける月のご案内は、ポストコーナーの掲示と、管理室デスク後ろの壁に掲示しています。</li>
+    </ul>
+
+</div>
+
+<div class="qnote">※2025年9月時点の内容です。内容は変更となる場合があります。</div>
+
+</div>
+<a class="qback" href="https://www.qlc-service.com/terrace-toyocho/" target="_blank">&#8592; サービスメニューに戻る</a>
+</div>
+<script src="/back-nav.js"></script>
+<script src="/text-size.js"></script>
+</body>
+</html>
