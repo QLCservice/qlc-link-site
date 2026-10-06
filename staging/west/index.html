@@ -332,7 +332,7 @@ logAccess('pageview', document.title);
 /* ▼▼ この2つは Google スプレッドシートの内容から自動生成されます（手で書かない） ▼▼ */
 const DATA = {
   "house": {
-    "label": "家事サポート",
+    "label": "お家のお手入れ・修理",
     "icon": "🧹",
     "items": [
       {
@@ -352,18 +352,67 @@ const DATA = {
         "icon": "🔪",
         "title": "包丁研ぎサービス",
         "desc": "ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。"
-      },
+      }
+    ]
+  },
+  "help": {
+    "label": "家事・くらしのお手伝い",
+    "icon": "🤝",
+    "items": [
       {
         "slug": "senior-care",
         "icon": "👵",
         "title": "シニアケア",
         "desc": "ご家族の暮らしや介護を優しくサポート"
+      },
+      {
+        "slug": "petcare",
+        "icon": "🐶",
+        "title": "ペットケア",
+        "desc": "大切なペットのシッター・ホテルサービス"
+      },
+      {
+        "slug": "medical-night",
+        "icon": "🏥",
+        "title": "夜間の救急・医療相談",
+        "desc": "夜間の急な不調を専門家に相談"
       }
     ]
   },
-  "life": {
-    "label": "生活便利",
-    "icon": "🚗",
+  "pcsmart": {
+    "label": "パソコン・スマホのお困りごと",
+    "icon": "💻",
+    "items": [
+      {
+        "slug": "pchospital",
+        "icon": "💻",
+        "title": "パソコン訪問コンシェルジュ",
+        "desc": "プロのサービスマンが訪問し、データを守りながらPCのお困りごとを解決"
+      },
+      {
+        "slug": "smahospital",
+        "icon": "📱",
+        "title": "スマホ・タブレット宅配修理",
+        "desc": "故障したスマホ・タブレットを宅配でお預かりして修理"
+      },
+      {
+        "slug": "digitalhospital",
+        "icon": "🏠",
+        "title": "デジタルホスピタル",
+        "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート"
+      },
+      {
+        "slug": "appliance-support",
+        "icon": "🔌📺",
+        "title": "家電サポート",
+        "desc": "家電の修理・設置・処分のお困りごとに対応",
+        "external_url": "https://www.qlc-service.com/staging/qlc-link/appliance-support.html"
+      }
+    ]
+  },
+  "drive": {
+    "label": "お出かけ・お車",
+    "icon": "🚕",
     "items": [
       {
         "slug": "taxi",
@@ -382,18 +431,18 @@ const DATA = {
         "icon": "🚗",
         "title": "レンタカー",
         "desc": "お得な提携価格でご利用いただけます"
-      },
+      }
+    ]
+  },
+  "delivery": {
+    "label": "お届け・宅配",
+    "icon": "🌷",
+    "items": [
       {
         "slug": "water-delivery",
         "icon": "💧",
         "title": "お水の宅配",
         "desc": "安心・美味しいお水のサーバー宅配"
-      },
-      {
-        "slug": "futon-rental",
-        "icon": "🛏️",
-        "title": "布団レンタル",
-        "desc": "来客用の布団を必要な分だけ、全国どこでも宅配レンタル"
       },
       {
         "slug": "flower-delivery",
@@ -402,60 +451,35 @@ const DATA = {
         "desc": "お祝いや日常に彩りを添えるお花の宅配"
       },
       {
-        "slug": "petcare",
-        "icon": "🐶",
-        "title": "ペットケア",
-        "desc": "大切なペットのシッター・ホテルサービス"
-      },
-      {
-        "slug": "medical-night",
-        "icon": "🏥",
-        "title": "夜間の救急・医療相談",
-        "desc": "夜間の急な不調を専門家に相談"
-      },
-      {
-        "slug": "smahospital",
-        "icon": "📱",
-        "title": "スマホ・タブレット宅配修理",
-        "desc": "故障したスマホ・タブレットを宅配でお預かりして修理"
-      },
-      {
-        "slug": "pchospital",
-        "icon": "💻",
-        "title": "パソコン訪問コンシェルジュ",
-        "desc": "プロのサービスマンが訪問し、データを守りながらPCのお困りごとを解決"
-      },
-      {
-        "slug": "digitalhospital",
-        "icon": "🏠",
-        "title": "デジタルホスピタル",
-        "desc": "住まいのIoT化を、設置・設定までプロが訪問サポート"
-      },
-      {
-        "slug": "appliance-support",
-        "icon": "🔌📺",
-        "title": "家電サポート",
-        "desc": "家電の修理・設置・処分のお困りごとに対応",
-        "external_url": "https://www.qlc-service.com/staging/qlc-link/appliance-support.html"
-      },
-      {
         "slug": "rental",
         "icon": "🛠",
         "title": "各種レンタル",
         "desc": "ベビー用品やイベント用品を手軽にレンタル"
       },
       {
-        "slug": "postcard-print",
-        "icon": "✉️",
-        "title": "はがき印刷",
-        "desc": "年賀状・喪中・転居などのはがき・挨拶状をWebで注文（ネットメイシ）"
+        "slug": "futon-rental",
+        "icon": "🛏️",
+        "title": "布団レンタル",
+        "desc": "来客用の布団を必要な分だけ、全国どこでも宅配レンタル"
+      },
+      {
+        "slug": "delivery",
+        "icon": "📦",
+        "title": "宅配便の集荷連絡先",
+        "desc": "荷物発送に便利な集荷受付窓口"
       }
     ]
   },
   "storage": {
-    "label": "荷物の保管・買取・整理",
+    "label": "収納・整理・お引越し",
     "icon": "📦",
     "items": [
+      {
+        "slug": "storage",
+        "icon": "🧳",
+        "title": "宅配トランクルーム",
+        "desc": "スマホで預入・取出しできる収納サービス"
+      },
       {
         "slug": "reuse",
         "icon": "👜👗",
@@ -467,12 +491,6 @@ const DATA = {
         "icon": "📚",
         "title": "本の買取・リユース",
         "desc": "ブックオフが本・漫画を宅配買取"
-      },
-      {
-        "slug": "storage",
-        "icon": "🧳",
-        "title": "宅配トランクルーム",
-        "desc": "スマホで預入・取出しできる収納サービス"
       },
       {
         "slug": "lifeorganize",
@@ -487,16 +505,16 @@ const DATA = {
         "desc": "古い写真・ビデオを劣化しないデータへ"
       },
       {
-        "slug": "delivery",
-        "icon": "📦",
-        "title": "宅配便の集荷連絡先",
-        "desc": "荷物発送に便利な集荷受付窓口"
-      },
-      {
         "slug": "moving",
         "icon": "🚚",
         "title": "お引越し案内",
         "desc": "大手引越し業者を提携割引でご案内"
+      },
+      {
+        "slug": "postcard-print",
+        "icon": "✉️",
+        "title": "はがき印刷",
+        "desc": "年賀状・喪中・転居などのはがき・挨拶状をWebで注文（ネットメイシ）"
       }
     ]
   }
