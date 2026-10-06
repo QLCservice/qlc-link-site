@@ -139,6 +139,28 @@
   .camp-btn.filled{background:var(--brass);color:var(--navy);}
   .camp-btn.outline{border:1.5px solid var(--brass-light);color:#F3EFE6;}
   .camp-contact .cc-note{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:11px;line-height:1.85;color:#CFC8B8;}
+  .camp-flyer{display:flex;align-items:center;gap:14px;width:100%;margin:14px 0 0;padding:10px 14px 10px 10px;background:#FFFDF7;border:1.5px solid var(--brass);border-radius:12px;cursor:pointer;text-align:left;font:inherit;color:inherit;text-decoration:none;}
+  .camp-flyer:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .camp-flyer-thumb{flex:0 0 auto;width:88px;height:auto;display:block;border:1px solid #E8E0CE;border-radius:4px;box-shadow:0 2px 6px rgba(28,43,64,.18);background:#fff;}
+  .camp-flyer-text{flex:1 1 auto;display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .camp-flyer-text strong{font-size:13.5px;color:var(--navy);line-height:1.5;}
+  .camp-flyer-text small{font-size:11.5px;line-height:1.6;color:var(--charcoal-soft);}
+  .camp-flyer-go{flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--navy);white-space:nowrap;}
+  .camp-flyer-go::after{content:" ➔";}
+  @media (max-width:420px){.camp-flyer-go{display:none;}}
+  @media (min-width:600px){.camp-flyer-thumb{width:112px;}}
+  .fly-dlg{padding:0;border:none;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;background:#101826;color:#F3EFE6;}
+  .fly-dlg[open]{display:flex;flex-direction:column;}
+  .fly-dlg::backdrop{background:rgba(16,24,38,.88);}
+  .fly-bar{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.14);}
+  .fly-tabs{display:flex;gap:6px;}
+  .fly-tab{font:inherit;font-size:12px;font-weight:600;border:1.5px solid var(--brass-light);background:transparent;color:#F3EFE6;padding:6px 14px;border-radius:16px;cursor:pointer;}
+  .fly-tab.is-on{background:var(--brass);border-color:var(--brass);color:var(--navy);}
+  .fly-open{margin-left:auto;font-size:11.5px;color:var(--brass-light);text-decoration:underline;white-space:nowrap;}
+  .fly-close{flex:0 0 auto;font:inherit;font-size:16px;line-height:1;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--brass-light);background:transparent;color:#F3EFE6;cursor:pointer;}
+  .fly-scroll{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom;background:#101826;padding:0 0 24px;}
+  .fly-scroll img{display:block;width:100%;max-width:960px;height:auto;margin:0 auto;background:#fff;}
+  .fly-hint{max-width:960px;margin:8px auto 0;padding:0 14px;font-size:11px;line-height:1.7;color:var(--brass-light);text-align:center;}
   /* ===== CAMPAIGN:HC-2026-AUTUMN (CSS) END ===== */
 </style>
 
@@ -166,6 +188,15 @@
         <strong>お申込期間：2026年9月1日（火）〜10月31日（土）</strong><br>
         <small>（ご利用は11月13日（金）実施分まで）</small>
       </div>
+
+      <a class="camp-flyer" id="campFlyerOpen" href="campaign-assets/hc-2026-autumn-ja.jpg" target="_blank" rel="noopener" aria-haspopup="dialog">
+        <img class="camp-flyer-thumb" src="campaign-assets/hc-2026-autumn-ja-thumb.jpg" width="320" height="453" loading="lazy" alt="シェヴ 2026秋のハウスクリーニングキャンペーン チラシ（縮小表示）">
+        <span class="camp-flyer-text">
+          <strong>チラシを大きく見る</strong>
+          <small>タップで拡大表示（日本語・English）</small>
+        </span>
+        <span class="camp-flyer-go">拡大</span>
+      </a>
 
       <div class="camp-chips">
         <div class="camp-chip">
@@ -241,6 +272,39 @@
     </div>
   </div>
 </section>
+<dialog class="fly-dlg" id="campFlyerDlg" aria-label="キャンペーンのチラシ">
+  <div class="fly-bar">
+    <div class="fly-tabs" role="tablist" aria-label="言語">
+      <button type="button" class="fly-tab is-on" data-lang="ja" role="tab" aria-selected="true">日本語</button>
+      <button type="button" class="fly-tab" data-lang="en" role="tab" aria-selected="false">English</button>
+    </div>
+    <a class="fly-open" id="campFlyerRaw" href="campaign-assets/hc-2026-autumn-ja.jpg" target="_blank" rel="noopener">別タブで開く</a>
+    <button type="button" class="fly-close" id="campFlyerClose" aria-label="閉じる">✕</button>
+  </div>
+  <div class="fly-scroll" id="campFlyerScroll">
+    <img id="campFlyerImg" alt="">
+    <div class="fly-hint">拡大したいときは、2本の指で広げてください。</div>
+  </div>
+</dialog>
+<script>
+(function(){
+  var dlg = document.getElementById('campFlyerDlg'), openA = document.getElementById('campFlyerOpen');
+  if (!dlg || !openA || typeof dlg.showModal !== 'function') return; // 非対応ブラウザは通常リンク（画像を別タブで開く）のまま
+  var img = document.getElementById('campFlyerImg'), raw = document.getElementById('campFlyerRaw');
+  var scroller = document.getElementById('campFlyerScroll'), tabs = dlg.querySelectorAll('.fly-tab');
+  var SRC = { ja: 'campaign-assets/hc-2026-autumn-ja.jpg', en: 'campaign-assets/hc-2026-autumn-en.jpg' };
+  var ALT = { ja: 'シェヴ 2026秋のハウスクリーニングキャンペーン チラシ（日本語版）', en: 'Chez Vous 2026 Autumn House Cleaning Campaign flyer (English)' };
+  function show(lang){
+    img.src = SRC[lang]; img.alt = ALT[lang]; raw.href = SRC[lang]; scroller.scrollTop = 0;
+    Array.prototype.forEach.call(tabs, function(t){ var on = t.getAttribute('data-lang') === lang; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+  }
+  openA.addEventListener('click', function(e){ e.preventDefault(); show('ja'); document.body.style.overflow = 'hidden'; dlg.showModal(); });
+  Array.prototype.forEach.call(tabs, function(t){ t.addEventListener('click', function(){ show(t.getAttribute('data-lang')); }); });
+  document.getElementById('campFlyerClose').addEventListener('click', function(){ dlg.close(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', function(){ document.body.style.overflow = ''; img.removeAttribute('src'); });
+})();
+</script>
 <!-- ===== CAMPAIGN:HC-2026-AUTUMN END ===== -->
 
 <div class="hero">
