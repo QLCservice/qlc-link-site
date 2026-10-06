@@ -89,6 +89,79 @@
   .inquiry-box p{font-size:12.5px;line-height:1.85;color:var(--charcoal-soft);margin:0 0 16px;}
   .inquiry-btn{display:inline-block;background:var(--brass);color:var(--navy);font-weight:600;font-size:12.5px;padding:10px 24px;border-radius:18px;text-decoration:none;}
   .inquiry-btn::after{content:" ➔";}
+/* ===== CAMPAIGN:HC-2026-AUTUMN (CSS) START ===== */
+  .campaign{max-width:820px;margin:18px auto 0;padding:0 20px;}
+  .camp-card{background:var(--cream-card);border:1.5px solid var(--brass);border-radius:14px;overflow:hidden;box-shadow:0 4px 16px rgba(28,43,64,.08);}
+  .camp-head{background:var(--navy);color:#F3EFE6;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;}
+  .camp-head .clabel{font-family:"Noto Serif JP",serif;font-size:14px;font-weight:700;letter-spacing:.06em;}
+  .camp-head .cstatus{font-size:10.5px;font-weight:700;background:var(--brass);color:var(--navy);padding:3px 11px;border-radius:10px;letter-spacing:.04em;}
+  .camp-body{padding:18px 18px 20px;}
+  .camp-body .ceyebrow{font-size:11px;letter-spacing:.2em;color:var(--brass);margin-bottom:4px;}
+  .camp-body h2{font-family:"Noto Serif JP",serif;font-size:19px;line-height:1.55;color:var(--navy);margin:0;}
+  .camp-body h2 small{display:block;font-family:"Noto Sans JP",sans-serif;font-size:12.5px;font-weight:500;color:var(--charcoal-soft);margin-top:4px;line-height:1.7;}
+  .camp-period{margin:14px 0 0;background:var(--cream);border-radius:10px;padding:10px 14px;font-size:12.5px;line-height:1.85;}
+  .camp-period strong{color:var(--navy);}
+  .camp-period small{color:var(--charcoal-soft);font-size:11.5px;}
+  .camp-chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin-top:14px;}
+  .camp-chip{border:1px solid #E8E0CE;border-radius:12px;padding:12px 14px;background:#FFFDF7;display:flex;flex-direction:column;gap:2px;}
+  .camp-chip .ct{font-size:11.5px;color:var(--charcoal-soft);}
+  .camp-chip .cp{font-family:"Noto Serif JP",serif;font-size:20px;font-weight:700;color:var(--navy);line-height:1.45;}
+  .camp-chip .cp small{font-family:"Noto Sans JP",sans-serif;font-size:11px;font-weight:500;color:var(--charcoal-soft);}
+  .camp-chip .cn{font-size:11px;color:var(--charcoal-soft);line-height:1.65;}
+  .camp-chip .was{text-decoration:line-through;}
+  .camp-chip.is-line{border-color:var(--brass);background:linear-gradient(180deg,#FFFDF7,#FBF3E0);}
+  .camp-detail{margin-top:14px;border:1px solid #E8E0CE;border-radius:12px;overflow:hidden;background:var(--cream-card);}
+  .camp-detail summary{cursor:pointer;list-style:none;padding:12px 16px;font-size:13px;font-weight:600;color:var(--navy);display:flex;align-items:center;justify-content:space-between;gap:10px;line-height:1.6;}
+  .camp-detail summary::-webkit-details-marker{display:none;}
+  .camp-detail summary::after{content:"＋";color:var(--brass);font-weight:700;flex:0 0 auto;}
+  .camp-detail[open] summary::after{content:"－";}
+  .ptable-wrap{padding:0 14px 6px;overflow-x:auto;}
+  .ptable{width:100%;border-collapse:collapse;font-size:12px;line-height:1.65;}
+  .ptable th,.ptable td{padding:8px 6px;border-bottom:1px solid #EFE8D6;text-align:left;vertical-align:top;}
+  .ptable thead th{font-size:11px;font-weight:500;color:var(--charcoal-soft);}
+  .ptable thead th.r{text-align:right;}
+  .ptable tr.grp th{background:var(--cream);color:var(--navy);font-family:"Noto Serif JP",serif;font-size:12.5px;padding:8px;border-bottom:none;}
+  .ptable tr.grp th .gnote{display:block;font-family:"Noto Sans JP",sans-serif;font-size:11px;font-weight:400;color:var(--charcoal-soft);margin-top:2px;}
+  .ptable td.pr{white-space:nowrap;text-align:right;font-weight:700;color:var(--navy);}
+  .ptable td.pr small{display:block;font-weight:400;font-size:10.5px;color:var(--charcoal-soft);}
+  .ptable td .sub{display:block;font-size:11px;color:var(--charcoal-soft);}
+  .camp-notes{margin:10px 0 0;padding:0 14px 14px 2.2em;font-size:11px;line-height:1.85;color:var(--charcoal-soft);}
+  .camp-contact{margin-top:16px;background:var(--navy);color:#F3EFE6;border-radius:12px;padding:16px 18px;}
+  .camp-contact .cc-title{font-family:"Noto Serif JP",serif;font-size:14px;font-weight:700;}
+  .camp-contact .cc-co{font-size:12px;color:var(--brass-light);margin-top:2px;}
+  .camp-contact .cc-tel{font-family:"Noto Serif JP",serif;font-size:24px;font-weight:700;letter-spacing:.04em;line-height:1.35;margin-top:8px;}
+  .camp-contact .cc-tel a{color:#fff;text-decoration:none;}
+  .camp-contact .cc-hours{font-size:11.5px;color:var(--brass-light);margin-top:2px;}
+  .camp-contact .cc-line{margin-top:10px;font-size:12px;line-height:1.85;}
+  .camp-btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px;}
+  .camp-btn{display:inline-block;font-size:12.5px;font-weight:600;padding:9px 20px;border-radius:18px;text-decoration:none;}
+  .camp-btn::after{content:" ➔";}
+  .camp-btn.filled{background:var(--brass);color:var(--navy);}
+  .camp-btn.outline{border:1.5px solid var(--brass-light);color:#F3EFE6;}
+  .camp-contact .cc-note{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.18);font-size:11px;line-height:1.85;color:#CFC8B8;}
+  .camp-flyer{display:flex;align-items:center;gap:14px;width:100%;margin:14px 0 0;padding:10px 14px 10px 10px;background:#FFFDF7;border:1.5px solid var(--brass);border-radius:12px;cursor:pointer;text-align:left;font:inherit;color:inherit;text-decoration:none;}
+  .camp-flyer:hover{box-shadow:0 4px 14px rgba(0,0,0,.08);}
+  .camp-flyer-thumb{flex:0 0 auto;width:88px;height:auto;display:block;border:1px solid #E8E0CE;border-radius:4px;box-shadow:0 2px 6px rgba(28,43,64,.18);background:#fff;}
+  .camp-flyer-text{flex:1 1 auto;display:flex;flex-direction:column;gap:3px;min-width:0;}
+  .camp-flyer-text strong{font-size:13.5px;color:var(--navy);line-height:1.5;}
+  .camp-flyer-text small{font-size:11.5px;line-height:1.6;color:var(--charcoal-soft);}
+  .camp-flyer-go{flex:0 0 auto;font-size:11.5px;font-weight:700;color:var(--navy);white-space:nowrap;}
+  .camp-flyer-go::after{content:" ➔";}
+  @media (max-width:420px){.camp-flyer-go{display:none;}}
+  @media (min-width:600px){.camp-flyer-thumb{width:112px;}}
+  .fly-dlg{padding:0;border:none;width:100vw;max-width:none;height:100vh;height:100dvh;max-height:none;background:#101826;color:#F3EFE6;}
+  .fly-dlg[open]{display:flex;flex-direction:column;}
+  .fly-dlg::backdrop{background:rgba(16,24,38,.88);}
+  .fly-bar{flex:0 0 auto;display:flex;align-items:center;gap:10px;padding:10px 12px;background:var(--navy);border-bottom:1px solid rgba(255,255,255,.14);}
+  .fly-tabs{display:flex;gap:6px;}
+  .fly-tab{font:inherit;font-size:12px;font-weight:600;border:1.5px solid var(--brass-light);background:transparent;color:#F3EFE6;padding:6px 14px;border-radius:16px;cursor:pointer;}
+  .fly-tab.is-on{background:var(--brass);border-color:var(--brass);color:var(--navy);}
+  .fly-open{margin-left:auto;font-size:11.5px;color:var(--brass-light);text-decoration:underline;white-space:nowrap;}
+  .fly-close{flex:0 0 auto;font:inherit;font-size:16px;line-height:1;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--brass-light);background:transparent;color:#F3EFE6;cursor:pointer;}
+  .fly-scroll{flex:1 1 auto;overflow:auto;-webkit-overflow-scrolling:touch;touch-action:pan-x pan-y pinch-zoom;background:#101826;padding:0 0 24px;}
+  .fly-scroll img{display:block;width:100%;max-width:960px;height:auto;margin:0 auto;background:#fff;}
+  .fly-hint{max-width:960px;margin:8px auto 0;padding:0 14px;font-size:11px;line-height:1.7;color:var(--brass-light);text-align:center;}
+  /* ===== CAMPAIGN:HC-2026-AUTUMN (CSS) END ===== */
 </style>
 
 <div class="qtop">
@@ -98,7 +171,141 @@
   </div>
 </div>
 
-<div class="sample-banner"><div>🔧 <strong>サンプルサイトです。</strong><mark class="ph">黄色の部分</mark>が物件ごとに書き換える箇所です（公開前に黄色の装飾ごと削除）。取次ぎの3件（クリーニング・宅配便・タクシー）は各ページの黄色部分を、下の共通ページ3件（靴磨き・布団・はがき）は書き換え不要です。</div></div>
+<div class="sample-banner"><div>🔧 <strong>サンプルサイトです。</strong><mark class="ph">黄色の部分</mark>が物件ごとに書き換える箇所です（公開前に黄色の装飾ごと削除）。取次ぎの3件（クリーニング・宅配便・タクシー）は各ページの黄色部分を、下の共通ページ3件（靴磨き・布団・はがき）は書き換え不要です。<br>📣 最上部の「キャンペーンのお知らせ」は、期間限定のお知らせを載せる場合の例です（シェヴ 2026秋ハウスクリーニング。お申込は10月31日まで）。終了後は、HTMLとCSSにある <code>CAMPAIGN:HC-2026-AUTUMN</code> のSTART〜ENDを削除してください。</div></div>
+
+<!-- ===== CAMPAIGN:HC-2026-AUTUMN START（シェヴ 2026秋ハウスクリーニング「夏の汚れリセット」／お申込 2026-10-31まで・ご利用 11-13まで。終了後はこの START〜END とCSSの同名ブロックを削除）===== -->
+<section class="campaign" aria-label="キャンペーンのお知らせ">
+  <div class="camp-card">
+    <div class="camp-head">
+      <span class="clabel">📣 キャンペーンのお知らせ</span>
+      <span class="cstatus">お申込受付中｜10/31まで</span>
+    </div>
+    <div class="camp-body">
+      <div class="ceyebrow">フロントからのお知らせ</div>
+      <h2>2026 秋のハウスクリーニングキャンペーン<small>「夏の汚れリセット」　家中まるごと、すっきり快適！プロの技術で徹底洗浄。</small></h2>
+
+      <div class="camp-period">
+        <strong>お申込期間：2026年9月1日（火）〜10月31日（土）</strong><br>
+        <small>（ご利用は11月13日（金）実施分まで）</small>
+      </div>
+
+      <a class="camp-flyer" id="campFlyerOpen" href="campaign-assets/hc-2026-autumn-ja.jpg" target="_blank" rel="noopener" aria-haspopup="dialog">
+        <img class="camp-flyer-thumb" src="campaign-assets/hc-2026-autumn-ja-thumb.jpg" width="320" height="453" loading="lazy" alt="シェヴ 2026秋のハウスクリーニングキャンペーン チラシ（縮小表示）">
+        <span class="camp-flyer-text">
+          <strong>チラシを大きく見る</strong>
+          <small>タップで拡大表示（日本語・English）</small>
+        </span>
+        <span class="camp-flyer-go">拡大</span>
+      </a>
+
+      <div class="camp-chips">
+        <div class="camp-chip">
+          <span class="ct">🌀 エアコン清掃（壁掛タイプ）</span>
+          <span class="cp">¥18,000<small>／1台（税込¥19,800）</small></span>
+          <span class="cn">2台目からは1台¥14,000（税込¥15,400）。天井タイプは1台¥36,000（税込¥39,600）、2台目から¥27,000（税込¥29,700）。</span>
+        </div>
+        <div class="camp-chip">
+          <span class="ct">🛁 バスルーム清掃</span>
+          <span class="cp">¥25,000<small>／1ヶ所（税込¥27,500）</small></span>
+          <span class="cn">鱗取り・エプロン清掃、浴室乾燥機内部洗浄などのオプションもご用意しています。</span>
+        </div>
+        <div class="camp-chip is-line">
+          <span class="ct">🎁 LINE登録者限定特典｜高耐久防カビコート</span>
+          <span class="cp">¥12,000<small>（税込¥13,200）</small></span>
+          <span class="cn"><span class="was">通常¥16,000（税込¥17,600）</span>　強力防カビ・キレイが長持ち・お手入れ簡単・防臭効果。</span>
+        </div>
+      </div>
+
+      <details class="camp-detail">
+        <summary>料金一覧を見る（エアコン・バスルーム・水回り・その他）</summary>
+        <div class="ptable-wrap">
+          <table class="ptable">
+            <thead><tr><th>メニュー</th><th class="r">料金（税抜／税込）</th></tr></thead>
+            <tbody>
+              <tr class="grp"><th colspan="2">エアコン清掃<span class="gnote">※お申込時に、エアコンのメーカーと型番を確認しますので、あらかじめご準備ください。</span></th></tr>
+              <tr><td>天井タイプ　1台</td><td class="pr">¥36,000<small>税込¥39,600</small></td></tr>
+              <tr><td>天井タイプ　2台目からは1台</td><td class="pr">¥27,000<small>税込¥29,700</small></td></tr>
+              <tr><td>壁掛タイプ　1台</td><td class="pr">¥18,000<small>税込¥19,800</small></td></tr>
+              <tr><td>壁掛タイプ　2台目からは1台</td><td class="pr">¥14,000<small>税込¥15,400</small></td></tr>
+              <tr><td>抗菌コート（オプション）天井タイプ　1台</td><td class="pr">¥6,000<small>税込¥6,600</small></td></tr>
+              <tr><td>抗菌コート（オプション）壁掛タイプ　1台</td><td class="pr">¥4,000<small>税込¥4,400</small></td></tr>
+
+              <tr class="grp"><th colspan="2">バスルーム清掃</th></tr>
+              <tr><td>バスルーム清掃　1ヶ所</td><td class="pr">¥25,000<small>税込¥27,500</small></td></tr>
+              <tr><td>オプション：鱗取り　1ヶ所</td><td class="pr">¥7,000<small>税込¥7,700</small></td></tr>
+              <tr><td>オプション：エプロン清掃　1ヶ所</td><td class="pr">¥7,000<small>税込¥7,700</small></td></tr>
+              <tr><td>オプション：浴室乾燥機内部洗浄　1ヶ所</td><td class="pr">¥15,000〜<small>税込¥16,500〜</small></td></tr>
+
+              <tr class="grp"><th colspan="2">水回り清掃</th></tr>
+              <tr><td>キッチン表面清掃　1ヶ所<span class="sub">キッチンの表面部分の清掃</span></td><td class="pr">¥24,000<small>税込¥26,400</small></td></tr>
+              <tr><td>レンジフード内洗浄　1ヶ所<span class="sub">レンジフードを分解し、内部を洗浄。独立型（アイランド型）の場合は別途追加料金がかかります。</span></td><td class="pr">¥21,000<small>税込¥23,100</small></td></tr>
+              <tr><td>トイレ清掃　1ヶ所<span class="sub">トイレスペースを全体的に清掃</span></td><td class="pr">¥13,000<small>税込¥14,300</small></td></tr>
+              <tr><td>洗面清掃　1ヶ所<span class="sub">洗面のスペースを全体的に清掃</span></td><td class="pr">¥13,000<small>税込¥14,300</small></td></tr>
+
+              <tr class="grp"><th colspan="2">その他清掃</th></tr>
+              <tr><td>窓ガラス清掃</td><td class="pr" style="font-weight:500;font-size:11.5px;">お問い合わせください</td></tr>
+              <tr><td>バルコニー清掃　10㎡<span class="sub">窓ガラス外側を含みます。</span></td><td class="pr">¥30,000〜<small>税込¥33,000〜</small></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <ul class="camp-notes">
+          <li>サービスは¥16,500（税込）以上からのご案内となります。</li>
+          <li>有料駐車場を使用せざるを得ない場合は、お客様に実費をご負担いただきます。</li>
+          <li>上記は、標準的な環境や諸条件を基にした設定です。そのため、形式、素材、サイズ等の環境面や、スケジュール、エリア等の諸条件によっては、別途対応する場合がございます。</li>
+          <li>LINEのクーポン割引をご希望の際は、サービスお申し込み時に承りますので、担当窓口にお申し付けください。</li>
+        </ul>
+      </details>
+
+      <div class="camp-contact">
+        <div class="cc-title">お申し込み・お問い合わせ</div>
+        <div class="cc-co">株式会社シェヴ</div>
+        <div class="cc-tel"><a href="tel:0120699100">📞 0120-699-100</a></div>
+        <div class="cc-hours">受付時間：平日 9:00〜18:00</div>
+        <div class="cc-line">💬 LINE登録者限定特典をご希望の方は、LINE ID <strong>@024trude</strong> を友だち追加のうえ、お申し込み時に担当窓口へお申し付けください。</div>
+        <div class="camp-btns">
+          <a class="camp-btn filled" href="tel:0120699100">電話でお申し込み</a>
+          <a class="camp-btn outline" href="https://www.chezvous.co.jp/contact.html" target="_blank" rel="noopener">お問い合わせ</a>
+          <a class="camp-btn outline" href="https://www.chezvous.co.jp/" target="_blank" rel="noopener">公式サイトを見る</a>
+        </div>
+        <div class="cc-note">本キャンペーンは株式会社シェヴが実施するサービスです。お申し込み・お問い合わせはシェヴへ直接ご連絡ください（コンシェルジュによるお取次ぎではありません）。</div>
+      </div>
+    </div>
+  </div>
+</section>
+<dialog class="fly-dlg" id="campFlyerDlg" aria-label="キャンペーンのチラシ">
+  <div class="fly-bar">
+    <div class="fly-tabs" role="tablist" aria-label="言語">
+      <button type="button" class="fly-tab is-on" data-lang="ja" role="tab" aria-selected="true">日本語</button>
+      <button type="button" class="fly-tab" data-lang="en" role="tab" aria-selected="false">English</button>
+    </div>
+    <a class="fly-open" id="campFlyerRaw" href="campaign-assets/hc-2026-autumn-ja.jpg" target="_blank" rel="noopener">別タブで開く</a>
+    <button type="button" class="fly-close" id="campFlyerClose" aria-label="閉じる">✕</button>
+  </div>
+  <div class="fly-scroll" id="campFlyerScroll">
+    <img id="campFlyerImg" alt="">
+    <div class="fly-hint">拡大したいときは、2本の指で広げてください。</div>
+  </div>
+</dialog>
+<script>
+(function(){
+  var dlg = document.getElementById('campFlyerDlg'), openA = document.getElementById('campFlyerOpen');
+  if (!dlg || !openA || typeof dlg.showModal !== 'function') return; // 非対応ブラウザは通常リンク（画像を別タブで開く）のまま
+  var img = document.getElementById('campFlyerImg'), raw = document.getElementById('campFlyerRaw');
+  var scroller = document.getElementById('campFlyerScroll'), tabs = dlg.querySelectorAll('.fly-tab');
+  var SRC = { ja: 'campaign-assets/hc-2026-autumn-ja.jpg', en: 'campaign-assets/hc-2026-autumn-en.jpg' };
+  var ALT = { ja: 'シェヴ 2026秋のハウスクリーニングキャンペーン チラシ（日本語版）', en: 'Chez Vous 2026 Autumn House Cleaning Campaign flyer (English)' };
+  function show(lang){
+    img.src = SRC[lang]; img.alt = ALT[lang]; raw.href = SRC[lang]; scroller.scrollTop = 0;
+    Array.prototype.forEach.call(tabs, function(t){ var on = t.getAttribute('data-lang') === lang; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
+  }
+  openA.addEventListener('click', function(e){ e.preventDefault(); show('ja'); document.body.style.overflow = 'hidden'; dlg.showModal(); });
+  Array.prototype.forEach.call(tabs, function(t){ t.addEventListener('click', function(){ show(t.getAttribute('data-lang')); }); });
+  document.getElementById('campFlyerClose').addEventListener('click', function(){ dlg.close(); });
+  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
+  dlg.addEventListener('close', function(){ document.body.style.overflow = ''; img.removeAttribute('src'); });
+})();
+</script>
+<!-- ===== CAMPAIGN:HC-2026-AUTUMN END ===== -->
 
 <div class="hero">
   <div class="eyebrow">SERVICE MENU</div>
