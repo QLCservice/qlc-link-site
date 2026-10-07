@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>タクシー配車のご案内（東京都内のみ）｜QLC Link</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<style>
+  :root{
+    --navy:#1C2B40;--navy-light:#2C405C;--brass:#B79358;--brass-light:#D8BD8A;
+    --cream:#F6F2EA;--cream-card:#FFFFFF;--charcoal:#33312C;--charcoal-soft:#6B6760;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--cream);}
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .hero{background:var(--navy-light);padding:20px 20px 18px;color:#F3EFE6;}
+  .hero-label{font-size:11px;letter-spacing:.1em;color:var(--brass-light);margin-bottom:6px;}
+  .hero-title{font-size:20px;font-weight:700;font-family:"Noto Serif JP",serif;margin-bottom:8px;}
+  .hero-area{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--brass-light);border:1px solid rgba(183,147,88,.45);border-radius:10px;padding:3px 10px;}
+  .qbody{padding:20px 18px 32px;}
+  .intro{font-size:13px;line-height:1.85;color:var(--charcoal-soft);margin-bottom:20px;}
+  .section-head{font-size:12px;letter-spacing:.1em;color:var(--brass);font-weight:700;margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--brass-light);display:flex;align-items:center;gap:8px;}
+  .section-head::before{content:"";display:inline-block;width:3px;height:14px;background:var(--brass);border-radius:2px;}
+  .taxi-card{background:var(--cream-card);border-radius:12px;border:1px solid #E8E0CE;margin-bottom:14px;overflow:hidden;}
+  .taxi-header{background:var(--navy);color:#F3EFE6;padding:11px 16px;display:flex;align-items:center;gap:10px;}
+  .taxi-icon{font-size:18px;}
+  .taxi-name{font-size:14px;font-weight:700;letter-spacing:.04em;}
+  .taxi-body{padding:14px 16px;}
+  .tel-btn{display:flex;align-items:center;justify-content:space-between;background:#F0EBE0;border-radius:10px;padding:13px 16px;text-decoration:none;color:var(--navy);border:1.5px solid var(--brass-light);}
+  .tel-btn:active{background:#E8E0CE;}
+  .tel-left{display:flex;align-items:center;gap:10px;}
+  .tel-icon{font-size:20px;}
+  .tel-label{font-size:11px;color:var(--charcoal-soft);margin-bottom:2px;}
+  .tel-number{font-size:20px;font-weight:700;letter-spacing:.06em;color:var(--navy);}
+  .tel-call-hint{font-size:11px;color:var(--navy);font-weight:600;white-space:nowrap;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:12px 14px;font-size:12px;line-height:1.85;color:var(--charcoal-soft);margin-top:20px;}
+  .qback{display:block;width:fit-content;margin:24px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:9px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  .area-alert{background:#FFF4E5;border:1.5px solid #E8A33C;border-radius:10px;padding:12px 14px;margin:0 0 16px;font-size:13px;line-height:1.85;color:#5A3A00;}
+  .area-alert strong{color:#B35A00;}
+</style>
+
+<div class="qlcwrap">
+  <div class="qtop">
+    <a href="#" class="js-back">← 戻る</a>
+    <span class="brand">QLC Link</span>
+  </div>
+
+  <div class="hero">
+    <div class="hero-label">🚕 タクシーの手配（お客様向け）</div>
+    <div class="hero-title">タクシー配車のご案内</div>
+    <div class="hero-area">📍 東京都内のみ（23区・武蔵野市・三鷹市）</div>
+  </div>
+
+  <div class="qbody">
+    <div class="area-alert">⚠️ こちらは<strong>東京都内（23区・武蔵野市・三鷹市）</strong>のタクシーのご案内です。<br><strong>横浜・神奈川方面は対象外</strong>です（下記の電話番号では、お呼びできない場合があります）。</div>
+    <div class="intro">
+      お電話でタクシーを手配いただけます。電話番号はタップすると直接お電話できます。
+    </div>
+    <div class="section-head">各社の配車連絡先</div>
+
+    <div class="taxi-card">
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">kmタクシー（国際自動車）</span></div>
+      <div class="taxi-body">
+        <a class="tel-btn" href="tel:0355306001">
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">03-5530-6001</div></div></div>
+          <div class="tel-call-hint">タップで発信 →</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="taxi-card">
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">日本交通</span></div>
+      <div class="taxi-body">
+        <a class="tel-btn" href="tel:0503101699">
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">050-3101-6999</div></div></div>
+          <div class="tel-call-hint">タップで発信 →</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="taxi-card">
+      <div class="taxi-header"><span class="taxi-icon">🚕</span><span class="taxi-name">日の丸交通</span></div>
+      <div class="taxi-body">
+        <a class="tel-btn" href="tel:0338141111">
+          <div class="tel-left"><span class="tel-icon">📞</span><div><div class="tel-label">お電話で配車</div><div class="tel-number">03-3814-1111</div></div></div>
+          <div class="tel-call-hint">タップで発信 →</div>
+        </a>
+      </div>
+    </div>
+
+    <div class="qnote">
+      ※ 対応エリアは3社とも東京都内（東京23区・武蔵野市・三鷹市）です。横浜・神奈川方面は対象外です。<br>
+      ※ 料金は変更となる場合があります。詳細は各タクシー会社へご確認ください。
+    </div>
+  </div>
+
+  <a href="#" class="qback js-back">← サービス一覧に戻る</a>
+</div>
+
+<script>
+// URLパラメータ ?back=... を読んで戻り先を決める
+// ・back=/calm-daikanyama/ のように「/」始まり → そのパスへそのまま戻る（独立LINKサイトの物件用）
+// ・back=qlc-1097 のようにIDのみ → qlc-service.com/qlc-1097/services/ に戻る（リモートコンシェルジュの物件用）
+(function () {
+  var DEFAULT = 'https://www.qlc-service.com/chezvous/services/';
+  var params  = new URLSearchParams(window.location.search);
+  var back    = params.get('back');
+  var backUrl;
+  if (back) {
+    backUrl = back.charAt(0) === '/'
+      ? (window.location.origin + back)
+      : ('https://qlc-service.com/' + encodeURIComponent(back) + '/services/');
+  } else {
+    backUrl = DEFAULT;
+  }
+
+  document.querySelectorAll('.js-back').forEach(function (el) {
+    el.href   = backUrl;
+    el.target = '_top'; // 同じタブで戻る（新しいタブは開かない）
+  });
+})();
+</script>
+
+<script src="/text-size.js"></script>
+</body>
+</html>
