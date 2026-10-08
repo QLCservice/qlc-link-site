@@ -41,7 +41,10 @@
   .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
   .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
   .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
-  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
+  .qccoderow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .qccodetag{font-size:10.5px;color:#CFC8B8;letter-spacing:.04em;}
+  .qccode{display:inline-block;background:var(--brass-light);color:var(--navy);font-family:"Courier New",monospace;font-weight:700;font-size:16px;letter-spacing:.12em;padding:6px 16px;border-radius:6px;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:8px;line-height:1.7;}
   .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
   .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
   .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
@@ -89,10 +92,38 @@
 <div class="qhr"></div>
 <div class="qprovider">
   <div class="qpname">クリーン・システム</div>
-  <div class="qarea">主に関西、東海（静岡を除く）エリア。他エリアもお問い合わせください。</div>
-  <div class="qnote">お問い合わせの際はコード「QLC0010」を必ずお伝えください。</div>
+  <div class="qarea">主に関西、東海（静岡を除く）エリアを中心にサービスを展開しています。他エリアでもサービスをご提供できる場合があります。お気軽にお問い合わせください。</div>
+  <div class="qdesc">お引越し前後の清掃・季節の大掃除・エアコン内部洗浄に。マンションや一戸建て、どんな住まいもプロの技術で隅々まで綺麗にクリーニングします。エアコンは壁に取り付けたまま、お部屋を汚さず内部まで洗浄。サカイ引越センターのグループ会社です。</div>
+  <div class="qpriceblock">
+    <div class="qpricehead">エアコンクリーニング</div>
+    <div class="qprow"><span>おそうじ機能なしエアコン</span><span>¥14,300〜（税込）</span></div>
+    <div class="qprow"><span>おそうじ機能ありエアコン</span><span>¥22,000〜（税込）</span></div>
+    <div class="qprow"><span>エアコン防カビコーティング（クリーニングと同時作業）</span><span>¥3,300〜／1台（税込）</span></div>
+  </div>
+  <div class="qpriceblock">
+    <div class="qpricehead">お得なパックメニュー</div>
+    <div class="qprow"><span>浴室パック（浴室・レンジフード）</span><span>¥27,500（通常¥30,800）</span></div>
+    <div class="qprow"><span>キッチンパック（キッチン・レンジフード）</span><span>¥27,500（通常¥30,800）</span></div>
+    <div class="qprow"><span>水回り4点パック（キッチン・レンジフード・浴室・トイレ）</span><span>¥46,200（通常¥61,600）</span></div>
+  </div>
+  <div class="qpriceblock">
+    <div class="qpricehead">部分清掃</div>
+    <div class="qprow"><span>キッチン</span><span>¥16,500（税込）</span></div>
+    <div class="qprow"><span>レンジフード</span><span>¥14,300（税込）</span></div>
+    <div class="qprow"><span>浴室</span><span>¥16,500（税込）</span></div>
+    <div class="qprow"><span>トイレ・洗面台</span><span>¥14,300（税込）</span></div>
+  </div>
+  <div class="qnote">※エアコンは予めメーカー・品番等をご確認ください。製造後10年以上のエアコンは作業できない場合もあります。2台以上の作業でお得になります（詳しくはお問い合わせください）。※パックメニューの他の組み合わせもご相談ください。レンジフード防汚コーティング、エプロン下清掃も承ります。※料金は2025年6月版チラシ掲載のものです（全て10%消費税込）。お問い合わせの際はコード「QLC0010」を必ずお伝えください。</div>
+  <div class="qcoupon">
+    <div class="qclabel">お申し込み時のコード</div>
+    <div class="qcval">チラシ掲載のお得なパックメニュー</div>
+    <div class="qccoderow"><span class="qccodetag">キャンペーンコード</span><span class="qccode">QLC0010</span></div>
+    <div class="qcsub">お申し込み時にコードをご入力ください。お電話の場合はコードをお伝えください。</div>
+  </div>
   <div class="qctarow">
-    <a class="qbtn qbtn-filled" target="_blank" href="https://www.clean-system.co.jp/contact_personal/">お問い合わせ</a>
+    <a class="qbtn qbtn-filled" target="_blank" href="tel:0120414306">電話で相談（0120-414-306）</a>
+    <a class="qbtn qbtn-outline" target="_blank" href="https://www.clean-system.co.jp/contact_personal/">お問い合わせ</a>
+    <a class="qbtn qbtn-outline" target="_blank" href="https://qlc-service.com/qlc-link/flyer/cleansystem-allyear-202506.jpg">チラシを見る</a>
   </div>
 </div>
 
