@@ -11,8 +11,8 @@
  *   <script src="/staging-gate.js"></script>
  */
 (function () {
-  var KEY = 'qlc_staging_auth';
-  var PASS = '1234';
+  var KEY = 'qlc_staging_auth2';
+  var PASS = 'qlc9164';
 
   try {
     if (sessionStorage.getItem(KEY) === '1') return; // このタブで認証済みならそのまま表示
@@ -29,8 +29,9 @@
     overlay.innerHTML =
       '<div style="background:#F6F2EA;border-radius:12px;padding:32px 28px;max-width:300px;width:88%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.35);">' +
         '<div style="font-size:14px;font-weight:700;color:#1C2B40;margin-bottom:6px;">テストページ</div>' +
-        '<div style="font-size:12px;color:#6B6760;margin-bottom:16px;">パスワードを入力してください</div>' +
-        '<input type="password" id="qlcStagingPw" inputmode="numeric" style="width:100%;padding:10px 12px;border:1.5px solid #B79358;border-radius:8px;font-size:14px;margin-bottom:10px;box-sizing:border-box;">' +
+        '<div style="font-size:12px;color:#6B6760;margin-bottom:6px;">パスワードを入力してください</div>' +
+        '<div style="font-size:11.5px;color:#8A7440;margin-bottom:14px;">ヒント：全社共通のパスワード</div>' +
+        '<input type="password" id="qlcStagingPw" autocomplete="off" autocapitalize="off" style="width:100%;padding:10px 12px;border:1.5px solid #B79358;border-radius:8px;font-size:14px;margin-bottom:10px;box-sizing:border-box;">' +
         '<div id="qlcStagingErr" style="color:#C0392B;font-size:11.5px;margin-bottom:8px;min-height:14px;"></div>' +
         '<button id="qlcStagingBtn" style="width:100%;background:#B79358;color:#1C2B40;border:none;border-radius:18px;padding:10px 0;font-size:13px;font-weight:600;cursor:pointer;">開く</button>' +
       '</div>';
