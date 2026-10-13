@@ -84,10 +84,10 @@
     <button class="btn" id="reload" type="button">🔄 更新</button>
   </div>
   <div class="note">数字はページビュー（ページが開かれた回数）です。個人情報やCookieは使わず、「いつ・どのサイトで・何が押されたか」だけを記録しています。<br>
-  2026年10月14日より、地域版（関東・関西・東海・西日本）とテスト環境（staging）を別々に数えるようにしました。それ以前の分は全国版にまとめて入っています。自分で開いた分も数に入ります。</div>
+  2026年10月14日から、すべてのページを数えるようにしました（サービス詳細ページ、物件サイトの各ページ、リモートコンシェルジュ画面など）。今後新しく作るサイトやページも、公開すると自動で数えます。同じ日に、地域版（関東・関西・東海・西日本）とテスト環境（staging）を別々に数えるようにしたため、それ以前の分は全国版にまとめて入っています。また、物件サイトは以前はトップのみ数えていたため、10月14日の前後で数字の意味が変わります。自分で開いた分も数に入ります。</div>
   <div id="list"></div>
 </main>
-<footer>URLをクリックすると、そのサイトが開きます。行をクリックすると、推移とボタンのクリック内訳が見られます。サイトを増やしたときは、管理側の台帳（SiteReport.js）に1行足してください。</footer>
+<footer>URLをクリックすると、そのサイトが開きます。行をクリックすると、推移とボタンのクリック内訳が見られます。サイトを増やしたときは、数字は自動で出ますが、名前とURLを表示するには管理側の台帳（SiteReport.js）に1行足してください（足していないサイトは「未登録」として末尾に出ます）。</footer>
 
 <script>
 (function () {
@@ -126,6 +126,14 @@
     return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#B79358" stroke-width="2" vector-effect="non-scaling-stroke" points="' + pts + '"/></svg>';
   }
 
+  function list2(title, arr) {
+    if (!arr.length) return '';
+    var mx = arr[0].count;
+    return '<div class="kv"><span>' + esc(title) + '</span></div>' + arr.map(function (c) {
+      return '<div class="clk"><div class="l" title="' + esc(c.label) + '">' + esc(c.label) + '</div><div class="t"><i style="width:' + Math.max(4, Math.round(c.count / mx * 100)) + '%"></i></div><div class="c">' + c.count + '</div></div>';
+    }).join('');
+  }
+
   function render() {
     if (!data) return;
     $('gen').textContent = '最終更新 ' + data.generatedAt.replace('T', ' ').slice(0, 16);
@@ -149,6 +157,7 @@
         var tops = st.topClicks || [], mx = tops.length ? tops[0].count : 1;
         body = '<div class="kv"><span>累計PV <b>' + fmt(st.pv) + '</b></span><span>累計クリック <b>' + fmt(st.clicks) + '</b></span><span>記録開始 <b>' + esc(st.first || '—') + '</b></span><span>最終アクセス <b>' + esc(st.last || '—') + '</b></span></div>' +
           '<div class="kv"><span>直近の推移（過去' + days + '日・1日ごと）</span></div>' + spark(st.series.slice(n - days)) +
+          list2('よく見られたページ（累計）', st.topPages || []) + list2('どこから来たか（サービス詳細ページのみ・累計）', st.topFrom || []) +
           (tops.length ? '<div class="kv"><span>よく押されたボタン（累計）</span></div>' + tops.map(function (c) {
             return '<div class="clk"><div class="l" title="' + esc(c.label) + '">' + esc(c.label) + '</div><div class="t"><i style="width:' + Math.max(4, Math.round(c.count / mx * 100)) + '%"></i></div><div class="c">' + c.count + '</div></div>';
           }).join('') : '<div class="kv"><span>ボタンのクリックの記録はまだありません。</span></div>');
