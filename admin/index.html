@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data:; connect-src https://script.google.com https://*.googleusercontent.com; frame-ancestors 'none'; base-uri 'self'; form-action 'none'">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<title>サイト一覧・アクセス状況｜QLC Link</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1C2B40;--brass:#B79358;--brass-light:#D8BD8A;--cream:#F6F2EA;--card:#FFFFFF;--ink:#33312C;--soft:#6B6760;--line:#E8E0CE;--up:#2E7D4F;--down:#B5452F;}
+  @media (prefers-color-scheme: dark){:root{--cream:#141B26;--card:#1D2735;--ink:#ECE7DB;--soft:#A7A398;--line:#2C3a4d;--navy:#0F1620;--up:#6CC48E;--down:#E58A74;}}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;font-size:14px;line-height:1.7;}
+  header{background:var(--navy);color:#F3EFE6;padding:14px 16px;}
+  header .in{max-width:980px;margin:0 auto;display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  header h1{margin:0;font-family:"Noto Serif JP",serif;font-size:17px;}
+  header small{color:var(--brass-light);font-size:11.5px;}
+  main{max-width:980px;margin:0 auto;padding:16px;}
+  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .seg{display:inline-flex;border:1.5px solid var(--brass);border-radius:18px;overflow:hidden;}
+  .seg button{font:inherit;font-size:12.5px;border:0;background:transparent;color:var(--ink);padding:6px 14px;cursor:pointer;}
+  .seg button.on{background:var(--brass);color:#1C2B40;font-weight:700;}
+  .chip{font:inherit;font-size:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:4px 12px;border-radius:14px;cursor:pointer;}
+  .chip.on{border-color:var(--brass);background:rgba(183,147,88,.18);font-weight:700;}
+  .btn{font:inherit;font-size:12.5px;border:1.5px solid var(--brass);background:transparent;color:var(--ink);padding:6px 14px;border-radius:18px;cursor:pointer;}
+  .spacer{flex:1;}
+  .note{font-size:12px;color:var(--soft);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px;}
+  .site{background:var(--card);border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;}
+  .site>.row{display:grid;grid-template-columns:1fr auto;gap:6px 12px;padding:12px 14px;cursor:pointer;align-items:center;}
+  .nm{font-weight:700;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+  .badge{font-size:10.5px;font-weight:700;padding:1px 8px;border-radius:10px;background:rgba(183,147,88,.22);color:var(--ink);}
+  .badge.test{background:rgba(120,120,120,.2);} .badge.warn{background:rgba(181,69,47,.2);}
+  .urls{font-size:12px;color:var(--soft);display:flex;gap:6px 12px;flex-wrap:wrap;margin-top:2px;}
+  .urls a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--brass);word-break:break-all;}
+  .num{text-align:right;white-space:nowrap;}
+  .num b{font-size:22px;font-family:"Noto Serif JP",serif;}
+  .num .d{font-size:11.5px;color:var(--soft);}
+  .up{color:var(--up);} .down{color:var(--down);}
+  .more{display:none;border-top:1px dashed var(--line);padding:10px 14px 14px;font-size:12.5px;}
+  .site.open .more{display:block;}
+  .kv{display:flex;gap:6px 18px;flex-wrap:wrap;color:var(--soft);margin-bottom:8px;}
+  .kv span b{color:var(--ink);}
+  svg.spark{width:100%;height:56px;display:block;margin:4px 0 8px;}
+  .clk{display:flex;align-items:center;gap:8px;margin:3px 0;}
+  .clk .l{flex:0 0 38%;max-width:240px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .clk .t{flex:1;background:rgba(183,147,88,.18);border-radius:4px;height:14px;overflow:hidden;}
+  .clk .t i{display:block;height:100%;background:var(--brass);}
+  .clk .c{flex:0 0 30px;text-align:right;font-weight:700;}
+  footer{max-width:980px;margin:0 auto;padding:6px 16px 28px;color:var(--soft);font-size:11.5px;}
+  /* ログイン */
+  #gate{position:fixed;inset:0;z-index:10;background:var(--navy);display:flex;align-items:center;justify-content:center;}
+  #gate[hidden]{display:none;}
+  #gate .box{background:var(--cream);color:var(--ink);border-radius:12px;padding:28px 24px;width:min(320px,88%);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.35);}
+  #gate .t{font-weight:700;margin-bottom:4px;} #gate .s{font-size:12px;color:var(--soft);margin-bottom:4px;} #gate .h{font-size:11.5px;color:var(--brass);margin-bottom:14px;}
+  #gate input{width:100%;padding:10px 12px;border:1.5px solid var(--brass);border-radius:8px;font-size:14px;margin-bottom:8px;background:var(--card);color:var(--ink);}
+  #gate .e{color:var(--down);font-size:11.5px;min-height:16px;margin-bottom:6px;}
+  #gate button{width:100%;background:var(--brass);color:#1C2B40;border:0;border-radius:18px;padding:10px 0;font-size:13px;font-weight:700;cursor:pointer;}
+  .empty{padding:30px;text-align:center;color:var(--soft);}
+  @media (max-width:520px){.num b{font-size:19px;}.site>.row{padding:11px 12px;}}
+</style>
+</head>
+<body>
+<div id="gate"><div class="box">
+  <div class="t">QLC Link サイト一覧・アクセス状況</div>
+  <div class="s">パスワードを入力してください</div>
+  <div class="h">ヒント：全社共通のパスワード</div>
+  <input id="pw" type="password" autocomplete="off" autocapitalize="off">
+  <div class="e" id="err"></div>
+  <button id="go" type="button">開く</button>
+</div></div>
+
+<header><div class="in"><h1>QLC Link サイト一覧・アクセス状況</h1><small id="gen"></small></div></header>
+<main id="main" hidden>
+  <div class="bar">
+    <div class="seg" id="period"><button data-d="7">7日</button><button data-d="30" class="on">30日</button><button data-d="90">90日</button></div>
+    <span id="kinds"></span>
+    <span class="spacer"></span>
+    <button class="btn" id="reload" type="button">🔄 更新</button>
+  </div>
+  <div class="note">数字はページビュー（ページが開かれた回数）です。個人情報やCookieは使わず、「いつ・どのサイトで・何が押されたか」だけを記録しています。<br>
+  2026年10月14日より、地域版（関東・関西・東海・西日本）とテスト環境（staging）を別々に数えるようにしました。それ以前の分は全国版にまとめて入っています。自分で開いた分も数に入ります。</div>
+  <div id="list"></div>
+</main>
+<footer>URLをクリックすると、そのサイトが開きます。行をクリックすると、推移とボタンのクリック内訳が見られます。サイトを増やしたときは、管理側の台帳（SiteReport.js）に1行足してください。</footer>
+
+<script>
+(function () {
+  var GAS = 'https://script.google.com/macros/s/AKfycbz07q7G3kYMk25qL6eu64IMKClKTscHtt4JWagyDkXWCW4c6SDmRiKUTqjCuh8UyfZH/exec';
+  var KEY = 'qlc_admin_view_pw';
+  var data = null, days = 30, kind = '', openBid = {};
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function safeUrl(u) { return /^https:\/\/(www\.)?(qlc-service\.com|chezvous\.co\.jp)\//.test(u) ? u : '#'; }
+  function sum(a, from, to) { var n = 0; for (var i = Math.max(0, from); i < to; i++) n += a[i] || 0; return n; }
+  function fmt(n) { return Number(n || 0).toLocaleString('ja-JP'); }
+
+  function fetchReport(pw) {
+    return fetch(GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'siteReport', password: pw }) })
+      .then(function (r) { return r.json(); });
+  }
+  function login(pw, silent) {
+    $('err').textContent = silent ? '' : '確認しています…';
+    return fetchReport(pw).then(function (res) {
+      if (res && res.ok) {
+        try { sessionStorage.setItem(KEY, pw); } catch (e) {}
+        data = res; $('gate').hidden = true; $('main').hidden = false; render(); return true;
+      }
+      try { sessionStorage.removeItem(KEY); } catch (e) {}
+      if (!silent) $('err').textContent = (res && res.error === 'locked') ? '失敗が続いたため、しばらく入力できません（10分ほどお待ちください）' : 'パスワードが違います';
+      return false;
+    }).catch(function () {
+      if (!silent) $('err').textContent = '読み込みに失敗しました。通信状況を確認してもう一度お試しください。';
+      return false;
+    });
+  }
+
+  function spark(series) {
+    var w = 600, h = 56, n = series.length, max = Math.max.apply(null, series.concat([1]));
+    var pts = series.map(function (v, i) { return (n === 1 ? 0 : i * w / (n - 1)).toFixed(1) + ',' + (h - 4 - (v / max) * (h - 10)).toFixed(1); }).join(' ');
+    return '<svg class="spark" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none" aria-hidden="true"><polyline fill="none" stroke="#B79358" stroke-width="2" vector-effect="non-scaling-stroke" points="' + pts + '"/></svg>';
+  }
+
+  function render() {
+    if (!data) return;
+    $('gen').textContent = '最終更新 ' + data.generatedAt.replace('T', ' ').slice(0, 16);
+    var kinds = []; data.sites.forEach(function (s) { if (kinds.indexOf(s.kind) < 0) kinds.push(s.kind); });
+    $('kinds').innerHTML = ['すべて'].concat(kinds).map(function (k) {
+      var on = (k === 'すべて' && !kind) || k === kind;
+      return '<button type="button" class="chip' + (on ? ' on' : '') + '" data-k="' + esc(k === 'すべて' ? '' : k) + '">' + esc(k) + '</button>';
+    }).join(' ');
+    var list = data.sites.filter(function (s) { return !kind || s.kind === kind; });
+    if (!list.length) { $('list').innerHTML = '<div class="empty">該当するサイトはありません。</div>'; return; }
+    $('list').innerHTML = list.map(function (s) {
+      var st = s.stats, n = data.days.length, pv = '', delta = '', body = '';
+      if (s.tracked && st) {
+        var cur = sum(st.series, n - days, n);
+        pv = fmt(cur);
+        if (days <= 30) {
+          var prev = sum(st.series, n - 2 * days, n - days);
+          if (prev > 0) { var p = Math.round((cur - prev) / prev * 100); delta = '<span class="' + (p >= 0 ? 'up' : 'down') + '">前の' + days + '日比 ' + (p >= 0 ? '+' : '') + p + '%</span>'; }
+          else if (cur > 0) delta = '<span class="up">前の' + days + '日は0</span>';
+        }
+        var tops = st.topClicks || [], mx = tops.length ? tops[0].count : 1;
+        body = '<div class="kv"><span>累計PV <b>' + fmt(st.pv) + '</b></span><span>累計クリック <b>' + fmt(st.clicks) + '</b></span><span>記録開始 <b>' + esc(st.first || '—') + '</b></span><span>最終アクセス <b>' + esc(st.last || '—') + '</b></span></div>' +
+          '<div class="kv"><span>直近の推移（過去' + days + '日・1日ごと）</span></div>' + spark(st.series.slice(n - days)) +
+          (tops.length ? '<div class="kv"><span>よく押されたボタン（累計）</span></div>' + tops.map(function (c) {
+            return '<div class="clk"><div class="l" title="' + esc(c.label) + '">' + esc(c.label) + '</div><div class="t"><i style="width:' + Math.max(4, Math.round(c.count / mx * 100)) + '%"></i></div><div class="c">' + c.count + '</div></div>';
+          }).join('') : '<div class="kv"><span>ボタンのクリックの記録はまだありません。</span></div>');
+      } else {
+        pv = '—'; delta = '<span>計測なし</span>';
+        body = '<div class="kv"><span>このサイトはアクセス数を数えていません。</span></div>';
+      }
+      var badgeCls = s.kind === 'テスト' || s.kind === 'サンプル' ? ' test' : (s.kind === '未登録' ? ' warn' : '');
+      var urls = (s.urls || []).map(function (u) { return '<a href="' + esc(safeUrl(u.url)) + '" target="_blank" rel="noopener noreferrer">' + esc(u.label) + '：' + esc(u.url.replace(/^https:\/\//, '')) + '</a>'; }).join('');
+      var open = openBid[s.name] ? ' open' : '';
+      return '<div class="site' + open + '" data-n="' + esc(s.name) + '"><div class="row"><div><div class="nm">' + esc(s.name) + '<span class="badge' + badgeCls + '">' + esc(s.kind) + '</span></div>' +
+        '<div class="urls">' + urls + '</div>' + (s.note ? '<div class="urls">' + esc(s.note) + '</div>' : '') + '</div>' +
+        '<div class="num"><b>' + pv + '</b><div class="d">PV（過去' + days + '日）</div><div class="d">' + delta + '</div></div></div>' +
+        '<div class="more">' + body + '</div></div>';
+    }).join('');
+  }
+
+  $('go').addEventListener('click', function () { login($('pw').value, false); });
+  $('pw').addEventListener('keydown', function (e) { if (e.key === 'Enter') login($('pw').value, false); });
+  $('reload').addEventListener('click', function () { var pw = ''; try { pw = sessionStorage.getItem(KEY) || ''; } catch (e) {} $('reload').textContent = '更新中…'; login(pw, true).then(function () { $('reload').textContent = '🔄 更新'; }); });
+  $('period').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; days = +b.dataset.d; Array.prototype.forEach.call($('period').children, function (x) { x.classList.toggle('on', x === b); }); render(); });
+  $('kinds').addEventListener('click', function (e) { var b = e.target.closest('button'); if (!b) return; kind = b.dataset.k; render(); });
+  $('list').addEventListener('click', function (e) {
+    if (e.target.closest('a')) return;
+    var row = e.target.closest('.row'); if (!row) return;
+    var site = row.parentNode, n = site.getAttribute('data-n'); openBid[n] = !openBid[n]; site.classList.toggle('open', !!openBid[n]);
+  });
+  var saved = ''; try { saved = sessionStorage.getItem(KEY) || ''; } catch (e) {}
+  if (saved) login(saved, true); else $('pw').focus();
+})();
+</script>
+</body>
+</html>
