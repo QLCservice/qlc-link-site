@@ -1,75 +1,799 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<!-- SECURITY-META -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
-<meta http-equiv="X-Content-Type-Options" content="nosniff">
-<meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="robots" content="noindex, nofollow">
-<!-- SECURITY-META -->
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>お水の宅配｜QLC Link</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<base target="_top">
+<style>
+  :root{
+    --navy-deep:#0B1626;
+    --navy-panel:#13213A;
+    --navy-panel-2:#182943;
+    --navy-line:#2C3F5C;
+    --brass:#BD9A4B;
+    --brass-soft:#E6CC8C;
+    --cream:#F5EFE1;
+    --cream-dim:#EAE2CD;
+    --ink:#241F18;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 18% 18%, rgba(189,154,75,0.10), transparent 45%),
+      radial-gradient(ellipse at 85% 90%, rgba(189,154,75,0.06), transparent 50%),
+      var(--navy-deep);
+    font-family:'Noto Sans JP', sans-serif;
+    color:var(--cream);
+  }
+  .stage{
+    width:100vw; height:100vh;
+    display:flex; flex-direction:column;
+    animation:rise .8s ease both;
+  }
+  @keyframes rise{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+  /* ---------- Header ---------- */
+  .hdr{
+    flex:0 0 auto;
+    height:13vh;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(24px,4vw,52px);
+    border-bottom:1px solid var(--navy-line);
+  }
+  .hdr-left{display:flex; align-items:center; gap:16px;}
+  .crest{
+    width:clamp(34px,4vh,44px); height:clamp(34px,4vh,44px);
+    border-radius:50%;
+    border:1.5px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    flex:0 0 auto;
+  }
+  .crest::before{ content:""; width:46%; height:46%; border:1px solid var(--brass-soft); transform:rotate(45deg); }
+  .bldg-row{ display:flex; align-items:center; gap:10px; }
+  .bldg-name{
+    font-family:'Noto Serif JP', serif;
+    font-weight:600;
+    font-size:clamp(19px,2.8vh,27px);
+    letter-spacing:.04em;
+    color:var(--cream);
+  }
+  .demo-badge{
+    font-size:clamp(9px,1.05vh,11px);
+    letter-spacing:.12em;
+    color:var(--navy-deep);
+    background:var(--brass-soft);
+    padding:3px 9px 3px;
+    border-radius:999px;
+    font-weight:700;
+  }
+  .bldg-sub{
+    font-size:clamp(9px,1.05vh,11px);
+    letter-spacing:.28em;
+    color:#8B96A8;
+    margin-top:5px;
+  }
+  .hdr-right{ text-align:right; }
+
+  /* ---- Weather row ---- */
+  .weather-row{
+    display:flex; align-items:center; justify-content:flex-end;
+    gap:7px;
+    margin-bottom:5px;
+  }
+  .weather-icon{
+    font-size:clamp(15px,2.2vh,20px);
+    line-height:1;
+  }
+  .weather-text{
+    font-size:clamp(12px,1.5vh,15px);
+    color:var(--cream);
+    letter-spacing:.02em;
+    font-weight:500;
+    white-space:nowrap;
+  }
+  .weather-range{
+    font-size:clamp(9px,1.05vh,11px);
+    color:#7E8AA1;
+    letter-spacing:.02em;
+    white-space:nowrap;
+  }
+
+  .clock-time{
+    font-size:clamp(19px,2.8vh,28px); font-weight:600;
+    letter-spacing:.02em; font-variant-numeric:tabular-nums; color:var(--cream);
+  }
+  .clock-date{ font-size:clamp(10px,1.1vh,12px); color:#7E8AA1; letter-spacing:.06em; margin-top:2px; }
+
+  /* ---------- Body split ---------- */
+  .body-split{
+    flex:1 1 auto;
+    display:flex;
+    min-height:0;
+  }
+
+  /* ---- Left: Remote Concierge (star) ---- */
+  .pane-hero{
+    flex:0 0 50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:clamp(18px,2.6vh,30px);
+    padding:clamp(20px,3vh,36px) clamp(24px,4vw,50px);
+    border-right:1px solid var(--navy-line);
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:clamp(10px,1.2vh,12px);
+    letter-spacing:.3em;
+    color:var(--brass);
+    margin:0;
+  }
+  .hero-tagline{
+    font-size:clamp(12.5px,1.5vh,15px);
+    color:#C9D2E0;
+    line-height:1.75;
+    max-width:34ch;
+    margin:0;
+  }
+  .hero-badges{
+    display:flex; flex-wrap:wrap; gap:9px; justify-content:center;
+  }
+  .hero-badge{
+    font-size:clamp(10.5px,1.2vh,12px);
+    color:var(--brass-soft);
+    border:1px solid rgba(189,154,75,0.4);
+    border-radius:999px;
+    padding:5px 13px;
+    white-space:nowrap;
+  }
+
+  .portrait-wrap{
+    position:relative;
+    width:clamp(220px,34vh,360px);
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .portrait-glow{
+    position:absolute; left:50%; top:48%;
+    width:120%; height:78%;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(ellipse at center, rgba(189,154,75,0.16), transparent 70%);
+    z-index:0;
+  }
+  .portrait-ring{
+    position:absolute; z-index:0;
+    left:50%; top:40%;
+    width:78%; height:78%;
+    transform:translate(-50%,-50%);
+    border:1px solid var(--brass);
+    border-radius:50%;
+    opacity:.45;
+  }
+  .portrait-wrap img{
+    position:relative; z-index:1;
+    width:100%; height:auto;
+    display:block;
+    filter:drop-shadow(0 18px 28px rgba(0,0,0,0.45));
+  }
+
+  .btn-primary{
+    display:inline-block;
+    appearance:none; border:none; cursor:pointer;
+    padding:clamp(15px,2.1vh,19px) clamp(32px,4vw,46px);
+    border-radius:999px;
+    background:linear-gradient(180deg, var(--brass-soft), var(--brass));
+    color:#1A1306;
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:clamp(15px,1.95vh,18px);
+    letter-spacing:.03em;
+    text-decoration:none;
+    box-shadow:0 10px 22px rgba(0,0,0,.4);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn-primary:active{ transform:scale(.97); }
+
+  .hours-note{
+    font-size:clamp(9.5px,1.1vh,11px);
+    color:#6E7A91;
+    line-height:1.7;
+    max-width:38ch;
+  }
+
+  /* ---- Right: secondary navigation (3 tiles) ---- */
+  .pane-nav{
+    flex:0 0 50%;
+    display:flex; flex-direction:column;
+    min-height:0;
+  }
+
+  /* ---- Quick links (Service Menu / Contact) ---- */
+  .quick-links{
+    flex:1 1 50%;
+    min-height:0;
+    display:flex;
+    border-top:1px solid var(--navy-line);
+  }
+  .quick-link{
+    flex:1 1 50%;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px;
+    padding:clamp(14px,2vh,22px) clamp(10px,1.6vw,18px);
+    text-decoration:none;
+    color:#C9D2E0;
+    background:var(--navy-panel);
+    border-right:1px solid var(--navy-line);
+    transition:background .15s ease, color .15s ease;
+    text-align:center;
+  }
+  .quick-link:last-child{ border-right:none; }
+  .quick-link:hover, .quick-link:active{ background:var(--navy-panel-2); color:var(--brass-soft); }
+  .quick-icon{
+    width:clamp(46px,6.2vh,60px); height:clamp(46px,6.2vh,60px);
+    border-radius:50%;
+    border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--brass-soft); flex:0 0 auto;
+  }
+  .quick-icon svg{ width:46%; height:46%; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .quick-eyebrow{
+    font-size:clamp(8px,0.95vh,9.5px);
+    letter-spacing:.22em;
+    color:var(--brass);
+  }
+  .quick-label{
+    font-family:'Noto Serif JP', serif;
+    font-weight:600;
+    font-size:clamp(16px,2vh,20px);
+    color:var(--cream);
+  }
+  .quick-sub{
+    font-size:clamp(11px,1.25vh,13px);
+    color:#9AA7BC;
+    max-width:42ch;
+    line-height:1.6;
+  }
+  .service-badges{
+    display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:2px;
+  }
+  .service-badge{
+    font-size:clamp(9.5px,1.05vh,11px);
+    color:var(--brass-soft);
+    border:1px solid rgba(189,154,75,0.4);
+    border-radius:999px;
+    padding:4px 11px;
+    white-space:nowrap;
+  }
+
+  /* ---- QAチャットパネル（常時表示・外部連携なし） ---- */
+  .chat-panel{
+    display:flex;
+    flex:1 1 50%;
+    min-height:0;
+    background:var(--cream);
+    flex-direction:column;
+  }
+  .chat-panel-hdr{
+    flex:0 0 auto;
+    display:flex; align-items:baseline; gap:10px;
+    padding:clamp(14px,2vh,18px) clamp(20px,3vw,30px);
+    border-bottom:1px solid var(--cream-dim);
+  }
+  .chat-eyebrow{
+    font-size:clamp(8.5px,1vh,10px);
+    letter-spacing:.24em;
+    color:var(--brass);
+  }
+  .chat-panel-title{
+    font-family:'Noto Serif JP', serif; font-weight:600;
+    font-size:clamp(15px,1.9vh,18px); color:var(--ink);
+  }
+  .chat-scroll{
+    flex:1 1 auto; min-height:0; overflow-y:auto;
+    padding:clamp(16px,2.2vh,22px) clamp(20px,3vw,30px);
+    display:flex; flex-direction:column; gap:12px;
+  }
+  .chat-scroll::-webkit-scrollbar{ width:6px; }
+  .chat-scroll::-webkit-scrollbar-thumb{ background:var(--cream-dim); border-radius:4px; }
+
+  .quick-replies{ display:flex; flex-direction:column; gap:8px; }
+  .quick-reply-btn{
+    align-self:flex-start;
+    max-width:92%;
+    text-align:left;
+    background:#fff;
+    border:1px solid var(--brass);
+    color:var(--ink);
+    border-radius:999px;
+    padding:10px 16px;
+    font-size:clamp(12.5px,1.5vh,14px);
+    font-family:'Noto Sans JP', sans-serif;
+    cursor:pointer;
+    transition:background .15s ease;
+  }
+  .quick-reply-btn:hover, .quick-reply-btn:active{ background:var(--cream-dim); }
+
+  /* ---- QAメニュー：横並びグリッド（カテゴリ・項目選択用） ---- */
+  .qa-grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap:8px;
+  }
+  .qa-grid .quick-reply-btn{
+    align-self:stretch;
+    max-width:none;
+    width:100%;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:6px;
+    padding:11px 8px;
+  }
+
+  /* ---- お問い合わせ：他の選択ボタンと意図的に異なる見た目（控えめなゴースト調） ---- */
+  .qa-divider{
+    border-top:1px solid rgba(189,154,75,0.28);
+    margin:6px 2px 0;
+  }
+  .inquiry-btn{
+    align-self:center;
+    width:100%;
+    text-align:center;
+    background:transparent;
+    border:1px solid rgba(189,154,75,0.6);
+    color:var(--brass);
+    border-radius:999px;
+    padding:9px 14px;
+    font-size:clamp(11.5px,1.35vh,13px);
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:600;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease;
+  }
+  .inquiry-btn:hover, .inquiry-btn:active{ background:rgba(189,154,75,0.1); color:var(--ink); }
+
+  .bubble{
+    max-width:82%; padding:10px 14px; border-radius:14px;
+    font-size:clamp(12.5px,1.5vh,14.5px); line-height:1.6; white-space:pre-wrap;
+  }
+  .bubble.ai{ align-self:flex-start; background:#fff; border:1px solid var(--cream-dim); color:var(--ink); border-bottom-left-radius:4px; }
+  .bubble.user{ align-self:flex-end; background:linear-gradient(135deg, var(--navy-panel), var(--navy-deep)); color:var(--cream); border-bottom-right-radius:4px; }
+
+  .detail-link{
+    align-self:flex-start;
+    display:inline-block;
+    background:linear-gradient(135deg, var(--brass-soft), var(--brass));
+    color:#1A1306;
+    font-family:'Noto Sans JP', sans-serif;
+    font-weight:700;
+    font-size:clamp(12px,1.4vh,13px);
+    padding:9px 18px;
+    border-radius:999px;
+    text-decoration:none;
+    box-shadow:0 4px 10px rgba(0,0,0,.25);
+  }
+
+  /* ---------- モバイル（QRコードでスマホ閲覧する場合）対応 ----------
+     ※ Google Sites埋め込み時、iframeの見た目サイズに左右されず、
+        実機の物理画面サイズ・向きでレイアウトを切り替える */
+  html.mobile-layout, html.mobile-layout body{ height:100%; overflow:hidden; }
+  html.mobile-layout .stage{ height:100vh; min-height:100vh; display:flex; flex-direction:column; }
+
+  html.mobile-layout .hdr{ flex:0 0 auto; height:auto; padding:10px 14px; flex-wrap:wrap; gap:6px; }
+  html.mobile-layout .bldg-name{ font-size:15px; }
+  html.mobile-layout .demo-badge{ font-size:8px; padding:2px 7px; }
+  html.mobile-layout .bldg-sub{ font-size:7.5px; }
+  html.mobile-layout .weather-row{ margin-bottom:2px; gap:5px; }
+  html.mobile-layout .weather-icon{ font-size:13px; }
+  html.mobile-layout .weather-text{ font-size:11px; }
+  html.mobile-layout .weather-range{ display:none; }
+  html.mobile-layout .clock-time{ font-size:15px; }
+  html.mobile-layout .clock-date{ font-size:9px; }
+
+  html.mobile-layout .body-split{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+
+  html.mobile-layout .pane-hero{
+    flex:0 0 auto;
+    display:flex; flex-direction:row; align-items:center; justify-content:center;
+    gap:14px;
+    border-right:none;
+    border-bottom:1px solid var(--navy-line);
+    padding:10px 14px;
+  }
+  html.mobile-layout .portrait-wrap{ width:60px; margin:0; flex:0 0 auto; }
+  html.mobile-layout .portrait-wrap img{ filter:drop-shadow(0 8px 12px rgba(0,0,0,0.45)); }
+  html.mobile-layout .eyebrow{ display:none; }
+  html.mobile-layout .hero-tagline{ display:none; }
+  html.mobile-layout .hero-badges{ display:none; }
+  html.mobile-layout .btn-primary{ display:block; width:auto; font-size:12px; padding:10px 16px; text-align:center; flex:0 0 auto; }
+  html.mobile-layout .hours-note{ display:none; }
+
+  html.mobile-layout .pane-nav{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .chat-panel{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .chat-panel-hdr{ padding:8px 14px; }
+  html.mobile-layout .chat-eyebrow{ font-size:8px; }
+  html.mobile-layout .chat-panel-title{ font-size:13px; }
+  html.mobile-layout .chat-scroll{ flex:1 1 auto; min-height:0; max-height:none; padding:10px 14px; }
+  html.mobile-layout .bubble{ font-size:12.5px; padding:8px 11px; }
+
+  html.mobile-layout .quick-links{ flex:0 0 auto; display:flex; flex-direction:row; }
+  html.mobile-layout .quick-link{ padding:8px 8px; gap:4px; }
+  html.mobile-layout .quick-icon{ width:26px; height:26px; }
+  html.mobile-layout .quick-icon svg{ width:50%; height:50%; }
+  html.mobile-layout .quick-eyebrow{ display:none; }
+  html.mobile-layout .quick-label{ font-size:11px; }
+  html.mobile-layout .quick-sub{ display:none; }
+  html.mobile-layout .service-badges{ display:none; }
+</style>
 <script src="/track.js" defer></script>
 </head>
 <body>
 
-<style>
-  :root{
-    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
-    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
-  }
-  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
-  .qlcwrap *{box-sizing:border-box;}
-  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
-  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
-  .qtop .brand{font-weight:600;letter-spacing:.04em;}
-  .qbody{padding:22px 20px 30px;}
-  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
-  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
-  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
-  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
-  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
-  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
-  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
-  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
-  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
-  .qpriceblock{margin-bottom:14px;}
-  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
-  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
-  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
-  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
-  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
-  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
-  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
-  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:6px;line-height:1.7;}
-  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
-  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
-  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
-  .qbtn-filled{background:var(--brass);color:var(--navy);}
-  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
-  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
-  a{cursor:pointer;}
-</style>
-<div class="qlcwrap">
-<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
-<div class="qbody">
-<div class="qplaque"><span>お水の宅配</span></div>
-<div class="qlisted">掲載サービス：アクアクララ</div>
+<div class="stage">
 
-<div class="qprovider">
-  <div class="qpname">アクアクララ</div>
-  <div class="qarea">対応エリア：東京都23区、千葉県千葉市・八千代市・船橋市・習志野市・浦安市・市川市、大阪府。記載地域以外は担当加盟店が異なる場合があります。</div>
-  <div class="qdesc">「新規入会特典」あり。下記URLよりお申し込みください。</div>
-  <div class="qctarow">
-    <a class="qbtn qbtn-filled" target="_blank" href="https://ws.formzu.net/fgen/S69568311/">お申し込み</a>
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="crest"></div>
+      <div>
+        <div class="bldg-row">
+          <span class="bldg-name">QLCマンション</span>
+          <span class="demo-badge">DEMO</span>
+        </div>
+        <div class="bldg-sub">REMOTE CONCIERGE DEMONSTRATION</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="weather-row" id="weatherRow">
+        <span class="weather-icon" id="weatherIcon">—</span>
+        <span class="weather-text" id="weatherText">気温取得中…</span>
+        <span class="weather-range" id="weatherRange"></span>
+      </div>
+      <div class="clock-time" id="clockTime">--:--</div>
+      <div class="clock-date" id="clockDate">----年--月--日</div>
+    </div>
+  </header>
+
+  <div class="body-split">
+
+    <section class="pane-hero">
+      <p class="eyebrow">REMOTE CONCIERGE</p>
+      <p class="hero-tagline">プロのコンシェルジュが、ビデオ通話で住まいのお困りごとに寄り添います。</p>
+
+      <div class="portrait-wrap">
+        <div class="portrait-glow"></div>
+        <div class="portrait-ring"></div>
+        <img src="https://drive.google.com/thumbnail?id=1J-BJ0qKsXxQGvdnrFwdD29Ifv8xkYnja&sz=w1000" alt="リモートコンシェルジュ">
+      </div>
+
+      <div class="hero-badges">
+        <span class="hero-badge">🎥 ビデオ通話対応</span>
+        <span class="hero-badge">🕒 10:00〜19:00</span>
+        <span class="hero-badge">🔒 プライバシー配慮</span>
+      </div>
+
+      <a class="btn-primary" href="https://meet.virtualstore.jp/direct-sessions/awbPKE">コンシェルジュを呼ぶ（ビデオ通話）</a>
+
+      <p class="hours-note">運営時間 10:00〜19:00（土日祝は18:00まで） 不在時は自動でビデオ通話に切り替わります。<br>※本画面はデモンストレーション用に作成されたサンプル画面です。</p>
+    </section>
+
+    <nav class="pane-nav">
+      <div class="chat-panel active">
+        <div class="chat-panel-hdr">
+          <span class="chat-eyebrow">QUICK GUIDE</span>
+          <span class="chat-panel-title">QLC Link コンシェルジュ</span>
+        </div>
+        <div class="chat-scroll" id="chatScroll">
+          <div class="bubble ai">こんにちは。こちらはマンション専用のコンシェルジュ案内です。館内ルールや提携サービスについてご案内します。知りたいカテゴリのボタンをタップしてください。</div>
+        </div>
+      </div>
+
+      <div class="quick-links">
+        <a class="quick-link" href="https://qlc-service.com/">
+          <span class="quick-icon"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><rect x="13" y="13" width="7" height="7" rx="1"/></svg></span>
+          <span class="quick-eyebrow">SERVICE MENU</span>
+          <span class="quick-label">サービスメニュー</span>
+          <span class="quick-sub">お住まいの方の毎日を、もっと快適に。暮らしに役立つ便利サービスを多数ご用意しています。</span>
+          <span class="service-badges">
+            <span class="service-badge">🧹 家事サポート</span>
+            <span class="service-badge">🚗 生活便利</span>
+            <span class="service-badge">📦 保管・買取・整理</span>
+          </span>
+        </a>
+      </div>
+    </nav>
+
   </div>
-</div>
 
 </div>
-<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
-</div>
-<script src="/back-nav.js"></script>
-<script src="/text-size.js"></script>
+
+<script>
+  // Google Sites埋め込み（iframe）の見た目サイズに左右されず、
+  // 実機の物理画面サイズ・向きでレイアウトを切り替える
+  function applyResponsiveLayout(){
+    var w = window.screen.width;
+    var h = window.screen.height;
+    var isMobile;
+    if (window.screen.orientation && window.screen.orientation.type) {
+      isMobile = window.screen.orientation.type.indexOf('portrait') === 0;
+    } else {
+      isMobile = (h > w) || (Math.min(w, h) <= 760);
+    }
+    document.documentElement.classList.toggle('mobile-layout', isMobile);
+  }
+  applyResponsiveLayout();
+  window.addEventListener('resize', applyResponsiveLayout);
+  window.addEventListener('orientationchange', applyResponsiveLayout);
+  if (window.screen.orientation && window.screen.orientation.addEventListener) {
+    window.screen.orientation.addEventListener('change', applyResponsiveLayout);
+  }
+
+  function updateClock(){
+    var now = new Date();
+    var h = String(now.getHours()).padStart(2,'0');
+    var m = String(now.getMinutes()).padStart(2,'0');
+    document.getElementById('clockTime').textContent = h + ':' + m;
+    var days = ['日','月','火','水','木','金','土'];
+    document.getElementById('clockDate').textContent =
+      now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日（' + days[now.getDay()] + '）';
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
+
+  // ---- 天気・気温（Open-Meteo / 無料・APIキー不要） ----
+  var WEATHER_LAT = 35.6812;
+  var WEATHER_LON = 139.7671;
+
+  var WEATHER_ICON = {
+    0:'☀️', 1:'🌤️', 2:'⛅', 3:'☁️',
+    45:'🌫️', 48:'🌫️',
+    51:'🌦️', 53:'🌦️', 55:'🌧️',
+    61:'🌧️', 63:'🌧️', 65:'強い雨', 66:'雨', 67:'雨',
+    71:'🌨️', 73:'🌨️', 75:'❄️', 77:'❄️',
+    80:'🌦️', 81:'🌧️', 82:'⛈️',
+    85:'🌨️', 86:'❄️',
+    95:'⛈️', 96:'⛈️', 99:'⛈️'
+  };
+  var WEATHER_LABEL = {
+    0:'晴れ', 1:'晴れ', 2:'晴れ時々曇り', 3:'曇り',
+    45:'霧', 48:'霧',
+    51:'小雨', 53:'雨', 55:'雨',
+    61:'雨', 63:'雨', 65:'強い雨', 66:'雨', 67:'雨',
+    71:'雪', 73:'雪', 75:'雪', 77:'雪',
+    80:'にわか雨', 81:'にわか雨', 82:'激しい雨',
+    85:'にわか雪', 86:'にわか雪',
+    95:'雷雨', 96:'雷雨', 99:'雷雨'
+  };
+
+  function fetchWeather(){
+    var url = 'https://api.open-meteo.com/v1/forecast'
+      + '?latitude=' + WEATHER_LAT
+      + '&longitude=' + WEATHER_LON
+      + '&current=temperature_2m,weather_code'
+      + '&daily=temperature_2m_max,temperature_2m_min'
+      + '&timezone=Asia%2FTokyo';
+
+    fetch(url)
+      .then(function(res){ return res.json(); })
+      .then(function(data){
+        var code = data.current.weather_code;
+        var temp = Math.round(data.current.temperature_2m);
+        var tmax = Math.round(data.daily.temperature_2m_max[0]);
+        var tmin = Math.round(data.daily.temperature_2m_min[0]);
+        document.getElementById('weatherIcon').textContent = WEATHER_ICON[code] || '🌡️';
+        document.getElementById('weatherText').textContent = (WEATHER_LABEL[code] || '') + ' ' + temp + '℃';
+        document.getElementById('weatherRange').textContent = '最高' + tmax + '℃ / 最低' + tmin + '℃';
+      })
+      .catch(function(){
+        document.getElementById('weatherIcon').textContent = '—';
+        document.getElementById('weatherText').textContent = '気温情報を取得できませんでした';
+      });
+  }
+  fetchWeather();
+  setInterval(fetchWeather, 30 * 60 * 1000);
+
+  // ===================================================================
+  // QAコンシェルジュ（外部AI・API連携なし／ボタン選択式のみ）
+  // ===================================================================
+  var QA_BASE = 'https://qlc-service.com/';
+
+  var QA_GROUPS = {
+    rules: { label:'館内ルール・規約について', icon:'🏠', type:'rule', items:[
+      { title:'ごみの出し方', icon:'🗑️',
+        detail:'可燃ごみは毎週火曜日と金曜日の朝8時までに、指定のごみ置き場にお出しください。不燃ごみは毎月第2・第4水曜日、資源ごみ（缶・ビン・ペットボトル・段ボール）は毎週木曜日です。段ボールは潰して紐で縛ってお出しください。粗大ごみは事前申し込みと処理券の貼付が必要で、地域の粗大ごみ受付センターへ直接お申し込みください。敷地内のごみ置き場は24時間いつでもご利用いただけます（粗大ごみを除きます）。' },
+      { title:'ペット飼育について', icon:'🐾',
+        detail:'小型の犬・猫、および小動物（観賞用魚類、小鳥、ハムスター等）の飼育が可能です。犬・猫は1住戸につき合計2匹まで、成長時の体高約40cm以内・体重10kg程度までとなります。廊下やロビー、エレベーターなどの共用部分では、必ず抱っこまたはキャリーバッグに入れてご移動ください。事前に管理組合へのペット飼育届のご提出と登録が必要です。' },
+      { title:'駐車場について', icon:'🚙',
+        detail:'機械式駐車場のため、全長5,000mm・全幅1,850mm・全高1,550mm・車両重量2,000kg以下の車両に限られます。空き状況の確認、新規契約、区画変更、解約のお手続きは、管理事務室（コンシェルジュデスク窓口）にて書面で承っております。' },
+    ]},
+    house: { label:'家事サポート', icon:'🧹', type:'service', items:[
+      {slug:'housecleaning', icon:'✨', title:'ハウスクリーニング', desc:'専門スタッフによる水まわり・空調等の徹底清掃'},
+      {slug:'housekeeping', icon:'🧺', title:'家事代行', desc:'掃除・洗濯・料理など日常の家事をサポート'},
+      {slug:'childcare', icon:'👶', title:'ベビーシッター', desc:'大切なお子様を安心してお任せできるチャイルドケア'},
+      {slug:'laundry-delivery', icon:'👕', title:'宅配クリーニング', desc:'自宅で受け取れる便利な衣類クリーニング'},
+      {slug:'shoeshine', icon:'👞', title:'靴磨き・靴修理', desc:'熟練職人による靴・革製品の本格メンテナンス'},
+      {slug:'chef', icon:'🍳', title:'出張料理', desc:'食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供'},
+      {slug:'senior-care', icon:'👵', title:'シニアケア', desc:'ご家族の暮らしや介護を優しくサポート'},
+    ]},
+    life: { label:'生活便利', icon:'🚗', type:'service', items:[
+      {slug:'taxi', icon:'🚕', title:'タクシー手配', desc:'アプリで手軽に呼べる配車サービス'},
+      {slug:'hirecar', icon:'🚘', title:'ハイヤー', desc:'大切な移動を支える上質なハイヤー'},
+      {slug:'rentacarcontact', icon:'🚗', title:'レンタカー', desc:'お得な提携価格でご利用いただけます'},
+      {slug:'water-delivery', icon:'💧', title:'お水の宅配', desc:'安心・美味しいお水のサーバー宅配'},
+      {slug:'rental', icon:'🛠', title:'各種レンタル', desc:'ベビー用品やイベント用品を手軽にレンタル'},
+      {slug:'flower-delivery', icon:'🌹', title:'フラワーデリバリー', desc:'お祝いや日常に彩りを添えるお花の宅配'},
+      {slug:'food-delivery', icon:'🍱', title:'フードデリバリー', desc:'東京23区限定、レストランの味を自宅へ'},
+      {slug:'petcare', icon:'🐶', title:'ペットケア', desc:'大切なペットのシッター・ホテルサービス'},
+      {slug:'medical-night', icon:'🏥', title:'夜間の救急・医療相談', desc:'夜間の急な不調を専門家に相談'},
+      {slug:'appliance-support', icon:'🔌', title:'家電サポート', desc:'家電の修理・設置・処分のお困りごとに対応'},
+      {slug:'comingsoon', icon:'💻', title:'パソコン訪問コンシェルジュ', desc:'スタッフが訪問し、データを守りながらPCのお困りごとを解決', soon:true},
+      {slug:'comingsoon', icon:'📱', title:'スマホ・タブレット宅配修理', desc:'故障したスマホ・タブレットを宅配でお預かりして修理', soon:true},
+      {slug:'comingsoon', icon:'🏠', title:'デジタルホスピタル', desc:'住まいのIoT化を、設置・設定までプロが訪問サポート', soon:true},
+    ]},
+    storage: { label:'荷物の保管・買取・整理', icon:'📦', type:'service', items:[
+      {slug:'storage', icon:'🔑', title:'宅配トランクルーム', desc:'スマホで預入・取出しできる収納サービス'},
+      {slug:'reuse', icon:'💰', title:'不用品の宅配買取', desc:'箱に詰めて送るだけのリユース買取'},
+      {slug:'book-reuse', icon:'📚', title:'本の買取・リユース', desc:'ブックオフが本・漫画を宅配買取'},
+      {slug:'organizing', icon:'🗄️', title:'整理収納・おかたづけ', desc:'プロが収納の仕組み作りをサポート'},
+      {slug:'lifeorganize', icon:'🌱', title:'ライフオーガナイズ', desc:'くらし全体の最適化をサポート'},
+      {slug:'photo-digitize', icon:'📷', title:'おもいで写真デジタイズ', desc:'古い写真・ビデオを劣化しないデータへ'},
+      {slug:'delivery', icon:'📦', title:'宅配便の集荷連絡先', desc:'荷物発送に便利な集荷受付窓口'},
+      {slug:'moving', icon:'🚚', title:'お引越し案内', desc:'大手引越し業者を提携割引でご案内'},
+    ]},
+  };
+
+  var chatScroll = document.getElementById('chatScroll');
+
+  function scrollChat(){ chatScroll.scrollTop = chatScroll.scrollHeight; }
+
+  function appendBubble(text, kind){
+    var div = document.createElement('div');
+    div.className = 'bubble ' + kind;
+    div.textContent = text;
+    chatScroll.appendChild(div);
+    scrollChat();
+    return div;
+  }
+
+  function appendLink(label, href){
+    var a = document.createElement('a');
+    a.className = 'detail-link';
+    a.href = href;
+    a.target = '_blank';
+    a.textContent = label;
+    chatScroll.appendChild(a);
+    scrollChat();
+  }
+
+  function appendOptions(buttons){
+    var wrap = document.createElement('div');
+    wrap.className = 'quick-replies';
+    wrap.id = 'qaOptions';
+    buttons.forEach(function(b){
+      var btn = document.createElement('button');
+      btn.className = 'quick-reply-btn';
+      btn.type = 'button';
+      btn.textContent = b.label;
+      btn.onclick = b.onClick;
+      wrap.appendChild(btn);
+    });
+    chatScroll.appendChild(wrap);
+    scrollChat();
+    return wrap;
+  }
+
+  function buildGrid(buttons){
+    var grid = document.createElement('div');
+    grid.className = 'qa-grid';
+    buttons.forEach(function(b){
+      var btn = document.createElement('button');
+      btn.className = 'quick-reply-btn';
+      btn.type = 'button';
+      btn.textContent = b.label;
+      btn.onclick = b.onClick;
+      grid.appendChild(btn);
+    });
+    return grid;
+  }
+
+  function clearOptions(){
+    var old = document.getElementById('qaOptions');
+    if (old) old.remove();
+  }
+
+  function qaRenderMain(){
+    var wrap = document.createElement('div');
+    wrap.className = 'quick-replies';
+    wrap.id = 'qaOptions';
+
+    var buttons = Object.keys(QA_GROUPS).map(function(key){
+      var g = QA_GROUPS[key];
+      return { label: g.icon + ' ' + g.label, onClick: function(){ qaSelectGroup(key); } };
+    });
+    wrap.appendChild(buildGrid(buttons));
+
+    var divider = document.createElement('div');
+    divider.className = 'qa-divider';
+    wrap.appendChild(divider);
+
+    // お問い合わせは選択肢ではなく「相談・連絡」なので、見た目をあえて分ける
+    var inquiryBtn = document.createElement('button');
+    inquiryBtn.className = 'inquiry-btn';
+    inquiryBtn.type = 'button';
+    inquiryBtn.textContent = '📩 お問い合わせ';
+    inquiryBtn.onclick = qaShowInquiry;
+    wrap.appendChild(inquiryBtn);
+
+    chatScroll.appendChild(wrap);
+    scrollChat();
+  }
+
+  function qaSelectGroup(key){
+    var g = QA_GROUPS[key];
+    clearOptions();
+    appendBubble(g.icon + ' ' + g.label, 'user');
+    appendBubble(g.label + 'ですね。気になる項目をお選びください。', 'ai');
+
+    var wrap = document.createElement('div');
+    wrap.className = 'quick-replies';
+    wrap.id = 'qaOptions';
+
+    var buttons = g.items.map(function(item){
+      return {
+        label: item.icon + ' ' + item.title + (item.soon ? '（近日公開）' : ''),
+        onClick: function(){ qaShowDetail(key, item); }
+      };
+    });
+    wrap.appendChild(buildGrid(buttons));
+
+    var back = document.createElement('button');
+    back.className = 'quick-reply-btn';
+    back.type = 'button';
+    back.textContent = '↩︎ 最初のメニューに戻る';
+    back.onclick = qaBackToMain;
+    wrap.appendChild(back);
+
+    chatScroll.appendChild(wrap);
+    scrollChat();
+  }
+
+  function qaShowDetail(key, item){
+    var g = QA_GROUPS[key];
+    clearOptions();
+    appendBubble(item.icon + ' ' + item.title, 'user');
+
+    if (g.type === 'rule') {
+      appendBubble(item.detail, 'ai');
+    } else {
+      var soonNote = item.soon ? '\n※現在サービス開発中です。公開まで今しばらくお待ちください。' : '';
+      appendBubble(item.desc + '。' + soonNote, 'ai');
+      appendLink('➔ ' + item.title + '専用ページを見る', QA_BASE + item.slug);
+    }
+
+    appendOptions([{ label: '↩︎ 他のカテゴリを見る', onClick: qaBackToMain }]);
+  }
+
+  function qaShowInquiry(){
+    clearOptions();
+    appendBubble('📩 お問い合わせ', 'user');
+    appendBubble('こちらのお問い合わせは、緊急のご連絡先ではございません。営業日に順番に内容を確認のうえ、担当よりご回答いたします。チャットのような即時のお返事ではない点、あらかじめご了承ください。', 'ai');
+    appendLink('➔ お問い合わせフォームを開く', 'https://form.run/@ql-c-vQpklahxKsM7wKGR06T5');
+    appendOptions([{ label: '↩︎ 最初のメニューに戻る', onClick: qaBackToMain }]);
+  }
+
+  function qaBackToMain(){
+    clearOptions();
+    appendBubble('↩︎ 最初のメニューに戻る', 'user');
+    appendBubble('知りたいカテゴリを選択してください。', 'ai');
+    qaRenderMain();
+  }
+
+  qaRenderMain();
+  // 初回表示時は、ボタン数が多くて自動スクロールされても
+  // 必ず先頭（あいさつ文）から見えるように固定する
+  chatScroll.scrollTop = 0;
+  requestAnimationFrame(function(){ chatScroll.scrollTop = 0; });
+</script>
+
 </body>
 </html>
