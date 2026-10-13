@@ -317,7 +317,7 @@
 <script>
 const BASE = 'https://www.qlc-service.com/qlc-link/';
 
-const ACCESS_BID = 'national';
+const ACCESS_BID = (function () { var p = (location.pathname || '').split('/').filter(Boolean); var f = p[0] || ''; if (f === 'staging') return 'staging'; return ['kanto', 'kansai', 'tokai', 'west'].indexOf(f) >= 0 ? f : 'national'; })();
 const ACCESS_LOG_URL = 'https://script.google.com/macros/s/AKfycbz07q7G3kYMk25qL6eu64IMKClKTscHtt4JWagyDkXWCW4c6SDmRiKUTqjCuh8UyfZH/exec';
 function logAccess(type, label) {
   try {
