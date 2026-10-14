@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="/staging-gate.js"></script>
+<meta charset="UTF-8">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>見守りセンサー「みぃるも」｜QLC Link</title>
+<script src="/track.js" defer></script>
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
+  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
+  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
+  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
+  .qccoderow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .qccodetag{font-size:10.5px;color:#CFC8B8;letter-spacing:.04em;}
+  .qccode{display:inline-block;background:var(--brass-light);color:var(--navy);font-family:"Courier New",monospace;font-weight:700;font-size:16px;letter-spacing:.12em;padding:6px 16px;border-radius:6px;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:8px;line-height:1.7;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  a{cursor:pointer;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
+<div class="qbody">
+<div class="qplaque"><span>見守りセンサー「みぃるも」</span></div>
+<div class="qlisted">掲載サービス：株式会社キューネット（QNET）</div>
+
+<div class="qprovider">
+  <div class="qpname">株式会社キューネット（QNET）</div>
+  <div class="qarea">全国対応（駆けつけ対応は事前のエリア確認が必要です）</div>
+  <div class="qdesc"><strong>カメラなし・工事なしで、離れて暮らすご両親・ご実家をそっと見守る</strong>高齢者見守りセンサー「スマートケアリンク みぃるも」です。コンセントに挿すだけ。通信機能を内蔵しているので、Wi-Fiも工事も不要で、届いたその日からご利用いただけます。<br>部屋の「温度・湿度・明るさ・人の動き」の4つのセンサーで、暮らしのリズムをそっと見守ります。<div style="font-size:12.5px;font-weight:500;color:#1C2B40;border-bottom:1px solid #D8BD8A;padding-bottom:5px;margin:16px 0 4px;">「みぃるも」の3つの安心</div><div style="font-size:12.5px;line-height:1.85;padding:5px 0 5px 14px;text-indent:-14px;">・<strong style="color:#1C2B40;">カメラなしでプライバシーに配慮</strong>　カメラは付いていません。生活のリズムをそっと見守り、スマホでセンサーの状況を確認できます。</div><div style="font-size:12.5px;line-height:1.85;padding:5px 0 5px 14px;text-indent:-14px;">・<strong style="color:#1C2B40;">熱中症や異変をスマホにお知らせ</strong>　温度と湿度が高くなると熱中症アラートを通知。動きがない状態が約1日※続くと、ご家族へメールでお知らせします。</div><div style="font-size:12.5px;line-height:1.85;padding:5px 0 5px 14px;text-indent:-14px;">・<strong style="color:#1C2B40;">プロが確認、必要なら駆けつけ</strong>　ご家族での確認が難しいときは、キューネット（QNET）が対応。看護師の電話確認「お元気コール」や、警備員の駆けつけも手配できます。</div><div style="font-size:12.5px;font-weight:500;color:#1C2B40;border-bottom:1px solid #D8BD8A;padding-bottom:5px;margin:16px 0 4px;">ご両親が東京都内にお住まいの場合　異変があったときの流れ</div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">1</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">動きを検知できない</strong><br>センサーの反応が約1日※ありません。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">2</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">ご家族へメールで通知</strong><br>離れていてもすぐに気づけます。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">3</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">お元気コール</strong><br>看護師がお電話で安否を確認します。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">4</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">警備員が駆けつけ</strong><br>必要に応じて現地へ出動します。</span></div><div style="font-size:12.5px;font-weight:500;color:#1C2B40;border-bottom:1px solid #D8BD8A;padding-bottom:5px;margin:16px 0 4px;">ご実家が東京都外にある場合　緊急のときの流れ</div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">1</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">呼び出しボタンを押す</strong><br>困ったとき・体調が悪いときにワンプッシュ。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">2</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">看護師が応対</strong><br>緊急通報センターがお電話で状況を確認します。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">3</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">出動・救急要請</strong><br>状況に応じて警備員が駆けつけ、または消防へ連絡します。</span></div><div style="font-size:12.5px;font-weight:500;color:#1C2B40;border-bottom:1px solid #D8BD8A;padding-bottom:5px;margin:16px 0 4px;">ご利用開始までの流れ</div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">1</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">エリア確認のエントリー（無料）</strong><br>見守りをご希望のご両親・ご実家のお住まいの地域を、エントリーフォームからお知らせください。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">2</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">エリア事前調査（数日かかります）</strong><br>警備員の駆けつけ対応エリアかを調査します。</span></div><div style="display:flex;gap:10px;padding:8px 0;border-bottom:1px dashed #E8E0CE;"><span style="flex:0 0 auto;width:22px;height:22px;border-radius:50%;background:#1C2B40;color:#D8BD8A;font-size:11.5px;font-weight:600;display:flex;align-items:center;justify-content:center;">3</span><span style="font-size:12.5px;line-height:1.8;"><strong style="color:#1C2B40;">結果のご連絡・お申込み</strong><br>調査結果をQLCよりご連絡します。対応可能な場合は、お申込みのご案内をお送りします。</span></div></div>
+  <div class="qpriceblock">
+    <div class="qpricehead">ご利用料金</div>
+    <div class="qprow"><span>月額利用料</span><span>準備中</span></div>
+    <div class="qprow"><span>初期費用</span><span>準備中</span></div>
+  </div>
+  <div class="qnote">※動きがないと判断するまでの時間は約1日です（設定により変更可能）。<br>※駆けつけ対応の可否は、ご両親・ご実家のお住まいの地域によって異なります。そのため、お申込み前にエリアを確認いたします。<br>※ご利用料金は決定次第、こちらに掲載します。<br>運営：株式会社キューネット（QNET）。QLCグループの企画です。</div>
+</div>
+
+</div>
+<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+</div>
+<script src="/back-nav.js"></script>
+<script src="/text-size.js"></script>
+</body>
+</html>
