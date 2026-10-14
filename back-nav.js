@@ -49,10 +49,11 @@
     var site = '';
     try {
       var back = new URLSearchParams(window.location.search).get('back');
-      if (back && back.charAt(0) === '/') site = isRestricted(back);
+      // 覚えるのは「来たページそのもの」（例：/chezvous/services/）。物件のトップだけとは限らないため。
+      if (back && back.charAt(0) === '/' && isRestricted(back)) site = back.split('?')[0].split('#')[0];
       if (!site && document.referrer) {
         var r = new URL(document.referrer);
-        if (r.origin === window.location.origin) site = isRestricted(r.pathname);
+        if (r.origin === window.location.origin && isRestricted(r.pathname)) site = r.pathname;
       }
     } catch (e) {}
     try {
