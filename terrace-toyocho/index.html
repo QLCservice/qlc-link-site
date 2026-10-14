@@ -76,6 +76,32 @@
   .zone-partner{background:transparent;border:1.5px dashed var(--brass);color:var(--navy);margin-top:44px;}
   .zone-partner .zsub{color:var(--charcoal-soft);}
   .zone + .grid{margin-top:14px;}
+  /* ===== CATEGORY-MENU (CSS) START（提携事業者を「カテゴリ→各サービス」の2階層で見せる試作）===== */
+  .cats{margin-top:14px;display:flex;flex-direction:column;gap:10px;}
+  .cat{background:var(--cream-card);border:1.5px solid #E8E0CE;border-radius:14px;overflow:hidden;}
+  .cat[open]{border-color:var(--brass);box-shadow:0 4px 14px rgba(0,0,0,.07);}
+  .cat summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:12px;padding:14px 14px;min-height:76px;-webkit-tap-highlight-color:transparent;}
+  .cat summary::-webkit-details-marker{display:none;}
+  .cat-ico{flex:0 0 46px;height:46px;border-radius:12px;background:#F6F2EA;display:flex;align-items:center;justify-content:center;font-size:25px;}
+  .cat-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}
+  .cat-txt b{font-family:"Noto Serif JP",serif;font-size:15.5px;color:var(--navy);line-height:1.4;text-wrap:balance;}
+  .cat-txt small{font-size:12px;color:var(--charcoal-soft);line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+  .cat[open] .cat-txt small{-webkit-line-clamp:unset;display:block;}
+  .cat-n{align-self:flex-start;margin-top:3px;font-size:11px;font-weight:700;color:var(--navy);background:#F3E9D2;border-radius:10px;padding:1px 9px;}
+  .cat summary::after{content:"";flex:0 0 auto;width:9px;height:9px;border-right:2.5px solid var(--brass);border-bottom:2.5px solid var(--brass);transform:rotate(45deg);margin:0 4px 4px 2px;transition:transform .15s;}
+  .cat[open] summary::after{transform:rotate(-135deg);margin-bottom:-2px;}
+  .cat-list{border-top:1px solid #EFE8D6;}
+  .row{display:flex;align-items:center;gap:12px;padding:13px 14px;min-height:62px;text-decoration:none;border-bottom:1px solid #F1EBDC;color:inherit;-webkit-tap-highlight-color:rgba(183,147,88,.18);}
+  .row:last-child{border-bottom:0;}
+  .row:active{background:#FBF6EC;}
+  .r-ico{flex:0 0 40px;text-align:center;font-size:21px;line-height:1.2;}
+  .r-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+  .r-txt b{font-size:14.5px;color:var(--charcoal);line-height:1.45;}
+  .r-txt small{font-size:12px;color:var(--charcoal-soft);line-height:1.55;}
+  .r-go{flex:0 0 auto;font-size:22px;color:var(--brass);line-height:1;}
+  /* ===== CATEGORY-MENU (CSS) END ===== */
+
+  .r-txt .badges{margin-top:3px;}
 
   .qa{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;margin-bottom:10px;overflow:hidden;}
   .qa summary{cursor:pointer;list-style:none;padding:14px 16px;font-size:13px;font-weight:500;color:var(--navy);display:flex;gap:10px;align-items:flex-start;line-height:1.7;}
@@ -218,59 +244,86 @@
     <div class="zsub">以下は提携事業者によるサービスです。詳細ページから、各事業者へ直接お申込み・お問い合わせください（コンシェルジュによるお取次ぎではありません）。有人日・リモート日を問わず、お部屋からお申込みいただけます。掲載しているサービスの内容やご連絡先は、提携事業者様のご都合により変更・終了となる場合がございます。</div>
   </div>
 
-  <div class="section-head"><span class="icon">🧹</span>クリーニング・リペア</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/laundry-delivery.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">👕👔</div><h3>宅配クリーニング</h3><p>自宅で受け取れる便利な衣類クリーニング</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/shoeshine.html" target="_blank"><div class="cicon">👞👟👜</div><h3>靴磨き・靴修理</h3><p>職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/knifesharpening.html" target="_blank"><div class="cicon">🔪</div><h3>包丁研ぎサービス</h3><p>ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/carwash.html" target="_blank"><div class="cicon">🚗✨</div><h3>出張洗車</h3><p>ご自宅や勤務先の駐車場まで伺うウォーターレス出張洗車（関東・関西エリア。その他はご相談ください）</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">🤝</span>家事・くらしのお手伝い</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/housekeeping-tokyo.html" target="_blank"><div class="cicon">🧺</div><h3>家事代行</h3><p>東京・神奈川エリア対応の家事代行サービス</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/housecleaning-tokyo.html" target="_blank"><div class="cicon">✨</div><h3>ハウスクリーニング</h3><p>東京・神奈川エリア対応の専門クリーニング</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/chef.html" target="_blank"><div class="cicon">🍳</div><h3>出張料理</h3><p>食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/childcare-tokyo.html" target="_blank"><div class="cicon">👶</div><h3>ベビーシッター</h3><p>東京・神奈川、首都圏対応のベビーシッターサービス</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/senior-care.html" target="_blank"><div class="cicon">👵</div><h3>シニアケア</h3><p>ご家族の暮らしや介護を優しくサポート</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/petcare.html" target="_blank"><div class="cicon">🐶</div><h3>ペットケア</h3><p>大切なペットのシッター・ホテルサービス</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/medical-night.html" target="_blank"><div class="cicon">🏥</div><h3>夜間の救急・医療相談</h3><p>夜間の急な不調を専門家に相談</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">💻</span>パソコン・スマホのお困りごと</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/pchospital.html" target="_blank"><div class="cicon">💻</div><h3>パソコン訪問コンシェルジュ</h3><p>プロのサービスマンが訪問し、データを守りながらPCのお困りごとを解決</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/smahospital.html" target="_blank"><div class="cicon">📱</div><h3>スマホ・タブレット宅配修理</h3><p>故障したスマホ・タブレットを宅配でお預かりして修理</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/digitalhospital.html" target="_blank"><div class="cicon">🏠</div><h3>デジタルホスピタル</h3><p>住まいのIoT化を、設置・設定までプロが訪問サポート</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">🚕</span>お出かけ・お車</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/taxi.html" target="_blank"><div class="cicon">🚕</div><h3>タクシー手配</h3><p>アプリで手軽に呼べる配車サービス</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/hirecar.html" target="_blank"><div class="cicon">🚘</div><h3>ハイヤー</h3><p>大切な移動を支える上質なハイヤー</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/rentacarcontact.html" target="_blank"><div class="cicon">🚗</div><h3>レンタカー</h3><p>お得な提携価格でご利用いただけます</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">🌷</span>お届け・宅配</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/water-delivery.html" target="_blank"><div class="cicon">💧</div><h3>お水の宅配</h3><p>安心・美味しいお水のサーバー宅配</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/flower-delivery.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">🌹</div><h3>フラワーデリバリー</h3><p>お祝いや日常に彩りを添えるお花の宅配</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/food-delivery.html" target="_blank"><div class="cicon">🍱</div><h3>フードデリバリー</h3><p>東京23区限定、レストランの味を自宅へ</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/rental.html" target="_blank"><div class="cicon">🛠</div><h3>各種レンタル</h3><p>ベビー用品やイベント用品を手軽にレンタル</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/futon-rental.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">🛏️</div><h3>布団の宅配レンタル</h3><p>Webでお申込みいただく、来客用布団の宅配レンタル。全国どこでも対応</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/delivery.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">📦</div><h3>宅配便の集荷申込</h3><p>ヤマト運輸・ゆうパックの集荷を、お部屋から依頼</p><span class="cta">詳しく見る</span></a>
-  </div>
-
-  <div class="section-head"><span class="icon">📦</span>リサイクル・買取・収納・お引越し</div>
-  <div class="grid">
-    <a class="card" href="https://www.qlc-service.com/qlc-link/reuse.html" target="_blank"><div class="cicon">👜👗</div><h3>不用品の宅配買取</h3><p>箱に詰めて送るだけのリユース買取</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/book-reuse.html" target="_blank"><div class="cicon">📚</div><h3>本の買取・リユース</h3><p>ブックオフが本・漫画を宅配買取</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/organizing-tokyo.html" target="_blank"><div class="cicon">🗄️</div><h3>整理収納・おかたづけ</h3><p>東京・神奈川・埼玉・千葉エリア対応</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/storage.html" target="_blank"><div class="cicon">🧳</div><h3>宅配トランクルーム</h3><p>スマホで預入・取出しできる収納サービス</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/lifeorganize.html" target="_blank"><div class="cicon">🌱</div><h3>ライフオーガナイズ</h3><p>くらし全体の最適化をサポート</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/photo-digitize.html" target="_blank"><div class="cicon">📷🎞</div><h3>おもいで写真デジタイズ</h3><p>古い写真・ビデオを劣化しないデータへ</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/moving.html" target="_blank"><div class="cicon">🚚</div><h3>お引越し案内</h3><p>大手引越し業者を提携割引でご案内</p><span class="cta">詳しく見る</span></a>
-    <a class="card" href="https://www.qlc-service.com/qlc-link/postcard-print.html" target="_blank"><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div><div class="cicon">✉️</div><h3>はがき印刷・年賀状印刷</h3><p>転居のご挨拶状や年賀状などを、Webから注文</p><span class="cta">詳しく見る</span></a>
+  <div class="cats">
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">🧹</span>
+        <span class="cat-txt"><b>クリーニング・リペア</b><small>宅配クリーニング・靴磨き・靴修理・包丁研ぎサービス・出張洗車</small><span class="cat-n">4件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/laundry-delivery.html" target="_blank"><span class="r-ico">👕👔</span><span class="r-txt"><b>宅配クリーニング</b><small>自宅で受け取れる便利な衣類クリーニング</small><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/shoeshine.html" target="_blank"><span class="r-ico">👞👟👜</span><span class="r-txt"><b>靴磨き・靴修理</b><small>職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/knifesharpening.html" target="_blank"><span class="r-ico">🔪</span><span class="r-txt"><b>包丁研ぎサービス</b><small>ご自宅の包丁を熟練の職人が一本一本丁寧に研ぎ上げます。</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/carwash.html" target="_blank"><span class="r-ico">🚗✨</span><span class="r-txt"><b>出張洗車</b><small>ご自宅や勤務先の駐車場まで伺うウォーターレス出張洗車（関東・関西エリア。その他はご相談ください）</small></span><span class="r-go">›</span></a>
+      </div>
+    </details>
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">🤝</span>
+        <span class="cat-txt"><b>家事・くらしのお手伝い</b><small>家事代行・ハウスクリーニング・出張料理・ベビーシッター・シニアケア・ペットケア・夜間の救急・医療相談</small><span class="cat-n">7件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/housekeeping-tokyo.html" target="_blank"><span class="r-ico">🧺</span><span class="r-txt"><b>家事代行</b><small>東京・神奈川エリア対応の家事代行サービス</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/housecleaning-tokyo.html" target="_blank"><span class="r-ico">✨</span><span class="r-txt"><b>ハウスクリーニング</b><small>東京・神奈川エリア対応の専門クリーニング</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/chef.html" target="_blank"><span class="r-ico">🍳</span><span class="r-txt"><b>出張料理</b><small>食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/childcare-tokyo.html" target="_blank"><span class="r-ico">👶</span><span class="r-txt"><b>ベビーシッター</b><small>東京・神奈川、首都圏対応のベビーシッターサービス</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/senior-care.html" target="_blank"><span class="r-ico">👵</span><span class="r-txt"><b>シニアケア</b><small>ご家族の暮らしや介護を優しくサポート</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/petcare.html" target="_blank"><span class="r-ico">🐶</span><span class="r-txt"><b>ペットケア</b><small>大切なペットのシッター・ホテルサービス</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/medical-night.html" target="_blank"><span class="r-ico">🏥</span><span class="r-txt"><b>夜間の救急・医療相談</b><small>夜間の急な不調を専門家に相談</small></span><span class="r-go">›</span></a>
+      </div>
+    </details>
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">💻</span>
+        <span class="cat-txt"><b>パソコン・スマホのお困りごと</b><small>パソコン・ネット訪問サポート・スマホ・タブレット宅配修理・住まいのデジタルサポート</small><span class="cat-n">3件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/pchospital.html" target="_blank"><span class="r-ico">💻</span><span class="r-txt"><b>パソコン・ネット訪問サポート</b><small>デジタルのプロがご自宅に訪問し、データを守りながらPCのお困りごとを解決</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/smahospital.html" target="_blank"><span class="r-ico">📱</span><span class="r-txt"><b>スマホ・タブレット宅配修理</b><small>故障したスマホ・タブレットを宅配でお預かりして修理</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/digitalhospital.html" target="_blank"><span class="r-ico">🏠</span><span class="r-txt"><b>住まいのデジタルサポート</b><small>住まいのIoT化を、設置・設定・使い方までプロが訪問サポート</small></span><span class="r-go">›</span></a>
+      </div>
+    </details>
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">🚕</span>
+        <span class="cat-txt"><b>お出かけ・お車</b><small>タクシー手配・ハイヤー・レンタカー</small><span class="cat-n">3件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/taxi.html" target="_blank"><span class="r-ico">🚕</span><span class="r-txt"><b>タクシー手配</b><small>アプリで手軽に呼べる配車サービス</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/hirecar.html" target="_blank"><span class="r-ico">🚘</span><span class="r-txt"><b>ハイヤー</b><small>大切な移動を支える上質なハイヤー</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/rentacarcontact.html" target="_blank"><span class="r-ico">🚗</span><span class="r-txt"><b>レンタカー</b><small>お得な提携価格でご利用いただけます</small></span><span class="r-go">›</span></a>
+      </div>
+    </details>
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">🌷</span>
+        <span class="cat-txt"><b>お届け・宅配</b><small>お水の宅配・フラワーデリバリー・フードデリバリー・各種レンタル・布団の宅配レンタル・宅配便の集荷申込</small><span class="cat-n">6件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/water-delivery.html" target="_blank"><span class="r-ico">💧</span><span class="r-txt"><b>お水の宅配</b><small>安心・美味しいお水のサーバー宅配</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/flower-delivery.html" target="_blank"><span class="r-ico">🌹</span><span class="r-txt"><b>フラワーデリバリー</b><small>お祝いや日常に彩りを添えるお花の宅配</small><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/food-delivery.html" target="_blank"><span class="r-ico">🍱</span><span class="r-txt"><b>フードデリバリー</b><small>東京23区限定、レストランの味を自宅へ</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/rental.html" target="_blank"><span class="r-ico">🛠</span><span class="r-txt"><b>各種レンタル</b><small>ベビー用品やイベント用品を手軽にレンタル</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/futon-rental.html" target="_blank"><span class="r-ico">🛏️</span><span class="r-txt"><b>布団の宅配レンタル</b><small>Webでお申込みいただく、来客用布団の宅配レンタル。全国どこでも対応</small><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/delivery.html" target="_blank"><span class="r-ico">📦</span><span class="r-txt"><b>宅配便の集荷申込</b><small>ヤマト運輸・ゆうパックの集荷を、お部屋から依頼</small><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div></span><span class="r-go">›</span></a>
+      </div>
+    </details>
+    <details class="cat" name="cat">
+      <summary>
+        <span class="cat-ico">📦</span>
+        <span class="cat-txt"><b>リサイクル・買取・収納・お引越し</b><small>不用品の宅配買取・本の買取・リユース・整理収納・おかたづけ・宅配トランクルーム・ライフオーガナイズ・おもいで写真デジタイズ・お引越し案内・はがき印刷・年賀状印刷</small><span class="cat-n">8件</span></span>
+      </summary>
+      <div class="cat-list">
+        <a class="row" href="https://www.qlc-service.com/qlc-link/reuse.html" target="_blank"><span class="r-ico">👜👗</span><span class="r-txt"><b>不用品の宅配買取</b><small>箱に詰めて送るだけのリユース買取</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/book-reuse.html" target="_blank"><span class="r-ico">📚</span><span class="r-txt"><b>本の買取・リユース</b><small>ブックオフが本・漫画を宅配買取</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/organizing-tokyo.html" target="_blank"><span class="r-ico">🗄️</span><span class="r-txt"><b>整理収納・おかたづけ</b><small>東京・神奈川・埼玉・千葉エリア対応</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/storage.html" target="_blank"><span class="r-ico">🧳</span><span class="r-txt"><b>宅配トランクルーム</b><small>スマホで預入・取出しできる収納サービス</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/lifeorganize.html" target="_blank"><span class="r-ico">🌱</span><span class="r-txt"><b>ライフオーガナイズ</b><small>くらし全体の最適化をサポート</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/photo-digitize.html" target="_blank"><span class="r-ico">📷🎞</span><span class="r-txt"><b>おもいで写真デジタイズ</b><small>古い写真・ビデオを劣化しないデータへ</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/moving.html" target="_blank"><span class="r-ico">🚚</span><span class="r-txt"><b>お引越し案内</b><small>大手引越し業者を提携割引でご案内</small></span><span class="r-go">›</span></a>
+        <a class="row" href="https://www.qlc-service.com/qlc-link/postcard-print.html" target="_blank"><span class="r-ico">✉️</span><span class="r-txt"><b>はがき印刷・年賀状印刷</b><small>転居のご挨拶状や年賀状などを、Webから注文</small><div class="badges"><span class="rbadge rb-alt">リモート日はこちら</span></div></span><span class="r-go">›</span></a>
+      </div>
+    </details>
   </div>
 
   <div class="zone zone-facility" id="facility">
@@ -423,7 +476,7 @@
   });
 
   var backParam = 'back=' + encodeURIComponent('/' + BID + '/');
-  document.querySelectorAll('a.card').forEach(function(a){
+  document.querySelectorAll('a.card, a.row').forEach(function(a){
     var h = a.getAttribute('href') || '';
     if (h.indexOf('back=') === -1) {
       var hash = '';
@@ -433,9 +486,12 @@
       a.setAttribute('href', h + sep + backParam + hash);
     }
     a.addEventListener('click', function(){
-      var h3 = a.querySelector('h3');
+      var h3 = a.querySelector('h3') || a.querySelector('.r-txt b');
       log('click', h3 ? h3.textContent : a.href);
     });
+  });
+  document.querySelectorAll('details.cat').forEach(function(d){
+    d.addEventListener('toggle', function(){ if (d.open) { var b = d.querySelector('summary b'); log('click', 'カテゴリ：' + (b ? b.textContent : '')); } });
   });
 })();
 </script>
