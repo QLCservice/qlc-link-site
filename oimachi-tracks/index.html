@@ -219,6 +219,23 @@
   @media (max-width:360px){.toptiles{grid-template-columns:1fr;}}
   /* ===== TOP-MENU (CSS) END ===== */
   mark.ph{background:#FFF3B0;border-radius:3px;padding:0 3px;color:#5a4a00;}
+
+  /* ===== TOP-MENU EXTRA (CSS) START（NEW表示・フロントへの電話ボタン）===== */
+  .t-new{flex:0 0 auto;align-self:flex-start;background:#D6403A;color:#fff;font-size:10.5px;font-weight:700;letter-spacing:.06em;border-radius:8px;padding:1px 8px;margin-left:6px;animation:qlcBlink 1.1s ease-in-out infinite;}
+  .t-new[hidden]{display:none;}
+  .camp-item > summary .t-new{margin:0 0 4px;display:inline-block;}
+  @keyframes qlcBlink{0%,100%{opacity:1;}50%{opacity:.25;}}
+  @media (prefers-reduced-motion: reduce){.t-new{animation:none;}}
+  .callbar{display:flex;align-items:center;gap:12px;margin-top:10px;background:var(--navy);color:#F3EFE6;border-radius:14px;padding:12px 14px;min-height:60px;text-decoration:none;-webkit-tap-highlight-color:rgba(183,147,88,.3);}
+  .callbar:active{background:#2C405C;}
+  .callbar .c-ico{flex:0 0 44px;height:44px;border-radius:12px;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:22px;}
+  .callbar .c-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+  .callbar .c-txt b{font-family:"Noto Serif JP",serif;font-size:15px;line-height:1.4;color:#fff;}
+  .callbar .c-txt small{font-size:11.5px;color:var(--brass-light);line-height:1.5;}
+  .callbar .c-go{flex:0 0 auto;font-size:11.5px;font-weight:700;background:var(--brass);color:var(--navy);border-radius:14px;padding:5px 12px;}
+  .caution a{color:#9c2f10;font-weight:700;white-space:nowrap;}
+  /* ===== TOP-MENU EXTRA (CSS) END ===== */
+
 </style>
 
 <div class="qtop">
@@ -234,7 +251,7 @@
 <nav class="toptiles" id="top-menu" aria-label="お知らせ・ご質問・お問い合わせ">
   <a class="tile tile-camp" id="tileCamp" href="#p-campaign">
     <span class="t-ico">📣</span>
-    <span class="t-txt"><b>キャンペーンのお知らせ</b><small id="campTease">最新のお知らせを見る</small></span>
+    <span class="t-txt"><b>キャンペーンのお知らせ<span class="t-new" id="campNew" hidden>NEW</span></b><small id="campTease">最新のお知らせを見る</small></span>
     <span class="t-badge" id="campBadge" hidden></span>
   </a>
   <a class="tile" href="#p-qa"><span class="t-ico">💬</span><span class="t-txt"><b>よくあるご質問</b><small>お住まいのご案内</small></span></a>
@@ -248,7 +265,7 @@
     <!-- キャンペーンを載せるときは、ここに <details class="camp-card camp-item" open data-title="会社名｜キャンペーン名" data-term="お申込 〇/〇まで"> を追加する（複数可）。
          ひな形は https://qlc-service.com/sample-property/menu-v2.html 。終了したら、そのブロックだけ削除する。 -->
     <!-- ===== CAMPAIGN:HC-2026-AUTUMN START（シェヴ 2026秋ハウスクリーニング「夏の汚れリセット」／お申込 2026-10-31まで・ご利用 11-13まで。終了後はこの START〜END とCSSの同名ブロックを削除）===== -->
-        <details class="camp-card camp-item" open data-title="シェヴ｜2026 秋のハウスクリーニング" data-term="お申込 10/31まで">
+        <details class="camp-card camp-item" open data-id="hc-2026-autumn" data-added="2026-10-14" data-title="シェヴ｜2026 秋のハウスクリーニング" data-term="お申込 10/31まで">
           <summary class="camp-head">
             <span class="clabel">株式会社シェヴ<small>2026 秋のハウスクリーニングキャンペーン</small></span>
             <span class="cstatus">お申込受付中｜10/31まで</span>
@@ -549,10 +566,11 @@
 
 
 <script>
-// 上部メニュー：キャンペーンの件数・見出しをタイルに反映する（JSが無くても、タップすれば中身は見られる）
+// 上部メニュー：キャンペーンの件数・見出し・NEW表示をタイルに反映する（JSが無くても、タップすれば中身は見られる）
+// ・NEW：まだ見ていないキャンペーン（data-id で判定。data-added から30日以内）があると、点滅する。パネルを開くと、既読になる。
 (function(){
   var items = document.querySelectorAll('#camps .camp-item');
-  var tile = document.getElementById('tileCamp'), badge = document.getElementById('campBadge'), tease = document.getElementById('campTease'), box = document.getElementById('camps');
+  var tile = document.getElementById('tileCamp'), badge = document.getElementById('campBadge'), tease = document.getElementById('campTease'), box = document.getElementById('camps'), chip = document.getElementById('campNew');
   if (!tile) return;
   if (!items.length) {
     tile.classList.add('is-none'); if (box) box.classList.add('is-empty');
@@ -562,6 +580,28 @@
   badge.hidden = false; badge.textContent = items.length + '件';
   var parts = []; Array.prototype.forEach.call(items, function(it){ parts.push(it.getAttribute('data-title') + '（' + it.getAttribute('data-term') + '）'); });
   tease.textContent = parts.join(' ／ ');
+
+  var KEY = 'qlc_camp_seen_' + location.pathname.split('/').filter(Boolean)[0];
+  function seen(){ try { return JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { return []; } }
+  function idOf(it){ return it.getAttribute('data-id') || it.getAttribute('data-title'); }
+  function isFresh(it){
+    var a = it.getAttribute('data-added'); if (!a) return true;
+    var t = Date.parse(a); return isNaN(t) ? true : (Date.now() - t) < 30 * 86400000;
+  }
+  var s = seen(), fresh = [];
+  Array.prototype.forEach.call(items, function(it){ if (s.indexOf(idOf(it)) < 0 && isFresh(it)) fresh.push(it); });
+  if (fresh.length && chip) {
+    chip.hidden = false;
+    fresh.forEach(function(it){
+      var sm = it.querySelector('summary'); if (!sm) return;
+      var n = document.createElement('span'); n.className = 't-new'; n.textContent = 'NEW'; sm.insertBefore(n, sm.firstChild);
+    });
+  }
+  function markSeen(){
+    try { var ids = []; Array.prototype.forEach.call(items, function(it){ ids.push(idOf(it)); }); localStorage.setItem(KEY, JSON.stringify(ids)); } catch (e) {}
+  }
+  tile.addEventListener('click', function(){ setTimeout(markSeen, 300); });
+  if (location.hash === '#p-campaign') setTimeout(markSeen, 300);
 })();
 </script>
 
