@@ -234,6 +234,21 @@
   .caution a{color:#9c2f10;font-weight:700;white-space:nowrap;}
   /* ===== TOP-MENU EXTRA (CSS) END ===== */
 
+
+  /* ===== NEWS (CSS) START（お知らせパネルの「新しいサービス」）===== */
+  .tp-sub{font-family:"Noto Serif JP",serif;font-size:13.5px;color:var(--navy);margin:16px 0 8px;display:flex;align-items:center;gap:8px;}
+  .tp-sub::after{content:"";flex:1;height:1px;background:#E8E0CE;}
+  .tp-sub:first-of-type{margin-top:4px;}
+  .newsvc{display:flex;flex-direction:column;border:1px solid #E8E0CE;border-radius:12px;overflow:hidden;background:var(--cream-card);}
+  .news-item{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:62px;text-decoration:none;color:inherit;border-bottom:1px solid #F1EBDC;-webkit-tap-highlight-color:rgba(183,147,88,.18);}
+  .news-item:last-child{border-bottom:0;}
+  .news-item:active{background:#FBF6EC;}
+  .news-item .n-ico{flex:0 0 40px;text-align:center;font-size:21px;line-height:1.2;}
+  .news-item .n-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px;}
+  .news-item .n-txt b{font-size:14.5px;color:var(--charcoal);line-height:1.45;}
+  .news-item .n-txt small{font-size:12px;color:var(--charcoal-soft);line-height:1.55;}
+  .news-item .t-new{margin:0;align-self:center;}
+  /* ===== NEWS (CSS) END ===== */
 </style>
 
 <div class="qtop">
@@ -249,7 +264,7 @@
 <nav class="toptiles" id="top-menu" aria-label="お知らせ・ご質問・お問い合わせ">
   <a class="tile tile-camp" id="tileCamp" href="#p-campaign">
     <span class="t-ico">📣</span>
-    <span class="t-txt"><b>キャンペーンのお知らせ<span class="t-new" id="campNew" hidden>NEW</span></b><small id="campTease">最新のお知らせを見る</small></span>
+    <span class="t-txt"><b>お知らせ<span class="t-new" id="campNew" hidden>NEW</span></b><small id="campTease">最新のお知らせを見る</small></span>
     <span class="t-badge" id="campBadge" hidden></span>
   </a>
   <a class="tile" href="#p-qa"><span class="t-ico">💬</span><span class="t-txt"><b>よくあるご質問</b><small>お住まいのご案内</small></span></a>
@@ -261,9 +276,10 @@
   <span class="c-go">電話</span>
 </a>
 
-<section class="tpanel" id="p-campaign" aria-label="キャンペーンのお知らせ">
-  <div class="tp-head"><h2>📣 キャンペーンのお知らせ</h2><a class="tp-close" href="#top-menu">閉じる ✕</a></div>
-  <p class="tp-lead">ご利用いただける、各社のキャンペーンです。タップして内容をご確認ください。</p>
+<section class="tpanel" id="p-campaign" aria-label="お知らせ">
+  <div class="tp-head"><h2>📣 お知らせ</h2><a class="tp-close" href="#top-menu">閉じる ✕</a></div>
+  <p class="tp-lead">キャンペーンと、新しく追加したサービスのご案内です。</p>
+  <h3 class="tp-sub">キャンペーン</h3>
   <div class="camps" id="camps">
     <!-- キャンペーンを載せるときは、ここに <details class="camp-card camp-item" open data-id="識別名" data-added="yyyy-mm-dd" data-title="会社名｜キャンペーン名" data-term="お申込 〇/〇まで"> を追加する（複数可）。
          data-added から30日間、最上部のボタンに NEW が点滅する（居住者がパネルを開くと、その端末では止まる）。ひな形は https://qlc-service.com/sample-property/menu-v2.html 。終了したら、そのブロックだけ削除する。 -->
@@ -402,6 +418,16 @@
         <!-- ===== CAMPAIGN:HC-2026-AUTUMN END ===== -->
     <p class="camps-none">現在、ご案内中のキャンペーンはありません。</p>
   </div>
+  <h3 class="tp-sub">新しいサービス</h3>
+  <!-- ===== NEWSVC START（新サービスのお知らせ。掲載から30日間、NEWが点滅する。新しく足すときは <a class="news-item"> を追加、古くなったら行を削除する）===== -->
+  <div class="newsvc" id="newsvc">
+    <a class="news-item" href="https://www.qlc-service.com/qlc-link/carwash.html" target="_blank" data-id="news-carwash" data-added="2026-10-19"><span class="n-ico">🚗✨</span><span class="n-txt"><b>出張洗車</b><small>駐車場まで伺うウォーターレス洗車。初回は20%OFF</small></span><span class="t-new" hidden>NEW</span><span class="r-go">›</span></a>
+    <a class="news-item" href="https://www.qlc-service.com/qlc-link/futon-cleaning.html" target="_blank" data-id="news-futon-cleaning" data-added="2026-10-19"><span class="n-ico">🛏️✨</span><span class="n-txt"><b>布団クリーニング</b><small>宅配で羽毛布団まで。保管12か月無料、5%オフ</small></span><span class="t-new" hidden>NEW</span><span class="r-go">›</span></a>
+    <a class="news-item" href="https://www.qlc-service.com/qlc-link/knifesharpening.html" target="_blank" data-id="news-knifesharpening" data-added="2026-10-19"><span class="n-ico">🔪</span><span class="n-txt"><b>包丁研ぎサービス</b><small>包丁を送るだけ（全国対応）。職人が一本ずつ研ぎ上げます</small></span><span class="t-new" hidden>NEW</span><span class="r-go">›</span></a>
+    <a class="news-item" href="https://www.qlc-service.com/qlc-link/pchospital.html" target="_blank" data-id="news-pchospital" data-added="2026-10-19"><span class="n-ico">💻</span><span class="n-txt"><b>パソコン・ネット訪問サポート</b><small>パソコンのお困りごとを、プロがご自宅で解決</small></span><span class="t-new" hidden>NEW</span><span class="r-go">›</span></a>
+    <a class="news-item" href="https://www.qlc-service.com/qlc-link/smahospital.html" target="_blank" data-id="news-smahospital" data-added="2026-10-19"><span class="n-ico">📱</span><span class="n-txt"><b>スマホ・タブレット宅配修理</b><small>故障したスマホ・タブレットを、宅配でお預かりして修理</small></span><span class="t-new" hidden>NEW</span><span class="r-go">›</span></a>
+  </div>
+  <!-- ===== NEWSVC END ===== -->
 </section>
 
 <section class="tpanel" id="p-qa" aria-label="よくあるご質問">
@@ -645,11 +671,11 @@
   // 新規タブで開いた先のページの「戻る」（back-nav.js）が、サイトトップではなく
   // このCALM代官山のトップページへ戻れるようにする。
   var backParam = 'back=' + encodeURIComponent('/' + BID + '/');
-  document.querySelectorAll('a.card, a.row').forEach(function(a){
+  document.querySelectorAll('a.card, a.row, a.news-item').forEach(function(a){
     var sep = a.href.indexOf('?') === -1 ? '?' : '&';
     a.href = a.href + sep + backParam;
     a.addEventListener('click', function(){
-      var h3 = a.querySelector('h3') || a.querySelector('.r-txt b');
+      var h3 = a.querySelector('h3') || a.querySelector('.r-txt b') || a.querySelector('.n-txt b');
       log('click', h3 ? h3.textContent : a.href);
     });
   });
@@ -665,19 +691,24 @@
 
 
 <script>
-// 上部メニュー：キャンペーンの件数・見出し・NEW表示をタイルに反映する（JSが無くても、タップすれば中身は見られる）
-// ・NEW：まだ見ていないキャンペーン（data-id で判定。data-added から30日以内）があると、点滅する。パネルを開くと、既読になる。
+// 上部メニュー「お知らせ」：キャンペーンと新サービスの件数・見出し・NEW表示を、ボタンに反映する（JSが無くても、タップすれば中身は見られる）
+// ・NEW：まだ見ていないお知らせ（data-id で判定。data-added から30日以内）があると、点滅する。パネルを開くと、既読になる。
 (function(){
-  var items = document.querySelectorAll('#camps .camp-item');
+  var camps = document.querySelectorAll('#camps .camp-item');
+  var news = document.querySelectorAll('#newsvc .news-item');
   var tile = document.getElementById('tileCamp'), badge = document.getElementById('campBadge'), tease = document.getElementById('campTease'), box = document.getElementById('camps'), chip = document.getElementById('campNew');
   if (!tile) return;
-  if (!items.length) {
-    tile.classList.add('is-none'); if (box) box.classList.add('is-empty');
-    tease.textContent = '現在、ご案内中のキャンペーンはありません';
+  var total = camps.length + news.length;
+  if (!camps.length && box) box.classList.add('is-empty');
+  if (!total) {
+    tile.classList.add('is-none');
+    tease.textContent = '現在、お知らせはありません';
     return;
   }
-  badge.hidden = false; badge.textContent = items.length + '件';
-  var parts = []; Array.prototype.forEach.call(items, function(it){ parts.push(it.getAttribute('data-title') + '（' + it.getAttribute('data-term') + '）'); });
+  badge.hidden = false; badge.textContent = total + '件';
+  var parts = [];
+  if (news.length) parts.push('新サービス' + news.length + '件');
+  Array.prototype.forEach.call(camps, function(it){ parts.push(it.getAttribute('data-title') + '（' + it.getAttribute('data-term') + '）'); });
   tease.textContent = parts.join(' ／ ');
 
   var KEY = 'qlc_camp_seen_' + location.pathname.split('/').filter(Boolean)[0];
@@ -687,17 +718,22 @@
     var a = it.getAttribute('data-added'); if (!a) return true;
     var t = Date.parse(a); return isNaN(t) ? true : (Date.now() - t) < 30 * 86400000;
   }
-  var s = seen(), fresh = [];
-  Array.prototype.forEach.call(items, function(it){ if (s.indexOf(idOf(it)) < 0 && isFresh(it)) fresh.push(it); });
-  if (fresh.length && chip) {
-    chip.hidden = false;
-    fresh.forEach(function(it){
-      var sm = it.querySelector('summary'); if (!sm) return;
-      var n = document.createElement('span'); n.className = 't-new'; n.textContent = 'NEW'; sm.insertBefore(n, sm.firstChild);
-    });
-  }
+  var s = seen(), fresh = 0;
+  Array.prototype.forEach.call(camps, function(it){
+    if (s.indexOf(idOf(it)) < 0 && isFresh(it)) {
+      fresh++;
+      var sm = it.querySelector('summary');
+      if (sm) { var n = document.createElement('span'); n.className = 't-new'; n.textContent = 'NEW'; sm.insertBefore(n, sm.firstChild); }
+    }
+  });
+  Array.prototype.forEach.call(news, function(it){
+    var c = it.querySelector('.t-new');
+    if (s.indexOf(idOf(it)) < 0 && isFresh(it)) { fresh++; if (c) c.hidden = false; }
+    else if (c) c.hidden = true;
+  });
+  if (fresh && chip) chip.hidden = false;
   function markSeen(){
-    try { var ids = []; Array.prototype.forEach.call(items, function(it){ ids.push(idOf(it)); }); localStorage.setItem(KEY, JSON.stringify(ids)); } catch (e) {}
+    try { var ids = []; Array.prototype.forEach.call(camps, function(it){ ids.push(idOf(it)); }); Array.prototype.forEach.call(news, function(it){ ids.push(idOf(it)); }); localStorage.setItem(KEY, JSON.stringify(ids)); } catch (e) {}
   }
   tile.addEventListener('click', function(){ setTimeout(markSeen, 300); });
   if (location.hash === '#p-campaign') setTimeout(markSeen, 300);
