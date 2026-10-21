@@ -1,41 +1,1522 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>QLC リモートコンシェルジュ</title>
+<script>(function(){var w=window.innerWidth||0,p=window.innerHeight>window.innerWidth;if((w>0&&w<=760)||(p&&w<=900)){location.replace("./mobile/"+location.search);}})();</script>
+<meta name="robots" content="noindex, nofollow">
+<script>
+/* MOCK: google.script.run の代わり。何を呼んでも少し待ってから成功を返す（実際の送信はしない） */
+(function(){
+  function runner(ok, ng){
+    return new Proxy({}, { get: function(_, name){
+      if (name === 'withSuccessHandler') return function(f){ return runner(f, ng); };
+      if (name === 'withFailureHandler') return function(f){ return runner(ok, f); };
+      return function(){ setTimeout(function(){ if (ok) ok({ ok: true }); }, 600); };
+    }});
+  }
+  window.google = { script: { run: runner() } };
+})();
+</script>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@600&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
+<base target="_top">
 <style>
-html, body { margin:0!important; padding:0!important; width:100%!important; height:100%!important; overflow:hidden!important; background-color:#0B1626; }
-iframe { width:100%!important; height:100%!important; border:none!important; display:block!important; }
+  /* =====================================================================
+     軽量版：ネイビー×ゴールドの配色・雰囲気はフルスペック版と同じに保ち、
+     「演出」（呼吸アニメ・オーラ光彩・背景罫線・タイピング演出・フェードイン等）
+     だけを削ぎ落としています。BUILDINGデータの構造はconcierge.htmlと完全互換。
+     ===================================================================== */
+  :root{
+    --navy-deep:#0B1626;
+    --navy-panel:#13233A;
+    --navy-panel-2:#182943;
+    --hairline:rgba(190,154,80,0.28);
+    --hairline-soft:rgba(190,154,80,0.14);
+    --brass:#B68A3D;
+    --brass-soft:#DFC384;
+    --brass-pale:#F0DFB6;
+    --linen:#F4EFE3;
+    --linen-dim:#E8DFC9;
+    --ink:#211C15;
+    --grey-cool:#7E8AA1;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{
+    margin:0; padding:0; width:100%; height:100%;
+    overflow-y:auto; overflow-x:hidden;
+    background:var(--navy-deep); /* ★演出削除：背景の装飾SVG罫線パターンは廃止し単色に */
+    font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif;
+    color:var(--linen);
+  }
+  .stage{ width:100vw; height:100vh; display:flex; flex-direction:column; } /* ★演出削除：起動時のriseアニメ廃止 */
+
+  /* ---------- Header ---------- */
+  .hdr{
+    flex:0 0 auto; height:13vh;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:0 clamp(24px,4vw,52px);
+    border-bottom:1px solid var(--hairline);
+  }
+  .hdr-left{ display:flex; align-items:center; gap:18px; min-width:0; flex:1 1 auto; }
+  .hdr-left-text{ min-width:0; overflow:hidden; flex:1 1 0%; }
+  .crest{ width:clamp(30px,3.6vh,38px); height:clamp(30px,3.6vh,38px); flex:0 0 auto; color:var(--brass); }
+  .crest svg{ width:100%; height:100%; stroke:currentColor; fill:none; stroke-width:1.3; }
+  .bldg-row{ display:flex; align-items:center; gap:10px; min-width:0; }
+  .bldg-name{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:clamp(19px,2.8vh,28px); letter-spacing:.03em; color:var(--linen); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
+  .demo-badge{ font-size:clamp(9px,1.05vh,11px); letter-spacing:.14em; color:var(--navy-deep); background:var(--brass-soft); padding:3px 9px; border-radius:3px; font-weight:700; }
+  .bldg-sub{ font-size:clamp(9px,1.05vh,11px); letter-spacing:.3em; color:var(--grey-cool); margin-top:6px; }
+  .hdr-right{ display:flex; align-items:center; gap:clamp(14px,2.4vw,26px); }
+  .lang-switcher{ display:flex; align-items:center; gap:4px; padding-right:clamp(14px,2.4vw,26px); border-right:1px solid var(--hairline); }
+  .lang-btn{
+    appearance:none; border:1px solid var(--hairline); background:rgba(0,0,0,0.18);
+    color:rgba(255,255,255,0.88); font-size:clamp(10px,1.15vh,12px); padding:5px 9px; border-radius:4px;
+    cursor:pointer; font-family:inherit; white-space:nowrap;
+  }
+  .lang-btn.active{ background:var(--brass-soft); border-color:var(--brass-soft); color:var(--ink); font-weight:700; }
+  .hdr-meta{ text-align:right; padding-left:clamp(14px,2.4vw,26px); border-left:1px solid var(--hairline); }
+  .hdr-meta:first-child{ padding-left:0; border-left:none; }
+  .meta-eyebrow{ display:block; font-size:clamp(7.5px,0.85vh,8.5px); letter-spacing:.24em; color:var(--brass-soft); margin-bottom:5px; }
+  .weather-row{ display:flex; align-items:center; justify-content:flex-end; gap:7px; }
+  .weather-icon{ font-size:clamp(14px,2vh,18px); line-height:1; }
+  .weather-text{ font-size:clamp(12px,1.5vh,15px); color:var(--linen); font-weight:500; white-space:nowrap; }
+  .weather-range{ font-size:clamp(9px,1.05vh,11px); color:var(--grey-cool); white-space:nowrap; margin-left:2px; }
+  .clock-time{ font-size:clamp(18px,2.6vh,26px); font-weight:600; font-variant-numeric:tabular-nums; color:var(--linen); }
+  .clock-date{ font-size:clamp(9.5px,1.05vh,11px); color:var(--grey-cool); margin-top:3px; }
+
+  /* ---------- Body split ---------- */
+  .body-split{ flex:1 1 auto; display:flex; min-height:0; }
+
+  /* ===================================================================
+     ★QA主役レイアウト（リモートコンシェルジュ非表示時）
+     上段＝左にキャラクター／右にサービスメニュー等のタイル（高さを抑えた帯状表示）、
+     下段＝QAチャット全幅。QAが本来の主役なので、上段は必要最小限の高さに抑え、
+     画面の大半（目安7割前後）をQAチャットに割り当てる。
+     =================================================================== */
+  .body-split.qa-lead-layout{ flex-direction:column; }
+  .body-split.qa-lead-layout .pane-hero{
+    flex:0 0 clamp(140px,28vh,220px); flex-direction:row; align-items:stretch; justify-content:flex-start;
+    padding:0; gap:0; border-right:none; border-bottom:1px solid var(--hairline); text-align:left;
+    overflow-y:auto;
+  }
+  #heroRemoteContent{ display:contents; } /* ★中身がpane-heroの直接の子として中央寄せされるように */
+  .body-split.qa-lead-layout #heroRemoteContent{ display:none; }
+  .body-split.qa-lead-layout .hero-qa-content{
+    flex:1 1 42%; padding:clamp(10px,1.8vh,18px) clamp(16px,2.4vw,24px);
+    border-right:1px solid var(--hairline); justify-content:center; gap:clamp(6px,1vh,12px);
+  }
+  .body-split.qa-lead-layout .hero-qa-content.qa-hero-solo{ flex:1 1 100%; border-right:none; }
+  .body-split.qa-lead-layout .hero-qa-content .qa-hero-icon-wrap{ width:clamp(52px,8vh,80px); height:clamp(52px,8vh,80px); }
+  .body-split.qa-lead-layout .hero-qa-content .qa-hero-custom-img{ width:clamp(60px,9vh,92px); }
+  .body-split.qa-lead-layout .hero-qa-content .hero-tagline{ font-size:clamp(11px,1.25vh,13px); max-width:30ch; line-height:1.6; }
+  .body-split.qa-lead-layout .quick-links{ flex:1 1 58%; border-top:none; }
+  .body-split.qa-lead-layout .quick-links .quick-link{ padding:clamp(8px,1.2vh,14px) clamp(6px,1vw,10px); gap:5px; }
+  .body-split.qa-lead-layout .quick-links .quick-label{ font-size:clamp(11px,1.25vh,13px); min-height:0; }
+  .body-split.qa-lead-layout .quick-links .quick-sub,
+  .body-split.qa-lead-layout .quick-links .service-list,
+  .body-split.qa-lead-layout .quick-links .line-id{ display:none; }
+  .body-split.qa-lead-layout .quick-links .qr-code,
+  .body-split.qa-lead-layout .quick-links .notice-icon-display{ width:clamp(46px,7vh,66px); height:clamp(46px,7vh,66px); padding:4px; }
+  .body-split.qa-lead-layout .pane-nav{ flex:1 1 auto; min-height:0; }
+  .body-split.qa-lead-layout .chat-panel{ flex:1 1 auto; min-height:0; }
+
+  .pane-hero{
+    flex:0 0 50%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:clamp(14px,2vh,22px); padding:clamp(20px,3vh,36px) clamp(24px,4vw,50px);
+    border-right:1px solid var(--hairline); text-align:center;
+  }
+  .eyebrow{ font-size:clamp(10px,1.15vh,12px); letter-spacing:.3em; color:var(--brass-soft); margin:0; }
+  .hero-tagline{ font-size:clamp(12.5px,1.5vh,15px); color:#CBD3E1; line-height:1.8; max-width:34ch; margin:0; }
+  .ja-only-notice{
+    font-size:clamp(10.5px,1.15vh,12px); color:var(--brass-soft); line-height:1.6; max-width:34ch;
+    margin:6px 0 0; padding:7px 12px; border:1px solid var(--hairline); border-radius:6px; background:rgba(0,0,0,.14);
+  }
+
+  /* ★演出削除：オーラ光彩・二重リング・呼吸アニメを廃止。シンプルな角丸縁取りのみ残す */
+  .portrait-wrap{ width:clamp(180px,26vh,270px); }
+
+  /* ★コールセンターモード用：人物イラストの代わりに出す電話アイコンの丸枠 */
+  .callcenter-icon-wrap{ width:clamp(150px,22vh,220px); height:clamp(150px,22vh,220px); display:flex; align-items:center; justify-content:center; }
+  .callcenter-icon-circle{
+    width:100%; height:100%; border-radius:50%; border:1px solid var(--brass);
+    background:rgba(182,138,61,0.10); display:flex; align-items:center; justify-content:center;
+  }
+  .callcenter-icon-circle svg{ width:38%; height:38%; stroke:var(--brass-soft); fill:none; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+
+  /* ★QAを主役に：リモートコンシェルジュ非表示時、左側に出すQA紹介ブロック */
+  .hero-qa-content{ display:flex; flex-direction:column; align-items:center; gap:clamp(14px,2vh,22px); text-align:center; }
+  .qa-hero-icon-wrap{
+    width:clamp(130px,19vh,190px); height:clamp(130px,19vh,190px); border-radius:50%;
+    border:1px solid var(--brass); background:rgba(182,138,61,0.10);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .qa-hero-icon-wrap svg{ width:42%; height:42%; stroke:var(--brass-soft); fill:none; stroke-width:1.3; stroke-linecap:round; stroke-linejoin:round; }
+  .qa-hero-custom-img{ width:clamp(150px,22vh,220px); height:auto; border-radius:10px; border:1px solid var(--hairline); }
+  .qa-hero-title{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:clamp(21px,3vh,30px); color:var(--linen); margin:0; }
+  .portrait-wrap img{
+    width:100%; height:auto; display:block; border-radius:10px;
+    border:1px solid var(--hairline); box-shadow:0 8px 16px rgba(0,0,0,.28);
+  }
+
+  .amenity-strip{ display:flex; align-items:center; gap:0; }
+  .amenity-item{
+    display:flex; align-items:center; gap:7px; padding:0 clamp(11px,1.6vw,16px);
+    border-right:1px solid var(--hairline); font-size:clamp(10.5px,1.2vh,12px); color:var(--brass-pale); white-space:nowrap;
+  }
+  .amenity-item:last-child{ border-right:none; }
+  .amenity-icon{ width:clamp(13px,1.7vh,16px); height:clamp(13px,1.7vh,16px); stroke:var(--brass-soft); fill:none; stroke-width:1.6; flex:0 0 auto; }
+
+  /* ★演出削除：グラデーション2段・box-shadow多重をやめ、単色＋1本の影に簡略化 */
+  .btn-primary{
+    display:inline-flex; align-items:center; gap:10px; appearance:none; border:none; cursor:pointer;
+    padding:clamp(14px,2vh,18px) clamp(30px,4vw,42px); border-radius:8px;
+    background:var(--brass); color:#1A1306; font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-weight:700;
+    font-size:clamp(14.5px,1.9vh,17px); letter-spacing:.03em; text-decoration:none;
+    box-shadow:0 6px 14px rgba(0,0,0,.3);
+  }
+  .btn-primary svg{ width:18px; height:18px; stroke:#1A1306; fill:none; stroke-width:1.6; }
+  .btn-primary.btn-disabled{ background:#5B5A52; color:#B8B4A6; cursor:not-allowed; pointer-events:none; box-shadow:none; }
+
+  .hours-note{ font-size:clamp(9.5px,1.05vh,11px); color:var(--grey-cool); line-height:1.75; max-width:38ch; }
+
+  .pane-nav{ flex:0 0 50%; display:flex; flex-direction:column; min-height:0; }
+
+  .quick-links{ flex:2 1 0%; min-height:0; display:flex; border-top:1px solid var(--hairline); }
+  .quick-link{
+    flex:1 1 0; display:flex; flex-direction:column; align-items:center; justify-content:flex-start; gap:10px;
+    padding:clamp(14px,2vh,22px) clamp(10px,1.6vw,18px); text-decoration:none; color:#C9D2E0;
+    background:var(--navy-panel); border-right:1px solid var(--hairline); text-align:center;
+  }
+  .quick-link:last-child{ border-right:none; }
+  .quick-link:hover{ background:var(--navy-panel-2); } /* ★演出削除：transitionなし＝即時切替 */
+  .quick-icon{
+    width:clamp(40px,5.4vh,52px); height:clamp(40px,5.4vh,52px); border-radius:50%; border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center; color:var(--brass-soft); flex:0 0 auto;
+  }
+  .quick-icon svg{ width:44%; height:44%; stroke:currentColor; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+  .quick-eyebrow{ font-size:clamp(7.5px,0.9vh,9px); letter-spacing:.24em; color:var(--brass-soft); }
+  .quick-label{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:clamp(15px,1.9vh,18px); color:var(--linen); min-height:2.9em; display:flex; align-items:center; justify-content:center; text-align:center; line-height:1.45; word-break:keep-all; overflow-wrap:break-word; }
+  .quick-sub{ font-size:clamp(10.5px,1.2vh,12.5px); color:#9AA7BC; max-width:42ch; line-height:1.6; }
+  .service-list{ font-size:clamp(9.5px,1.05vh,11px); letter-spacing:.04em; color:var(--brass-soft); margin-top:2px; }
+  .line-id{ font-size:clamp(11px,1.3vh,13.5px); color:#06C755; font-weight:600; }
+  .qr-code{ width:clamp(74px,8.8vh,110px); height:clamp(74px,8.8vh,110px); background:#fff; border-radius:6px; padding:6px; border:1px solid var(--brass); }
+  .notice-icon-display{
+    width:clamp(74px,8.8vh,110px); height:clamp(74px,8.8vh,110px); border-radius:6px;
+    background:rgba(182,138,61,0.10); border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+  }
+  .notice-icon-display svg{ width:46%; height:46%; stroke:var(--brass-soft); fill:none; stroke-width:1.4; stroke-linecap:round; stroke-linejoin:round; }
+  .quick-icon-mobile-only{ display:none; }
+
+  /* ---- QAチャット：演出削除・即時表示 ---- */
+  .chat-panel{ display:flex; flex:3 1 0%; min-height:0; background:var(--navy-panel); flex-direction:column; }
+  .chat-panel-hdr{
+    flex:0 0 auto; display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
+    padding:clamp(14px,2vh,18px) clamp(20px,3vw,30px); border-bottom:1px solid var(--hairline);
+  }
+  .chat-eyebrow{ font-size:clamp(8.5px,1vh,10px); letter-spacing:.24em; color:var(--brass); }
+  .chat-panel-title{ font-family:'Noto Serif JP', serif; font-weight:600; font-size:clamp(15px,1.9vh,18px); color:var(--linen); }
+  .chat-panel-lang-note{ flex-basis:100%; font-size:clamp(9.5px,1.05vh,11px); color:var(--grey-cool); margin-top:2px; }
+  .chat-scroll{
+    flex:1 1 auto; min-height:0; overflow-y:auto; padding:clamp(16px,2.2vh,22px) clamp(20px,3vw,30px);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .quick-replies{ display:flex; flex-direction:column; gap:8px; }
+  .quick-reply-btn{
+    align-self:flex-start; max-width:92%; text-align:left; background:var(--brass-soft); border:none;
+    color:rgba(20,10,2,0.9); font-weight:600; border-radius:8px; padding:10px 15px;
+    font-size:clamp(12.5px,1.5vh,14px); font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; cursor:pointer;
+  }
+  .quick-reply-btn:hover{ background:var(--brass-pale); }
+  .qa-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:8px; }
+  .qa-grid .quick-reply-btn{ align-self:stretch; max-width:none; width:100%; text-align:center; display:flex; align-items:center; justify-content:center; gap:6px; padding:12px 8px; }
+
+  .inquiry-bar{
+    flex:0 0 auto; order:3; display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:clamp(9px,1.4vh,12px) 14px; text-decoration:none; background:var(--navy-panel);
+    border-top:1px solid var(--hairline); color:var(--brass-soft); font-size:clamp(11.5px,1.3vh,13px);
+    font-weight:600; font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif;
+  }
+  .inquiry-bar:hover{ background:var(--navy-panel-2); }
+  .inquiry-bar-icon{ font-size:1.05em; line-height:1; }
+  .inquiry-bar.pos-header{
+    order:0; flex:0 0 auto; padding:clamp(10px,1.7vh,15px) clamp(18px,2.6vw,28px);
+    border-top:none; border:1px solid var(--hairline); border-radius:999px; background:transparent;
+    font-size:clamp(13px,1.75vh,17px); gap:10px;
+  }
+  .inquiry-bar.pos-hero-bottom{
+    order:0; flex:0 0 auto; width:100%;
+    padding:clamp(12px,1.8vh,16px) clamp(20px,3vw,30px);
+    border:1px solid var(--brass); border-radius:9px; background:transparent;
+    font-size:clamp(13.5px,1.7vh,16px); gap:10px;
+  }
+  .inquiry-bar.pos-hero-bottom:hover{ background:rgba(182,138,61,.12); }
+  .inquiry-bar.pos-bottom-center{
+    position:fixed; left:50%; bottom:clamp(16px,2.5vh,26px); transform:translateX(-50%);
+    order:0; flex:0 0 auto; width:auto; padding:10px 22px; border-radius:999px;
+    border:1px solid var(--brass); box-shadow:0 8px 18px rgba(0,0,0,.32); z-index:40;
+  }
+
+  /* ---- モーダル：フェードなし・即表示 ---- */
+  .inq-modal-overlay{ position:fixed; inset:0; background:rgba(11,22,38,.62); display:none; align-items:center; justify-content:center; z-index:80; padding:20px; }
+  .inq-modal-box{ background:var(--linen); border-radius:12px; max-width:480px; width:100%; max-height:85vh; display:flex; flex-direction:column; overflow:hidden; }
+  .pdf-modal-box{ max-width:900px; width:94vw; height:88vh; max-height:88vh; }
+  .pdf-modal-box iframe{ flex:1 1 auto; width:100%; border:none; background:#525659; }
+  .inq-modal-hdr{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; background:var(--navy-deep); flex:0 0 auto; }
+  .inq-modal-hdr h3{ margin:0; font-size:15px; font-family:'Noto Serif JP', serif; font-weight:600; color:var(--linen); }
+  .inq-modal-close{ background:transparent; border:none; font-size:22px; color:var(--brass-soft); cursor:pointer; line-height:1; padding:0 4px; }
+  .inq-modal-body{ padding:18px 20px 22px; overflow-y:auto; flex:1 1 auto; }
+  .inq-modal-note{ font-size:11.5px; color:var(--grey-cool); line-height:1.7; margin:0 0 16px; }
+  .inq-modal-body form{ display:flex; flex-direction:column; gap:13px; }
+  .inq-modal-body label{ display:flex; flex-direction:column; gap:5px; font-size:12.5px; font-weight:600; color:var(--ink); }
+  .inq-req{ color:#B23B2E; font-weight:600; font-size:10.5px; }
+  .inq-optional{ color:var(--grey-cool); font-weight:400; font-size:10.5px; }
+  .inq-modal-body input, .inq-modal-body textarea{
+    border:1px solid var(--hairline-soft); border-radius:7px; padding:9px 11px; font-size:13.5px;
+    font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; color:var(--ink); background:#fff;
+  }
+  .inq-modal-body textarea{ resize:vertical; min-height:80px; line-height:1.6; }
+  .inq-submit-btn{
+    margin-top:4px; appearance:none; border:none; cursor:pointer; padding:12px 20px; border-radius:999px;
+    background:var(--brass); color:#1A1306; font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-weight:700; font-size:14px;
+  }
+  .inq-submit-btn:disabled{ opacity:.6; cursor:default; }
+  .inq-modal-success{ font-size:13.5px; line-height:1.8; color:var(--ink); text-align:center; padding:20px 4px; }
+  .inq-modal-error{ font-size:12px; color:#B23B2E; margin-top:6px; }
+
+  .ic-modal-intro{ font-size:13px; color:var(--ink); line-height:1.7; margin:0 0 8px; }
+  .ic-modal-badges{ font-size:11px; color:var(--grey-cool); margin:0 0 18px; }
+  .ic-modal-qr-wrap{ display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:18px; }
+  .ic-modal-qr-wrap img{ width:170px; height:170px; background:#fff; border:1px solid var(--brass); border-radius:8px; padding:8px; }
+  .ic-modal-qr-wrap .ic-line-id{ font-size:14px; font-weight:700; color:#06C755; }
+  .ic-modal-steps{ list-style:none; margin:0 0 20px; padding:0; display:flex; flex-direction:column; gap:9px; }
+  .ic-modal-steps li{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:var(--ink); line-height:1.5; }
+  .ic-modal-steps .ic-step-num{ flex:0 0 auto; width:22px; height:22px; border-radius:50%; background:var(--navy-deep); color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+  .ic-modal-features{ display:flex; flex-direction:column; gap:11px; border-top:1px solid var(--hairline-soft); padding-top:16px; }
+  .ic-modal-feature-title{ font-weight:700; font-size:13px; color:var(--navy-deep); margin-bottom:2px; }
+  .ic-modal-feature-desc{ font-size:12px; color:var(--grey-cool); line-height:1.6; }
+
+  .cc-modal-hours{ font-size:13px; color:var(--ink); line-height:1.6; margin:0 0 18px; font-weight:600; }
+  .cc-call-btn{
+    display:flex; align-items:center; justify-content:center; gap:10px; width:100%; appearance:none; border:none;
+    cursor:pointer; text-decoration:none; padding:14px 20px; border-radius:999px; margin-bottom:18px;
+    background:var(--brass); color:#1A1306; font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-weight:700; font-size:15px;
+  }
+  .cc-call-btn svg{ width:18px; height:18px; stroke:#1A1306; fill:none; stroke-width:1.8; flex:0 0 auto; }
+  .cc-modal-note{ font-size:11.5px; color:var(--grey-cool); line-height:1.7; margin:0; border-top:1px solid var(--hairline-soft); padding-top:14px; }
+
+  /* ---- 吹き出し：演出なし・即表示 ---- */
+  .bubble{ max-width:84%; padding:11px 15px; border-radius:6px; font-size:clamp(12.5px,1.5vh,14.5px); line-height:1.65; white-space:pre-wrap; }
+  .bubble.ai{ align-self:flex-start; background:rgba(255,255,255,0.08); border-left:3px solid var(--brass-soft); color:var(--linen); }
+  .bubble.user{ align-self:flex-end; background:var(--navy-panel-2); color:var(--linen); border-right:3px solid var(--brass-soft); }
+  /* ★回答表示前のタイピングインジケータ（3点がふわふわ動くアニメーション） */
+  .bubble.typing{ display:flex; align-items:center; gap:4px; padding:13px 16px; }
+  .typing-dot{ width:6px; height:6px; border-radius:50%; background:var(--brass-soft); opacity:.4; animation:typingBounce 1.2s infinite ease-in-out; }
+  .typing-dot:nth-child(2){ animation-delay:.2s; }
+  .typing-dot:nth-child(3){ animation-delay:.4s; }
+  @keyframes typingBounce{ 0%,60%,100%{ transform:translateY(0); opacity:.4; } 30%{ transform:translateY(-4px); opacity:1; } }
+
+  .detail-link{
+    align-self:flex-start; display:inline-block; background:var(--brass-soft); color:#1A1306;
+    font-family:'Noto Sans JP','Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-weight:700; font-size:clamp(12px,1.4vh,13px);
+    padding:9px 18px; border-radius:6px; text-decoration:none;
+  }
+
+  .empty-state{ flex:1 1 auto; display:flex; align-items:center; justify-content:center; padding:40px; text-align:center; color:var(--grey-cool); font-size:14px; line-height:1.8; }
+
+  /* ---- 設備の緊急連絡先バー：常時表示・画面下部固定 ---- */
+  .emergency-bar{
+    flex:0 0 auto; display:flex; align-items:center; justify-content:center; gap:8px;
+    padding:clamp(7px,1.1vh,10px) 16px; background:rgba(0,0,0,.30);
+    border-top:1px solid var(--hairline); color:var(--brass-pale);
+    font-size:clamp(10.5px,1.15vh,12.5px); text-align:center; line-height:1.5;
+  }
+  .emergency-bar-icon{ font-size:1.05em; line-height:1; flex:0 0 auto; }
+
+  /* ---------- 縦向き・狭い画面 ---------- */
+  /* ★SCROLLFIX★ 以前はheight:100%+overflow:hiddenで画面ぴったりに収める設計だったが、
+     文言が長い・項目数が多い等で1画面に収まらない場合、はみ出した内容が見えない上
+     スクロールもできなくなる不具合があった。ページ全体のスクロールを許可し、
+     収まらない分はスクロールで見られるようにする（.stageは最小高さのみ指定）。 */
+  html.mobile-layout, html.mobile-layout body{ height:auto; min-height:100%; overflow-y:auto; overflow-x:hidden; }
+  html.mobile-layout .stage{ height:auto; min-height:100vh; }
+  html.mobile-layout .hdr{ flex:0 0 auto; height:auto; flex-wrap:wrap; gap:clamp(4px,1.4vw,8px); padding:clamp(8px,2.2vh,14px) clamp(10px,3vw,20px); }
+  html.mobile-layout .bldg-name{ font-size:clamp(14px,4.2vw,19px); }
+  html.mobile-layout .meta-eyebrow{ display:none; }
+  html.mobile-layout .weather-range{ display:none; }
+  html.mobile-layout .body-split{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .pane-hero{
+    flex:0 0 auto; gap:clamp(10px,2.4vh,16px); border-right:none; border-bottom:1px solid var(--hairline);
+    padding:clamp(10px,2.4vh,18px) clamp(12px,4vw,24px);
+  }
+  html.mobile-layout .portrait-wrap{ width:clamp(110px,26vh,190px); }
+  html.mobile-layout .eyebrow, html.mobile-layout .hero-tagline, html.mobile-layout .amenity-strip, html.mobile-layout .hours-note{ display:none; }
+  html.mobile-layout .pane-nav{ flex:1 1 auto; min-height:0; display:flex; flex-direction:column; }
+  html.mobile-layout .chat-panel{ flex:1 1 auto; min-height:0; }
+  html.mobile-layout .quick-links{ flex:0 0 auto; min-height:0; display:flex; flex-direction:row; }
+  html.mobile-layout .quick-icon{ width:clamp(26px,6vw,40px); height:clamp(26px,6vw,40px); }
+  html.mobile-layout .quick-icon-mobile-only{ display:flex; }
+  html.mobile-layout .qr-code{ display:none; }
+  html.mobile-layout .quick-eyebrow, html.mobile-layout .quick-sub, html.mobile-layout .service-list, html.mobile-layout .line-id{ display:none; }
 </style>
 <script src="/track.js" defer></script>
 </head>
 <body>
-<iframe id="appFrame" src="" allow="camera; microphone; geolocation"></iframe>
+
+<div class="stage">
+
+  <header class="hdr">
+    <div class="hdr-left">
+      <div class="crest" aria-hidden="true">
+        <svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16.5"></circle><line x1="20" y1="7" x2="20" y2="33"></line></svg>
+      </div>
+      <div class="hdr-left-text">
+        <div class="bldg-row">
+          <span class="bldg-name" id="bldgName">QLCマンション</span>
+          <span class="demo-badge" id="demoBadge" style="display:none;">DEMO</span>
+        </div>
+        <div class="bldg-sub" id="bldgSub">REMOTE CONCIERGE</div>
+      </div>
+    </div>
+    <div class="hdr-right" id="hdrRight">
+      <div class="lang-switcher" id="langSwitcher">
+        <button type="button" class="lang-btn" data-lang="ja">日本語</button>
+        <button type="button" class="lang-btn" data-lang="en">EN</button>
+        <button type="button" class="lang-btn" data-lang="zh">中文</button>
+        <button type="button" class="lang-btn" data-lang="ko">한국어</button>
+      </div>
+      <div class="hdr-meta">
+        <span class="meta-eyebrow">WEATHER</span>
+        <div class="weather-row" id="weatherRow">
+          <span class="weather-icon" id="weatherIcon">—</span>
+          <span class="weather-text" id="weatherText">気温取得中…</span>
+          <span class="weather-range" id="weatherRange"></span>
+        </div>
+      </div>
+      <div class="hdr-meta">
+        <span class="meta-eyebrow">LOCAL TIME</span>
+        <div class="clock-time" id="clockTime">--:--</div>
+        <div class="clock-date" id="clockDate">----年--月--日</div>
+      </div>
+    </div>
+  </header>
+
+  <div class="body-split" id="bodySplit">
+
+    <section class="pane-hero" id="paneHero">
+      <div id="heroRemoteContent">
+      <p class="eyebrow">REMOTE CONCIERGE</p>
+      <p class="hero-tagline" id="heroTagline">プロのコンシェルジュが、ビデオ通話で住まいのお困りごとに寄り添います。</p>
+
+      <div class="portrait-wrap" id="portraitWrap">
+        <img id="conciergeAvatarImg" src="https://drive.google.com/thumbnail?id=1J-BJ0qKsXxQGvdnrFwdD29Ifv8xkYnja&sz=w400" alt="リモートコンシェルジュ" decoding="async" width="400" height="331">
+      </div>
+      <div class="callcenter-icon-wrap" id="callcenterIconWrap" style="display:none;">
+        <div class="callcenter-icon-circle">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+        </div>
+      </div>
+
+      <p class="ja-only-notice" id="jaOnlyNotice" style="display:none;"></p>
+
+      <div class="amenity-strip">
+        <div class="amenity-item">
+          <svg class="amenity-icon" id="amenityTypeIcon" viewBox="0 0 24 24"><path d="M16 9l5-3v12l-5-3"></path><rect x="3" y="6" width="13" height="12" rx="2"></rect></svg>
+          <span id="amenityTypeLabel">ビデオ通話対応</span>
+        </div>
+        <div class="amenity-item">
+          <svg class="amenity-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3.3 2"></path></svg>
+          <span id="hoursBadgeText">10:00〜19:00</span>
+        </div>
+      </div>
+
+      <a class="btn-primary" id="callBtn" href="#">
+        <svg viewBox="0 0 24 24"><path d="M16 9l5-3v12l-5-3"></path><rect x="3" y="6" width="13" height="12" rx="2"></rect></svg>
+        <span id="callBtnLabel">コンシェルジュを呼ぶ（ビデオ通話）</span>
+      </a>
+
+      <p class="hours-note" id="hoursNote">運営時間　10:00〜19:00</p>
+      </div>
+
+      <div class="hero-qa-content" id="heroQaContent" style="display:none;">
+        <div class="qa-hero-icon-wrap" id="qaHeroIconWrap">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        </div>
+        <img class="qa-hero-custom-img" id="qaHeroCustomImg" src="" alt="" style="display:none;">
+        <p class="hero-tagline" id="qaHeroTagline">気になることは何でもチャットでお気軽にお尋ねください。</p>
+      </div>
+    </section>
+
+    <nav class="pane-nav" id="paneNav">
+      <div class="chat-panel active" id="chatPanel">
+        <div class="chat-panel-hdr">
+          <span class="chat-hdr-icon-wrap" id="chatHdrIconWrap" style="display:none;">
+            <svg class="chat-hdr-icon-default" id="chatHdrIconDefault" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+            <img class="chat-hdr-icon-custom" id="chatHdrIconCustom" src="" alt="" style="display:none;">
+          </span>
+          <span class="chat-eyebrow">QUICK GUIDE</span>
+          <span class="chat-panel-title" id="chatPanelTitle">よくあるご質問</span>
+          <span class="chat-panel-lang-note" id="chatPanelLangNote" style="display:none;"></span>
+        </div>
+        <div class="chat-scroll" id="chatScroll">
+          <div class="bubble ai" id="qaGreetingBubble">こんにちは。知りたいカテゴリのボタンをタップしてください。</div>
+        </div>
+      </div>
+
+      <div class="quick-links" id="quickLinks">
+        <a class="quick-link" id="inquiryLink" href="#">
+          <span class="quick-icon quick-icon-mobile-only"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg></span>
+          <span class="quick-eyebrow">CONTACT</span>
+          <span class="quick-label" id="inquiryTileLabel">お問い合わせ</span>
+          <img class="qr-code" id="inquiryQr" src="" alt="お問い合わせ二次元コード">
+          <span class="quick-sub" id="inquiryTileSub">お手持ちのスマートフォンで二次元コードを読み取ってご利用ください。</span>
+        </a>
+        <a class="quick-link" id="serviceMenuLink" href="https://www.qlc-service.com/qlc-link">
+          <span class="quick-icon quick-icon-mobile-only"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1"></rect><rect x="13" y="4" width="7" height="7" rx="1"></rect><rect x="4" y="13" width="7" height="7" rx="1"></rect><rect x="13" y="13" width="7" height="7" rx="1"></rect></svg></span>
+          <span class="quick-eyebrow">SERVICE MENU</span>
+          <span class="quick-label" id="serviceMenuLabel">サービス<br>メニュー</span>
+          <img class="qr-code" id="serviceMenuQr" src="" alt="サービスメニュー二次元コード">
+          <span class="quick-sub" id="serviceMenuSub">お手持ちのスマートフォンで二次元コードを読み取ってご利用ください。</span>
+          <span class="service-list" id="serviceMenuList">家事サポート ・ 生活便利 ・ 保管・買取・整理</span>
+        </a>
+        <a class="quick-link" id="internetConciergeLink" href="#" target="_blank">
+          <span class="quick-eyebrow">INTERNET CONCIERGE</span>
+          <span class="quick-label" id="internetConciergeLabel">インターネット<br>コンシェルジュ</span>
+          <img class="qr-code" id="internetConciergeQr" src="" alt="LINE二次元コード" style="display:none;">
+          <span class="quick-sub" id="internetConciergeSub">スマホ等から二次元コードを読み取りご利用ください。</span>
+          <span class="line-id" id="internetConciergeLineId" style="display:none;"></span>
+          <span class="service-list" id="internetConciergeList">共用施設の予約 ・ 提携サービス ・ 生活情報検索</span>
+        </a>
+        <a class="quick-link" id="shopLink" href="#">
+          <span class="quick-icon quick-icon-mobile-only"><svg viewBox="0 0 24 24"><path d="M6 6h15l-1.5 9h-13z"></path><path d="M6 6L4 3H2"></path><circle cx="9" cy="20" r="1"></circle><circle cx="18" cy="20" r="1"></circle></svg></span>
+          <span class="quick-eyebrow">NET SHOP</span>
+          <span class="quick-label" id="shopLabel">ネット<br>ショップ</span>
+          <img class="qr-code" id="shopQr" src="" alt="ネットショップ二次元コード">
+          <span class="quick-sub" id="shopSub">お手持ちのスマートフォンで二次元コードを読み取ってご利用ください。</span>
+          <span class="service-list" id="shopList">お米・飲料水・日用品などを、コンシェルジュがお届けします</span>
+        </a>
+        <a class="quick-link" id="noticeLink" href="#">
+          <span class="quick-eyebrow">NOTICE</span>
+          <span class="quick-label" id="noticeLabel">お知らせ<br>議事録</span>
+          <span class="notice-icon-display"><svg viewBox="0 0 24 24"><rect x="4" y="3" width="16" height="18" rx="1"></rect><line x1="8" y1="8" x2="16" y2="8"></line><line x1="8" y1="12" x2="16" y2="12"></line><line x1="8" y1="16" x2="13" y2="16"></line></svg></span>
+          <span class="quick-sub" id="noticeSub">掲示板のお知らせや、総会・理事会の議事録をご覧いただけます。</span>
+        </a>
+      </div>
+
+    </nav>
+
+  </div>
+
+  <div class="emergency-bar" id="emergencyBar" style="display:none;">
+    <span class="emergency-bar-icon">🚨</span>
+    <span class="emergency-bar-text" id="emergencyBarText"></span>
+  </div>
+
+</div>
+
+<div class="inq-modal-overlay" id="inqModalOverlay">
+  <div class="inq-modal-box">
+    <div class="inq-modal-hdr"><h3 id="inqModalTitle">お問い合わせ</h3><button type="button" class="inq-modal-close" id="inqModalClose">×</button></div>
+    <div class="inq-modal-body" id="inqModalBody"></div>
+  </div>
+</div>
+<div class="inq-modal-overlay" id="icModalOverlay">
+  <div class="inq-modal-box">
+    <div class="inq-modal-hdr"><h3 id="icModalTitle">インターネットコンシェルジュ</h3><button type="button" class="inq-modal-close" id="icModalClose">×</button></div>
+    <div class="inq-modal-body" id="icModalBody"></div>
+  </div>
+</div>
+<div class="inq-modal-overlay" id="ccModalOverlay">
+  <div class="inq-modal-box">
+    <div class="inq-modal-hdr"><h3 id="ccModalTitle">コールセンターと通話する</h3><button type="button" class="inq-modal-close" id="ccModalClose">×</button></div>
+    <div class="inq-modal-body" id="ccModalBody"></div>
+  </div>
+</div>
+<div class="inq-modal-overlay" id="pdfModalOverlay">
+  <div class="inq-modal-box pdf-modal-box">
+    <div class="inq-modal-hdr"><h3 id="pdfModalTitle">資料を見る</h3><button type="button" class="inq-modal-close" id="pdfModalClose">×</button></div>
+    <iframe id="pdfModalFrame" src="" title="PDF"></iframe>
+  </div>
+</div>
+
 <script>
-(function(){
-  var PC_URL = "https://script.google.com/a/qlc-service.com/macros/s/AKfycbw4spL1Wm0KSsSxt1jhSCpSUntxIpo2TyJTDSBCEteA9eRbJi0vpcw3AaY9LLW_TXL_pg/exec?id=qlc-0000";
-  var SP_URL = "https://script.google.com/a/qlc-service.com/macros/s/AKfycbw4spL1Wm0KSsSxt1jhSCpSUntxIpo2TyJTDSBCEteA9eRbJi0vpcw3AaY9LLW_TXL_pg/exec?id=qlc-0000&mode=mobile";
-  var frame = document.getElementById("appFrame");
-  var currentIsPhone = null;
-  function isPhone(){
-    var w = window.innerWidth || document.documentElement.clientWidth || 0;
-    var portrait = window.innerHeight > window.innerWidth;
-    return (w > 0 && w <= 760) || (portrait && w <= 900);
+  // ===================================================================
+  // BUILDING はconcierge.html（フルスペック版）と完全に同じ構造。
+  // Code.gs・admin.html・スプレッドシートは一切変更不要で流用できます。
+  // ===================================================================
+  var BUILDING = {"id":"qlc-0000","name":"QLC芝三田マンション","lat":35.647148,"lng":139.7469836,"videoUrl":"https://meet.virtualstore.jp/direct-sessions/awbPKE?utm_source=%E3%83%86%E3%82%B9%E3%83%88%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3","heroCtaMode":"remote","callcenterPhone":"","callcenterHoursText":"","callcenterNoSimComment":"","conciergeAvatarUrl":"https://www.ql-c.co.jp/qlc/rmenu_demo/avatar-1783141989039.png","hoursText":"月・火・水・木・金 09:00〜18:00／土・日・祝 10:00〜17:00","hoursSchedule":[{"end":"18:00","days":["mon","tue","wed","thu","fri"],"start":"09:00"},{"end":"17:00","start":"10:00","days":["sat","sun","hol"]}],"serviceMenuUrl":"https://qlc-service.com/qlc-0000/services/","serviceMenuComment":"","shopUrl":"https://qlc-service.com/netshop/qlc-0000/","shopComment":"","showShop":true,"supportedLanguages":["en","zh","ko"],"hoursRestrictEnabled":true,"isDemo":true,"showRemoteConcierge":true,"productType":"full","area":"","showQa":true,"showServiceMenu":true,"showInquiry":true,"inquiryEmails":[],"inquiryMode":"external","inquiryExternalUrl":"https://form.run/@ql-c-vQpklahxKsM7wKGR06T5","qaCharacterUrl":"","qaHeroTagline":"","internetConciergeUrl":"https://www2.concierge-service.jp/members/login/577","internetConciergeMode":"line","internetConciergeLineId":"","internetConciergeComment":"","qaTitle":"よくあるご質問","heroTagline":"ビデオ通話でコンシェルジュがご案内いたします。音声通話への変更も可能でございます。","serviceNoticeTitle":"宅配・クリーニングなどのご案内","showClockWeather":true,"showInternetConcierge":true,"layoutHeroSide":"left","layoutNavOrder":"qa-first","layoutLinksOrder":"service-first","layoutInquiryPosition":"header-right","inquiryFields":[{"key":"roomNumber","required":true,"placeholder":"例：101号室","label":"お部屋番号","type":"text"},{"type":"text","key":"name","label":"お名前","required":true,"placeholder":""},{"type":"email","required":true,"label":"メールアドレス（ご返信用）","placeholder":"","key":"email"},{"key":"message","label":"お問い合わせ内容","type":"textarea","required":true,"placeholder":""}],"theme":"navy","customGroups":[{"label":"館内ルール・規約について","icon":"🏠","items":[{"icon":"🗑️","title":"ごみの出し方","detail":"当マンションにおけるごみの処理につきましては、種類ごとに排出の日時および方法が定められております。可燃ごみを排出される場合は、毎週火曜日および金曜日の午前8時までに、1階のごみ置き場までお持ちください。不燃ごみにつきましては毎月第2および第4水曜日が排出日となっております。また、缶、びん、ペットボトル、古紙といった資源ごみは、毎週木曜日に排出していただくよう定められております。粗大ごみの処理を希望される場合には、あらかじめ管理事務室にお申し込みの手続きを行っていただき、処理券をご購入いただいたうえで、指定された場所へと排出していただく必要がございます。","pdfUrl":"","postedDate":""},{"icon":"🐾","title":"ペット飼育について","detail":"当マンションにてペットの飼育をご希望される区分所有者等の皆様は、あらかじめ管理組合へペット飼育申請書をご提出いただき、登録を受けていただく必要がございます。飼育が認められている動物は、成犬および成猫時の体重が10キログラム以下かつ体高が40センチメートル以下の犬や猫、ならびに小鳥、観賞魚、ハムスターなどの小動物に限られており、飼育数は1住戸につき2匹までと定められております。また、ペットを連れて共用部分を移動される際には、必ずケージやキャリーバッグに入れていただくか、あるいは抱っこした状態でのご移動をお願いいたします。","pdfUrl":"","postedDate":""},{"icon":"🚗","title":"駐車場について","detail":"当マンションに設置されております駐車場は機械式の駐車設備となっております。そのため、収容可能な車両の規格には制限が設けられており、全長が5,000ミリメートル以下、全幅が1,850ミリメートル以下、全高が1,550ミリメートル以下、車両重量が2,000キログラム以下の車両のみがご利用いただけます。利用をご希望される場合は、管理組合へのお申し込みが必要となり、利用者は抽選またはお申し込みの順により決定されます。また、駐車場契約の変更や解約をご希望される際には、管理事務室にて所定の書面を用いてお手続きを行っていただく必要がございます。","pdfUrl":"","postedDate":""},{"icon":"🚲","title":"駐輪場について","detail":"当マンションの駐輪場をご利用いただくにあたりましては、事前の登録制とさせていただいております。ご利用可能な台数には制限が設けられており、1つの住戸につき自転車2台まで駐輪していただくことが可能となっております。また、原動機付自転車の駐輪をご希望される場合には、自転車の場合とは異なり、別途管理組合からの許可を取得していただく必要がございます。ご利用にあたりましては、規定の台数や手続きに関するルールを遵守していただきますようお願い申し上げます。","pdfUrl":"","postedDate":""},{"icon":"📦","title":"宅配物の受け取りについて","detail":"当マンションに設置されております宅配ボックスにつきましては、ご利用にあたり事前の登録制とさせていただいております。宅配ボックスに配達された物品の保管期間につきましては、3日間と定められております。この定められた保管期間を超過して宅配ボックス内に保管され続けている宅配物につきましては、管理事務室において一時的に保管させていただくこととなっております。なお、来客に関する具体的な規定につきましては、規約および使用細則に記載が見当たりません。詳細やご不明な点がございましたら、管理組合事務局にご確認いただきますようお願い申し上げます。","pdfUrl":"","postedDate":""},{"icon":"🪴","title":"バルコニーの使用について","detail":"当マンションにおけるバルコニーは専用使用部分として位置づけられておりますが、ご利用にあたってはいくつかの制限事項が設けられております。安全上の理由から、避難経路を塞いでしまうような物品をバルコニーに設置することは禁止されております。一方で、エアコン室外機の設置や物干しとしての使用などは認められておりますが、マンションの給排水管に影響を及ぼすような工事を行うことは固く禁じられております。また、バルコニーとしての適正な利用を心がけ、避難等の障害となったり、防水機能を破壊したり、躯体を損傷させるような行為を行わないことが求められております。","pdfUrl":"","postedDate":""},{"icon":"🎹","title":"楽器演奏・音について","detail":"当マンションにおける楽器演奏および音に関する規定につきましては、演奏可能な時間帯などに制限が設けられております。ピアノや管楽器などの楽器を演奏される場合、その演奏が認められる時間帯は午前9時から午後7時までの間に限られております。したがって、深夜や早朝の時間帯における楽器演奏は禁止されております。また、認められている時間帯におきましても、近隣にお住まいの方々に支障を及ぼすような大きな音量での演奏を行うことは禁止されております。他の入居者の皆様へのご配慮を忘れず、定められたルールの中でお楽しみいただきますようお願いいたします。","pdfUrl":"","postedDate":""},{"icon":"🛠️","title":"リフォーム工事の届出について","detail":"専有部分の修繕やリフォーム工事を実施される場合は、工事の内容および工期を記載した届出書を事前に管理組合へ提出し、承認を得ていただく必要がございます。特に、給排水管や電気配線、窓サッシなど、共用部分に影響を及ぼす可能性のある工事を行う場合には、別途管理組合からの承認を要します。また、工事の実施に伴い騒音や振動の発生が見込まれる期間につきましては、他の区分所有者の皆様にお知らせするため、エレベーター内およびマンション内の掲示板にその工事内容や期間を掲示していただくこととなっております。","pdfUrl":"","postedDate":""},{"icon":"🕒","title":"共用部分の利用時間","detail":"当マンションに設けられております共用施設の利用時間についてご案内いたします。集会室やゲストルームなどの共用施設をご利用いただくことができる時間帯につきましては、午前9時から午後9時までと定められております。利用時間を遵守いただき、施設をご利用いただきますようお願い申し上げます。なお、その他の詳細な利用ルールや予約方法などに関する規定につきましては、現在の規約および使用細則には記載が見当たりません。ご不明な点がございましたら、管理組合事務局まで直接ご確認いただきますようお願いいたします。","pdfUrl":"","postedDate":""}],"displayTarget":"qa","topCategory":""}],"services":{"house":[{"slug":"housecleaning","category":"house","icon":"✨","title":"ハウスクリーニング","desc":"専門スタッフによる水まわり・空調等の徹底清掃","soon":false},{"slug":"housekeeping","category":"house","icon":"🧺","title":"家事代行","desc":"掃除・洗濯・料理など日常の家事をサポート","soon":false},{"slug":"childcare","category":"house","icon":"👶","title":"ベビーシッター","desc":"大切なお子様を安心してお任せできるチャイルドケア","soon":false},{"slug":"laundry-delivery","category":"house","icon":"👕👔","title":"宅配クリーニング","desc":"衣類・布団の宅配クリーニング。保管12か月無料、送料無料（一部地域を除く）","soon":false},{"slug":"shoeshine","category":"house","icon":"👞👟👜","title":"靴磨き・靴修理","desc":"職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。","soon":false},{"slug":"chef","category":"house","icon":"🍳","title":"出張料理","desc":"食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供（首都圏エリア）","soon":false},{"slug":"senior-care","category":"house","icon":"👵","title":"シニアケア","desc":"ご家族の暮らしや介護を優しくサポート","soon":false}],"life":[{"slug":"taxi-tel-kanto","category":"life","icon":"🚕","title":"タクシー手配（電話）","desc":"※ 対応エリアは3社とも東京23区・武蔵野市・三鷹市です。","soon":false},{"slug":"hirecar","category":"life","icon":"🚘","title":"ハイヤー","desc":"大切な移動を支える上質なハイヤー","soon":false},{"slug":"rentacarcontact","category":"life","icon":"🚗","title":"レンタカー","desc":"お得な提携価格でご利用いただけます","soon":false},{"slug":"water-delivery","category":"life","icon":"💧","title":"お水の宅配","desc":"安心・美味しいお水のサーバー宅配","soon":false},{"slug":"rental","category":"life","icon":"🛠","title":"各種レンタル","desc":"ベビー用品やイベント用品を手軽にレンタル","soon":false},{"slug":"flower-delivery","category":"life","icon":"🌹","title":"フラワーデリバリー","desc":"お祝いや日常に彩りを添えるお花の宅配","soon":false},{"slug":"food-delivery","category":"life","icon":"🍱","title":"フードデリバリー","desc":"東京23区限定、レストランの味を自宅へ","soon":false},{"slug":"petcare","category":"life","icon":"🐶","title":"ペットケア","desc":"大切なペットのシッター・ホテルサービス","soon":false},{"slug":"medical-night","category":"life","icon":"🏥","title":"夜間の救急・医療相談","desc":"夜間の急な不調を専門家に相談","soon":false}],"storage":[{"slug":"organizing","category":"storage","icon":"🗄️","title":"整理収納・おかたづけ","desc":"プロが収納の仕組み作りをサポート","soon":false},{"slug":"reuse","category":"storage","icon":"👜👗","title":"不用品の宅配買取","desc":"箱に詰めて送るだけのリユース買取","soon":false},{"slug":"book-reuse","category":"storage","icon":"📚","title":"本の買取・リユース","desc":"ブックオフが本・漫画を宅配買取","soon":false},{"slug":"storage","category":"storage","icon":"🧳","title":"宅配トランクルーム","desc":"スマホで預入・取出しできる収納サービス","soon":false},{"slug":"lifeorganize","category":"storage","icon":"🌱","title":"ライフオーガナイズ","desc":"くらし全体の最適化をサポート","soon":false},{"slug":"photo-digitize","category":"storage","icon":"📷🎞","title":"おもいで写真デジタイズ","desc":"古い写真・ビデオを劣化しないデータへ","soon":false},{"slug":"delivery","category":"storage","icon":"📦","title":"宅配便の集荷連絡先","desc":"荷物発送に便利な集荷受付窓口","soon":false},{"slug":"moving","category":"storage","icon":"🚚","title":"お引越し案内","desc":"大手引越し業者を提携割引でご案内","soon":false}],"netshop":[]},"serviceOrder":["housecleaning","housekeeping","childcare","laundry-delivery","shoeshine","knifesharpening","organizing","chef","senior-care","taxi","taxi-tel-kanto","hirecar","rentacarcontact","water-delivery","rental","flower-delivery","food-delivery","petcare","medical-night","pchospital","smahospital","reuse","book-reuse","storage","lifeorganize","photo-digitize","delivery","moving"],"qaGreeting":"","qaShowServices":true,"mobileMode":true,"mobileBlocks":{"enabled":["remote","login","inquiry","qa","servicemenu"],"order":["remote","login","inquiry","qa","servicemenu"],"inquiryNotice":"hours","labels":{"qa":"","login":"","servicemenu":"","inquiry":"","remote":""}}};
+  // ★物件名が長くても折り返させず、文字サイズを自動で縮めて1行に収める
+  function fitBuildingNameToOneLine_(){
+    var nameEl = document.getElementById('bldgName');
+    var rowEl = document.querySelector('.bldg-row'); // ★bldgNameとdemoBadgeだけを含む直接の親で測る（bldg-subの幅を巻き込まない）
+    if (!nameEl || !rowEl) return;
+    nameEl.style.fontSize = ''; // 基準サイズから毎回測り直す（縮みっぱなしにしない）
+    var demoBadge = document.getElementById('demoBadge');
+    var rowRect = rowEl.getBoundingClientRect();
+    var badgeWidth = 0;
+    if (demoBadge && demoBadge.style.display !== 'none') {
+      badgeWidth = demoBadge.getBoundingClientRect().width + 10;
+    }
+    var maxWidth = rowRect.width - badgeWidth;
+    if (maxWidth <= 0) return;
+    var fontSize = parseFloat(getComputedStyle(nameEl).fontSize);
+    var minFontSize = 12;
+    var guard = 0;
+    while (nameEl.getBoundingClientRect().width > maxWidth && fontSize > minFontSize && guard < 40) {
+      fontSize -= 0.5;
+      nameEl.style.fontSize = fontSize + 'px';
+      guard++;
+    }
   }
-  function applyMode(){
-    var phone = isPhone();
-    if (phone === currentIsPhone) return;
-    currentIsPhone = phone;
-    frame.src = phone ? SP_URL : PC_URL;
+  // ★タイル見出しが指定の2行（<br>区切り）に収まらず、更に折り返して重なって見えるのを防ぐ。
+  // 「インターネットコンシェルジュ」等、単語自体が幅に収まらない場合はフォントサイズを自動で縮める。
+  function fitQuickLabelsToTwoLines_(){
+    var labels = document.querySelectorAll('.quick-label');
+    Array.prototype.forEach.call(labels, function(el){
+      if (el.offsetParent === null) return; // 非表示のタイルは測らない
+      el.style.fontSize = ''; // 基準サイズから毎回測り直す（縮みっぱなしにしない）
+      var lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+      var maxHeight = lineHeight * 2 + 1;
+      var fontSize = parseFloat(getComputedStyle(el).fontSize);
+      var minFontSize = 11;
+      var guard = 0;
+      while (el.scrollHeight > maxHeight && fontSize > minFontSize && guard < 30) {
+        fontSize -= 0.5;
+        el.style.fontSize = fontSize + 'px';
+        lineHeight = parseFloat(getComputedStyle(el).lineHeight);
+        maxHeight = lineHeight * 2 + 1;
+        guard++;
+      }
+    });
   }
-  applyMode();
-  var resizeTimer;
-  window.addEventListener("resize", function(){
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(applyMode, 300);
+  window.addEventListener('resize', function(){
+    clearTimeout(window.__bldgNameFitTimer);
+    window.__bldgNameFitTimer = setTimeout(function(){
+      fitBuildingNameToOneLine_();
+      fitQuickLabelsToTwoLines_();
+    }, 120);
   });
-})();
+  // ★Webフォント（Noto Serif JP）を明示的に読み込ませ、実際に切り替わった瞬間を捉えて測り直す。
+  // document.fonts.ready は media="print"での遅延読み込みと相性が悪く、切り替わりを検知できないことがあるため、
+  // 該当フォントを直接指定して読み込み完了を待つ方式にする。
+  if (document.fonts && document.fonts.load) {
+    document.fonts.load("600 16px 'Noto Serif JP'").then(function(){
+      fitBuildingNameToOneLine_();
+      fitQuickLabelsToTwoLines_();
+    }).catch(function(){});
+  }
+  // 保険：フォント切り替わりのタイミングが読めない環境向けに、複数回にわたって再計算する
+  [300, 800, 1500, 3000].forEach(function(ms){
+    setTimeout(fitBuildingNameToOneLine_, ms);
+    setTimeout(fitQuickLabelsToTwoLines_, ms);
+  });
+
+  var DEFAULT_INTERNET_CONCIERGE_LINE_ID = '228xrsdk';
+
+  // 軽量版なので辞書は固定UI文言のみ（フルスペック版のI18Nから演出系の項目を除いたサブセット）
+  var I18N = {
+    weekdays: { ja:['日','月','火','水','木','金','土'], en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'], zh:['周日','周一','周二','周三','周四','周五','周六'], ko:['일','월','화','수','목','금','토'] },
+    dayAbbrev: {
+      ja:{ mon:'月', tue:'火', wed:'水', thu:'木', fri:'金', sat:'土', sun:'日', hol:'祝' },
+      en:{ mon:'Mon', tue:'Tue', wed:'Wed', thu:'Thu', fri:'Fri', sat:'Sat', sun:'Sun', hol:'Hol' },
+      zh:{ mon:'一', tue:'二', wed:'三', thu:'四', fri:'五', sat:'六', sun:'日', hol:'假' },
+      ko:{ mon:'월', tue:'화', wed:'수', thu:'목', fri:'금', sat:'토', sun:'일', hol:'공휴일' }
+    },
+    daySep: { ja:'・', en:', ', zh:'・', ko:', ' },
+    weatherLabel: {
+      ja:{0:'晴れ',1:'晴れ',2:'晴れ時々曇り',3:'曇り',45:'霧',48:'霧',51:'小雨',53:'雨',55:'雨',61:'雨',63:'雨',65:'強い雨',66:'雨',67:'雨',71:'雪',73:'雪',75:'雪',77:'雪',80:'にわか雨',81:'にわか雨',82:'激しい雨',85:'にわか雪',86:'にわか雪',95:'雷雨',96:'雷雨',99:'雷雨'},
+      en:{0:'Clear',1:'Clear',2:'Partly cloudy',3:'Cloudy',45:'Fog',48:'Fog',51:'Light rain',53:'Rain',55:'Rain',61:'Rain',63:'Rain',65:'Heavy rain',66:'Rain',67:'Rain',71:'Snow',73:'Snow',75:'Snow',77:'Snow',80:'Showers',81:'Showers',82:'Heavy showers',85:'Snow showers',86:'Snow showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'},
+      zh:{0:'晴',1:'晴',2:'多云',3:'阴',45:'雾',48:'雾',51:'小雨',53:'雨',55:'雨',61:'雨',63:'雨',65:'大雨',66:'雨',67:'雨',71:'雪',73:'雪',75:'雪',77:'雪',80:'阵雨',81:'阵雨',82:'强降雨',85:'阵雪',86:'阵雪',95:'雷雨',96:'雷雨',99:'雷雨'},
+      ko:{0:'맑음',1:'맑음',2:'구름 조금',3:'흐림',45:'안개',48:'안개',51:'가랑비',53:'비',55:'비',61:'비',63:'비',65:'강한 비',66:'비',67:'비',71:'눈',73:'눈',75:'눈',77:'눈',80:'소나기',81:'소나기',82:'강한 소나기',85:'소낙눈',86:'소낙눈',95:'뇌우',96:'뇌우',99:'뇌우'}
+    },
+    standardGroupLabel: {
+      '館内ルール・規約について': { en:'House Rules & Regulations', zh:'楼内规则・规约', ko:'건물 내 규칙·약관 안내' },
+      '家事サポート': { en:'Housekeeping Support', zh:'家务支持', ko:'가사 지원' },
+      '生活便利': { en:'Daily Living', zh:'生活便利', ko:'생활 편의' },
+      '荷物の保管・買取・整理': { en:'Storage, Buyback & Organizing', zh:'保管・回收・整理', ko:'보관·매입·정리' },
+      'よくあるご用件': { en:'Common Requests', zh:'常见需求', ko:'자주 있는 요청' }
+    },
+    t: {
+      weatherLoading: { ja:'気温取得中…', en:'Loading temperature…', zh:'正在获取气温…', ko:'기온 확인 중…' },
+      weatherError: { ja:'気温情報を取得できませんでした', en:'Unable to fetch weather data', zh:'无法获取天气信息', ko:'날씨 정보를 가져올 수 없습니다' },
+      weatherRange: { ja:'最高{max}℃ / 最低{min}℃', en:'High {max}°C / Low {min}°C', zh:'最高{max}℃ / 最低{min}℃', ko:'최고 {max}℃ / 최저 {min}℃' },
+      hoursLabel: { ja:'運営時間', en:'Hours', zh:'营业时间', ko:'운영시간' },
+      hoursLabelToday: { ja:'本日の運営時間', en:'Today\u2019s hours', zh:'今日营业时间', ko:'오늘 운영시간' },
+      hoursClosedToday: { ja:'本日は休業', en:'Closed today', zh:'今日休息', ko:'오늘 휴무' },
+      hoursLabelTodayHoliday: { ja:'本日の運営時間（祝日）', en:'Today\u2019s hours (Holiday)', zh:'今日营业时间（节假日）', ko:'오늘 운영시간(공휴일)' },
+      receptionHours: { ja:'受付時間', en:'Reception hours', zh:'受理时间', ko:'접수 시간' },
+      scheduleSuffix: { ja:'　（営業時間：{sched}）', en:'  (Hours: {sched})', zh:'  （营业时间：{sched}）', ko:'  (운영시간: {sched})' },
+      demoNote: { ja:'\n※本画面はデモンストレーション用に作成されたサンプル画面です。', en:'\n*This screen is a sample created for demonstration purposes.', zh:'\n※本画面为演示用样本画面。', ko:'\n※이 화면은 데모용으로 제작된 샘플 화면입니다.' },
+      callBtnLabel: { ja:'コンシェルジュを呼ぶ（ビデオ通話）', en:'Call Concierge (Video Call)', zh:'呼叫礼宾（视频通话）', ko:'컨시어지 호출(영상통화)' },
+      callcenterBtnLabel: { ja:'コールセンターと通話する', en:'Call the Call Center', zh:'致电客服中心', ko:'콜센터와 통화하기' },
+      amenityVideoLabel: { ja:'ビデオ通話対応', en:'Video call available', zh:'支持视频通话', ko:'영상통화 지원' },
+      amenityPhoneLabel: { ja:'電話対応', en:'Phone support', zh:'支持电话', ko:'전화 지원' },
+      chatPanelTitleDefault: { ja:'よくあるご質問', en:'Frequently Asked Questions', zh:'常见问题', ko:'자주 묻는 질문' },
+      heroTaglineDefault: { ja:'プロのコンシェルジュが、ビデオ通話で住まいのお困りごとに寄り添います。', en:'Our professional concierge is here to help with any home concerns via video call.', zh:'专业礼宾通过视频通话为您的居家问题提供支持。', ko:'전문 컨시어지가 영상통화로 주거 관련 문제를 도와드립니다.' },
+      serviceMenuSubDefault: { ja:'お手持ちのスマートフォンで二次元コードを読み取ってご利用ください。', en:'Scan the QR code with your smartphone to access it.', zh:'请使用手机扫描二维码访问。', ko:'스마트폰으로 QR코드를 스캔하여 이용해 주세요.' },
+      internetConciergeSubLineDefault: { ja:'スマホ等から二次元コードを読み取りご利用ください。', en:'Scan the QR code from your smartphone to use it.', zh:'请用手机扫描二维码使用。', ko:'스마트폰으로 QR코드를 스캔하여 이용해 주세요.' },
+      internetConciergeSubUrlDefault: { ja:'マンション専用のポータルサイトをご利用いただけます。', en:'Use the building\u2019s dedicated portal site.', zh:'可使用公寓专属门户网站。', ko:'아파트 전용 포털 사이트를 이용하실 수 있습니다.' },
+      inquiryBarLabel: { ja:'お問い合わせ', en:'Contact Us', zh:'咨询', ko:'문의하기' },
+      icModalTitle: { ja:'インターネットコンシェルジュ', en:'Internet Concierge', zh:'网络礼宾', ko:'인터넷 컨시어지' },
+      ccModalTitle: { ja:'コールセンターと通話する', en:'Call the Call Center', zh:'致电客服中心', ko:'콜센터와 통화하기' },
+      qaGreetingDefault: { ja:'こんにちは。知りたいカテゴリのボタンをタップしてください。', en:'Hello. Please tap the category button you\u2019d like to know more about.', zh:'您好。请点击您想了解的类别按钮。', ko:'안녕하세요. 알고 싶은 카테고리 버튼을 눌러주세요.' },
+      qaGroupIntro: { ja:'{label}ですね。気になる項目をお選びください。', en:'{label} — please choose an item.', zh:'{label}。请选择您感兴趣的项目。', ko:'{label}. 궁금한 항목을 선택해 주세요.' },
+      qaBackButtonLabel: { ja:'\u21A9 最初のメニューに戻る', en:'\u21A9 Back to main menu', zh:'\u21A9 返回主菜单', ko:'\u21A9 처음 메뉴로 돌아가기' },
+      qaBackPromptLabel: { ja:'知りたいカテゴリを選択してください。', en:'Please select a category.', zh:'请选择您想了解的类别。', ko:'알고 싶은 카테고리를 선택해 주세요.' },
+      qaBackOtherCategory: { ja:'\u21A9 他のカテゴリを見る', en:'\u21A9 View other categories', zh:'\u21A9 查看其他类别', ko:'\u21A9 다른 카테고리 보기' },
+      jaOnlyNotice: { ja:'コンシェルジュは基本的に日本語のみの対応となります。', en:'Concierge support is currently Japanese only.', zh:'礼宾服务目前仅提供日语对应。', ko:'컨시어지 서비스는 현재 일본어로만 응대 가능합니다.' },
+      qaPanelLangNote: { ja:'一部の回答は日本語のみとなる場合がございます。', en:'Some answers may only be available in Japanese.', zh:'部分回答可能仅提供日语版本。', ko:'일부 답변은 일본어로만 제공될 수 있습니다.' },
+      soonServiceNote: { ja:'\n※現在サービス開発中です。', en:'\n*This service is under development.', zh:'\n※此服务目前正在开发中。', ko:'\n※현재 서비스를 개발 중입니다.' },
+      detailPageLink: { ja:'\u2794 {title}専用ページを見る', en:'\u2794 View the {title} page', zh:'\u2794 查看{title}专属页面', ko:'\u2794 {title} 전용 페이지 보기' },
+      serviceCatHouse: { ja:'家事サポート', en:'Housekeeping Support', zh:'家务支持', ko:'가사 지원' },
+      serviceCatLife: { ja:'生活便利', en:'Daily Living', zh:'生活便利', ko:'생활 편의' },
+      serviceCatStorage: { ja:'荷物の保管・買取・整理', en:'Storage, Buyback & Organizing', zh:'保管・回收・整理', ko:'보관·매입·정리' },
+      inqNoteText: { ja:'こちらのお問い合わせは、緊急のご連絡先ではございません。', en:'This form is not for emergency use.', zh:'此咨询渠道并非紧急联系方式。', ko:'본 문의는 긴급 연락처가 아닙니다.' },
+      inqRequiredBadge: { ja:'必須', en:'Required', zh:'必填', ko:'필수' },
+      inqOptionalBadge: { ja:'（任意）', en:' (Optional)', zh:'（选填）', ko:'(선택)' },
+      inqSubmitBtn: { ja:'送信する', en:'Submit', zh:'发送', ko:'보내기' },
+      inqSubmitting: { ja:'送信中…', en:'Submitting…', zh:'发送中…', ko:'전송 중…' },
+      inqSuccessMsg: { ja:'📩 お問い合わせを受け付けました。', en:'📩 Your inquiry has been received.', zh:'📩 您的咨询已收到。', ko:'📩 문의가 접수되었습니다.' },
+      inqFailPrefix: { ja:'送信に失敗しました：', en:'Submission failed: ', zh:'发送失败：', ko:'전송 실패: ' },
+      inqFailGeneric: { ja:'送信に失敗しました。しばらくしてから再度お試しください。', en:'Submission failed. Please try again later.', zh:'发送失败，请稍后重试。', ko:'전송에 실패했습니다. 잠시 후 다시 시도해 주세요.' },
+      inqFieldRoomNumberLabel: { ja:'お部屋番号', en:'Room Number', zh:'房间号', ko:'호실 번호' },
+      inqFieldRoomNumberPh: { ja:'例：101号室', en:'e.g., Room 101', zh:'例：101室', ko:'예: 101호' },
+      inqFieldNameLabel: { ja:'お名前', en:'Name', zh:'姓名', ko:'성함' },
+      inqFieldEmailLabel: { ja:'メールアドレス（ご返信用）', en:'Email Address', zh:'邮箱地址', ko:'이메일 주소' },
+      inqFieldMessageLabel: { ja:'お問い合わせ内容', en:'Inquiry Details', zh:'咨询内容', ko:'문의 내용' },
+      icIntro: { ja:'共用施設の予約や提携サービスのご利用ができます。', en:'Reserve shared facilities and use partner services.', zh:'可预约共用设施及使用合作服务。', ko:'공용시설 예약 및 제휴 서비스를 이용하실 수 있습니다.' },
+      icBadges: { ja:'24時間365日ご利用可能', en:'Available 24/7/365', zh:'全年365天24小时可用', ko:'연중무휴 24시간 이용 가능' },
+      icStep1: { ja:'カメラやLINEアプリで、上の二次元コードを読み取る', en:'Scan the QR code above', zh:'扫描上方二维码', ko:'위의 QR코드를 스캔하세요' },
+      icStep2: { ja:'「友だち追加」をタップ', en:'Tap "Add Friend"', zh:'点击"添加好友"', ko:'"친구 추가"를 누르세요' },
+      icStep3: { ja:'メニューから、ご利用したい項目を選ぶ', en:'Choose an item from the menu', zh:'在菜单中选择项目', ko:'메뉴에서 항목을 선택하세요' },
+      ccHoursLabel: { ja:'受付時間：', en:'Reception Hours: ', zh:'受理时间：', ko:'접수 시간: ' },
+      ccHoursDefault: { ja:'09:00〜19:00（365日対応）', en:'09:00\u201319:00 (365 days)', zh:'09:00\uFF5E19:00（全年无休）', ko:'09:00~19:00(연중무휴)' },
+      ccCallBtnLabel: { ja:'電話をかける（{phone}）', en:'Call ({phone})', zh:'拨打电话（{phone}）', ko:'전화 걸기({phone})' },
+      ccNosimDefault: { ja:'Wi-Fi環境でのご利用には別途連携が必要です。', en:'Wi-Fi calling requires a separate integration.', zh:'如需在Wi-Fi环境下拨打电话，需另行接入服务。', ko:'Wi-Fi 환경에서는 별도 연동이 필요합니다.' }
+    },
+    icFeatures: {
+      ja:[ {title:'共用施設の予約',desc:'ゲストルーム等を予約できます。'}, {title:'提携サービス',desc:'クリーニング等を優待価格で利用できます。'}, {title:'生活情報検索',desc:'周辺施設・ライフライン情報を確認できます。'}, {title:'コミュニティ',desc:'居住者間の情報交換や組合からのお知らせに使えます。'} ],
+      en:[ {title:'Reserve Facilities',desc:'Reserve guest rooms anytime.'}, {title:'Partner Services',desc:'Use partner services at discounted rates.'}, {title:'Local Info',desc:'Check nearby facilities and utilities.'}, {title:'Community',desc:'Exchange information with other residents.'} ],
+      zh:[ {title:'共用设施预约',desc:'可随时预约客房。'}, {title:'合作服务',desc:'可以优惠价格使用合作服务。'}, {title:'生活信息',desc:'可查询周边设施信息。'}, {title:'社区',desc:'可用于居民间信息交流。'} ],
+      ko:[ {title:'공용시설 예약',desc:'게스트룸을 예약할 수 있습니다.'}, {title:'제휴 서비스',desc:'우대 가격으로 이용할 수 있습니다.'}, {title:'생활 정보',desc:'주변 시설 정보를 확인할 수 있습니다.'}, {title:'커뮤니티',desc:'입주민 간 정보 교환에 활용할 수 있습니다.'} ]
+    }
+  };
+
+  var SUPPORTED_LANGS = (BUILDING.supportedLanguages || []).filter(function(l){ return l === 'en' || l === 'zh' || l === 'ko'; });
+  var CURRENT_LANG = (function(){
+    try {
+      var saved = window.localStorage.getItem('qlcConciergeLang');
+      if (saved && saved !== 'ja' && SUPPORTED_LANGS.indexOf(saved) === -1) return 'ja';
+      if (saved && I18N.t.chatPanelTitleDefault[saved]) return saved;
+    } catch (e) {}
+    return 'ja';
+  })();
+
+  function t(key, vars){
+    var entry = I18N.t[key];
+    var s = entry ? (entry[CURRENT_LANG] || entry.ja) : '';
+    if (vars) Object.keys(vars).forEach(function(k){ s = s.split('{' + k + '}').join(vars[k]); });
+    return s;
+  }
+  function getLocalizedFreeText_(japaneseValue, i18nObj){
+    if (CURRENT_LANG !== 'ja' && i18nObj) {
+      var tr = i18nObj[CURRENT_LANG];
+      if (tr && String(tr).trim()) return String(tr).trim();
+    }
+    return japaneseValue || '';
+  }
+  function getGroupLabelText_(g){
+    if (CURRENT_LANG !== 'ja') {
+      var std = I18N.standardGroupLabel[g.label];
+      if (std && std[CURRENT_LANG]) return std[CURRENT_LANG];
+    }
+    return getLocalizedFreeText_(g.label, g.labelI18n);
+  }
+  function getLocalizedText_(japaneseValue, i18nObj, defaultKey){
+    if (CURRENT_LANG !== 'ja' && i18nObj) {
+      var tr = i18nObj[CURRENT_LANG];
+      if (tr && String(tr).trim()) return String(tr).trim();
+    }
+    if (CURRENT_LANG !== 'ja' && defaultKey) {
+      var standardJa = (I18N.t[defaultKey] && I18N.t[defaultKey].ja) || '';
+      if (standardJa && String(japaneseValue).trim() === String(standardJa).trim()) return t(defaultKey);
+    }
+    if (japaneseValue && String(japaneseValue).trim()) return japaneseValue;
+    return t(defaultKey);
+  }
+
+  function isSmallOrPortraitDevice(){
+    if (window.screen.orientation && window.screen.orientation.type) {
+      if (window.screen.orientation.type.indexOf('portrait') === 0) return true;
+    } else if (window.screen.height > window.screen.width) { return true; }
+    var s = Math.min(window.screen.width, window.screen.height);
+    return s > 0 && s <= 760;
+  }
+  function isNarrowBrowserWindow(){ return window.innerWidth <= 760; }
+  function applyResponsiveLayout(){
+    document.documentElement.classList.toggle('mobile-layout', isSmallOrPortraitDevice() || isNarrowBrowserWindow());
+  }
+  applyResponsiveLayout();
+  window.addEventListener('resize', applyResponsiveLayout);
+  window.addEventListener('orientationchange', applyResponsiveLayout);
+
+  function updateClock(){
+    var now = new Date();
+    document.getElementById('clockTime').textContent = String(now.getHours()).padStart(2,'0') + ':' + String(now.getMinutes()).padStart(2,'0');
+    var days = I18N.weekdays[CURRENT_LANG] || I18N.weekdays.ja;
+    var dateStr;
+    if (CURRENT_LANG === 'en') dateStr = (now.getMonth()+1) + '/' + now.getDate() + '/' + now.getFullYear() + ' (' + days[now.getDay()] + ')';
+    else if (CURRENT_LANG === 'ko') dateStr = now.getFullYear() + '년 ' + (now.getMonth()+1) + '월 ' + now.getDate() + '일 (' + days[now.getDay()] + ')';
+    else if (CURRENT_LANG === 'zh') dateStr = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日（' + days[now.getDay()] + '）';
+    else dateStr = now.getFullYear() + '年' + (now.getMonth()+1) + '月' + now.getDate() + '日（' + days[now.getDay()] + '）';
+    document.getElementById('clockDate').textContent = dateStr;
+  }
+  updateClock();
+  setInterval(updateClock, 15000);
+
+  var WEATHER_ICON = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',66:'🌧️',67:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',77:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',85:'🌨️',86:'❄️',95:'⛈️',96:'⛈️',99:'⛈️' };
+  var LAST_WEATHER_CODE = null, LAST_WEATHER_TEMP = null, LAST_WEATHER_TMAX = null, LAST_WEATHER_TMIN = null;
+  function fetchWeather(){
+    var url = 'https://api.open-meteo.com/v1/forecast?latitude=' + BUILDING.lat + '&longitude=' + BUILDING.lng + '&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min&timezone=Asia%2FTokyo';
+    fetch(url).then(function(res){ return res.json(); }).then(function(data){
+      LAST_WEATHER_CODE = data.current.weather_code;
+      LAST_WEATHER_TEMP = Math.round(data.current.temperature_2m);
+      LAST_WEATHER_TMAX = Math.round(data.daily.temperature_2m_max[0]);
+      LAST_WEATHER_TMIN = Math.round(data.daily.temperature_2m_min[0]);
+      renderWeatherText_();
+    }).catch(function(){
+      document.getElementById('weatherIcon').textContent = '—';
+      document.getElementById('weatherText').textContent = t('weatherError');
+    });
+  }
+  function renderWeatherText_(){
+    if (LAST_WEATHER_CODE == null) return;
+    var labelMap = I18N.weatherLabel[CURRENT_LANG] || I18N.weatherLabel.ja;
+    document.getElementById('weatherIcon').textContent = WEATHER_ICON[LAST_WEATHER_CODE] || '🌡️';
+    document.getElementById('weatherText').textContent = (labelMap[LAST_WEATHER_CODE] || '') + ' ' + LAST_WEATHER_TEMP + '℃';
+    document.getElementById('weatherRange').textContent = t('weatherRange', { max: LAST_WEATHER_TMAX, min: LAST_WEATHER_TMIN });
+  }
+  if (BUILDING.showClockWeather === false) {
+    document.getElementById('hdrRight').style.display = 'none';
+  } else {
+    fetchWeather();
+    setInterval(fetchWeather, 30 * 60 * 1000);
+  }
+
+  var DAY_KEYS_JS = ['sun','mon','tue','wed','thu','fri','sat'];
+  var IS_HOLIDAY_TODAY = false;
+  function todayDateStr_(){
+    var d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+  function checkHolidayToday_(){
+    fetch('https://holidays-jp.github.io/api/v1/date.json').then(function(r){ return r.json(); }).then(function(data){
+      if (data && Object.prototype.hasOwnProperty.call(data, todayDateStr_())) { IS_HOLIDAY_TODAY = true; refreshHoursDisplay_(); }
+    }).catch(function(){});
+  }
+  checkHolidayToday_();
+
+  var DAY_ORDER_JS = ['mon','tue','wed','thu','fri','sat','sun','hol'];
+  function getHoursDisplayInfo_(){
+    var schedule = BUILDING.hoursSchedule;
+    if (schedule && schedule.length) {
+      var todayKey = DAY_KEYS_JS[new Date().getDay()];
+      var matches = [], isHolidayMatch = false;
+      if (IS_HOLIDAY_TODAY) schedule.forEach(function(p){ if (p.days && p.days.indexOf('hol') !== -1) { matches.push(p); isHolidayMatch = true; } });
+      if (!matches.length) schedule.forEach(function(p){ if (p.days && p.days.indexOf(todayKey) !== -1) matches.push(p); });
+      if (!matches.length) return { badge: t('hoursClosedToday'), label: t('hoursLabelToday'), isOpen: false };
+      var now = new Date(), nowMinutes = now.getHours()*60 + now.getMinutes();
+      var isOpenNow = matches.some(function(p){
+        var sp = String(p.start).split(':').map(Number), ep = String(p.end).split(':').map(Number);
+        var sm = sp[0]*60 + (sp[1]||0), em = ep[0]*60 + (ep[1]||0);
+        return nowMinutes >= sm && nowMinutes < em;
+      });
+      var badge = matches.map(function(p){ return p.start + '〜' + p.end; }).join(' / ');
+      return { badge: badge, label: isHolidayMatch ? t('hoursLabelTodayHoliday') : t('hoursLabelToday'), isOpen: isOpenNow };
+    }
+    return { badge: BUILDING.hoursText || '', label: t('hoursLabel'), isOpen: true };
+  }
+  function buildFullScheduleText_(schedule){
+    if (!schedule || !schedule.length) return '';
+    var dayMap = I18N.dayAbbrev[CURRENT_LANG] || I18N.dayAbbrev.ja, sep = I18N.daySep[CURRENT_LANG] || I18N.daySep.ja;
+    return schedule.map(function(p){
+      var days = DAY_ORDER_JS.filter(function(d){ return p.days.indexOf(d) !== -1; });
+      return days.map(function(d){ return dayMap[d]; }).join(sep) + ' ' + p.start + '〜' + p.end;
+    }).join('／');
+  }
+  function refreshHoursDisplay_(){
+    if (BUILDING.heroCtaMode === 'callcenter') {
+      var ccHours = (BUILDING.callcenterHoursText || '').trim() || t('ccHoursDefault');
+      document.getElementById('hoursBadgeText').textContent = ccHours;
+      document.getElementById('hoursNote').textContent = t('receptionHours') + '　' + ccHours + (BUILDING.isDemo ? t('demoNote') : '');
+      setCallBtnEnabled_(true);
+      return;
+    }
+    var info = getHoursDisplayInfo_();
+    document.getElementById('hoursBadgeText').textContent = info.badge;
+    var sched = buildFullScheduleText_(BUILDING.hoursSchedule);
+    document.getElementById('hoursNote').textContent =
+      info.label + '　' + info.badge + (sched ? t('scheduleSuffix', { sched: sched }) : '') + (BUILDING.isDemo ? t('demoNote') : '');
+    var restrictEnabled = BUILDING.hoursRestrictEnabled !== false;
+    setCallBtnEnabled_(!restrictEnabled || info.isOpen !== false);
+  }
+  function setCallBtnEnabled_(enabled){
+    var btn = document.getElementById('callBtn');
+    if (!btn) return;
+    btn.classList.toggle('btn-disabled', !enabled);
+  }
+
+  function refreshChatPanelTitle_(){ document.getElementById('chatPanelTitle').textContent = getLocalizedText_(BUILDING.qaTitle, BUILDING.qaTitleI18n, 'chatPanelTitleDefault'); }
+  function refreshHeroTagline_(){ document.getElementById('heroTagline').textContent = getLocalizedText_(BUILDING.heroTagline, BUILDING.heroTaglineI18n, 'heroTaglineDefault'); }
+  function getQaGreetingText_(){ return getLocalizedText_(BUILDING.qaGreeting, BUILDING.qaGreetingI18n, 'qaGreetingDefault'); }
+  function refreshServiceMenuSub_(){ document.getElementById('serviceMenuSub').textContent = getLocalizedText_(BUILDING.serviceMenuComment, BUILDING.serviceMenuCommentI18n, 'serviceMenuSubDefault'); }
+  function refreshInternetConciergeSub_(){
+    var mode = BUILDING.internetConciergeMode || 'line';
+    var lineIdSet = (BUILDING.internetConciergeLineId || DEFAULT_INTERNET_CONCIERGE_LINE_ID).replace(/^@/, '').trim();
+    var defaultKey = (mode === 'line' && lineIdSet) ? 'internetConciergeSubLineDefault' : 'internetConciergeSubUrlDefault';
+    document.getElementById('internetConciergeSub').textContent = getLocalizedText_(BUILDING.internetConciergeComment, BUILDING.internetConciergeCommentI18n, defaultKey);
+  }
+
+  function applyBuildingData(){
+    document.getElementById('bldgName').textContent = BUILDING.name;
+    fitBuildingNameToOneLine_();
+    refreshChatPanelTitle_();
+    refreshHeroTagline_();
+    document.getElementById('callBtn').href = BUILDING.videoUrl;
+    document.getElementById('callBtn').addEventListener('click', function(e){ if (this.classList.contains('btn-disabled')) e.preventDefault(); });
+
+    (function applyHeroCtaMode_(){
+      if (BUILDING.heroCtaMode !== 'callcenter') return;
+      var PHONE = '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path>';
+      var btn = document.getElementById('callBtn');
+      btn.innerHTML = '<svg viewBox="0 0 24 24">' + PHONE + '</svg>' + t('callcenterBtnLabel');
+      btn.href = 'javascript:void(0)';
+      btn.addEventListener('click', function(e){ e.preventDefault(); openCcModal(); });
+      document.getElementById('amenityTypeLabel').textContent = t('amenityPhoneLabel');
+      document.getElementById('amenityTypeIcon').innerHTML = PHONE;
+      // ★コールセンターモードでは人物イラストを出さず、電話アイコンに差し替える
+      document.getElementById('portraitWrap').style.display = 'none';
+      document.getElementById('callcenterIconWrap').style.display = 'flex';
+    })();
+
+    document.getElementById('serviceMenuLink').href = BUILDING.serviceMenuUrl;
+    document.getElementById('serviceMenuQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=' + encodeURIComponent(BUILDING.serviceMenuUrl);
+    refreshServiceMenuSub_();
+    // ★共用端末での直接遷移を防ぐ：クリックしても遷移せず、QR拡大モーダルを開くだけにする
+    document.getElementById('serviceMenuLink').addEventListener('click', function(e){
+      e.preventDefault();
+      openTileQrModal_('サービスメニュー', BUILDING.serviceMenuUrl, document.getElementById('serviceMenuSub').textContent);
+    });
+
+    document.getElementById('inquiryQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=' + encodeURIComponent(buildInquiryPageUrl_());
+    document.getElementById('inquiryLink').addEventListener('click', function(e){ e.preventDefault(); openInqModal(); });
+
+    if (BUILDING.shopUrl) {
+      document.getElementById('shopLink').href = BUILDING.shopUrl;
+      document.getElementById('shopQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&data=' + encodeURIComponent(BUILDING.shopUrl);
+    }
+    if (BUILDING.shopComment && BUILDING.shopComment.trim()) document.getElementById('shopSub').textContent = BUILDING.shopComment.trim();
+    // ★共用端末での直接遷移を防ぐ：クリックしても遷移せず、QR拡大モーダルを開くだけにする
+    document.getElementById('shopLink').addEventListener('click', function(e){
+      e.preventDefault();
+      openTileQrModal_('ネットショップ', BUILDING.shopUrl, document.getElementById('shopSub').textContent);
+    });
+
+    (function applyInternetConciergeMode_(){
+      var tile = document.getElementById('internetConciergeLink');
+      var mode = BUILDING.internetConciergeMode || 'line';
+      var lineId = (BUILDING.internetConciergeLineId || DEFAULT_INTERNET_CONCIERGE_LINE_ID).replace(/^@/, '').trim();
+      if (mode === 'line' && lineId) {
+        var lineUrl = 'https://line.me/R/ti/p/@' + lineId;
+        document.getElementById('internetConciergeQr').src = 'https://api.qrserver.com/v1/create-qr-code/?size=240x240&margin=8&color=6-199-85&data=' + encodeURIComponent(lineUrl);
+        document.getElementById('internetConciergeQr').style.display = 'block';
+        refreshInternetConciergeSub_();
+        document.getElementById('internetConciergeLineId').textContent = 'LINE ID: @' + lineId;
+        document.getElementById('internetConciergeLineId').style.display = 'block';
+        tile.removeAttribute('target');
+        tile.href = 'javascript:void(0)';
+        tile.addEventListener('click', function(e){ e.preventDefault(); openIcModal(); });
+      } else {
+        tile.href = BUILDING.internetConciergeUrl || '#';
+        refreshInternetConciergeSub_();
+      }
+    })();
+
+    document.getElementById('conciergeAvatarImg').src = BUILDING.conciergeAvatarUrl || 'https://drive.google.com/thumbnail?id=1J-BJ0qKsXxQGvdnrFwdD29Ifv8xkYnja&sz=w400';
+
+    refreshHoursDisplay_();
+
+    applyEmergencyBar_();
+
+    if (BUILDING.isDemo) {
+      document.getElementById('demoBadge').style.display = 'inline-block';
+      fitBuildingNameToOneLine_(); // ★DEMOバッジ分の幅を確保し直して再計算
+      document.getElementById('bldgSub').textContent = 'REMOTE CONCIERGE DEMONSTRATION';
+    } else {
+      document.getElementById('demoBadge').style.display = 'none';
+      document.getElementById('bldgSub').textContent = 'REMOTE CONCIERGE';
+    }
+  }
+  // ★設備の緊急連絡先バー：電話番号が設定されている物件だけ、画面下部に常時表示する。
+  // 既存の「コールセンター電話番号」欄をそのまま使うので、新しい設定項目は不要。
+  function applyEmergencyBar_(){
+    var bar = document.getElementById('emergencyBar');
+    var phone = (BUILDING.callcenterPhone || '').trim();
+    if (!phone) { bar.style.display = 'none'; return; }
+    var hours = (BUILDING.callcenterHoursText || '').trim() || t('ccHoursDefault');
+    document.getElementById('emergencyBarText').textContent = '設備の緊急連絡先　' + phone + '　（' + hours + '）';
+    bar.style.display = 'flex';
+  }
+
+  applyBuildingData();
+
+  function applyLayoutConfig(){
+    var heroSide = BUILDING.layoutHeroSide || 'left', navOrder = BUILDING.layoutNavOrder || 'qa-first', linksOrder = BUILDING.layoutLinksOrder || 'service-first';
+    var paneHero = document.getElementById('paneHero'), paneNav = document.getElementById('paneNav');
+    var chatPanel = document.getElementById('chatPanel'), quickLinks = document.getElementById('quickLinks');
+    var serviceMenuTile = document.getElementById('serviceMenuLink'), internetTile = document.getElementById('internetConciergeLink'), shopTile = document.getElementById('shopLink');
+    var inquiryTile = document.getElementById('inquiryLink');
+    // ★お問い合わせタイルは常に一番左（ロボット/QA主役アイコンの直後）に固定表示する
+    inquiryTile.style.order = '0';
+
+    if (heroSide === 'right') { paneHero.style.order='2'; paneNav.style.order='1'; paneHero.style.borderRight='none'; paneNav.style.borderRight='1px solid var(--hairline)'; }
+    else { paneHero.style.order='1'; paneNav.style.order='2'; paneHero.style.borderRight='1px solid var(--hairline)'; paneNav.style.borderRight='none'; }
+
+    if (navOrder === 'links-first') { quickLinks.style.order='1'; chatPanel.style.order='2'; quickLinks.style.borderTop='none'; chatPanel.style.borderTop='1px solid var(--hairline)'; }
+    else { chatPanel.style.order='1'; quickLinks.style.order='2'; chatPanel.style.borderTop='none'; quickLinks.style.borderTop='1px solid var(--hairline)'; }
+
+    if (linksOrder === 'internet-first') { internetTile.style.order='1'; serviceMenuTile.style.order='2'; }
+    else { serviceMenuTile.style.order='1'; internetTile.style.order='2'; }
+    shopTile.style.order='3';
+  }
+  applyLayoutConfig();
+
+  function openTileQrModal_(title, url, desc){
+    if (!url) return;
+    var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=8&data=' + encodeURIComponent(url);
+    document.getElementById('icModalTitle').textContent = title;
+    document.getElementById('icModalBody').innerHTML =
+      '<div class="ic-modal-qr-wrap"><img src="' + qrSrc + '" alt="二次元コード"></div>' +
+      '<p style="font-size:13px;color:var(--ink);line-height:1.7;text-align:center;margin:0;">' + escapeInqHtml_(desc || '') + '</p>';
+    document.getElementById('icModalOverlay').style.display = 'flex';
+  }
+
+  // ★NOTICE★ お知らせ・議事録の一覧モーダル。掲載日の新しい順に並べ、
+  // 本文があればそのまま表示（{{hours}}は既にサーバー側で置換済み）、PDFリンクがあれば併記する。
+  function getNoticeItems_(){
+    var out = [];
+    (BUILDING.customGroups || []).forEach(function(group){
+      if (group.displayTarget !== 'notice') return;
+      (group.items || []).forEach(function(item){
+        if (!item.title && !item.detail && !item.pdfUrl) return;
+        out.push(item);
+      });
+    });
+    out.sort(function(a, b){
+      var da = a.postedDate || '', db = b.postedDate || '';
+      if (da && db) return da < db ? 1 : (da > db ? -1 : 0);
+      if (da && !db) return -1;
+      if (!da && db) return 1;
+      return 0;
+    });
+    return out;
+  }
+  function buildNoticeModalHtml_(){
+    var items = getNoticeItems_();
+    if (!items.length) {
+      return '<p style="font-size:13px;color:var(--grey-cool);text-align:center;padding:20px 0;">現在、お知らせ・議事録はありません。</p>';
+    }
+    return items.map(function(item){
+      var dateHtml = item.postedDate ? '<div style="font-size:11px;color:var(--grey-cool);margin-bottom:4px;">' + escapeInqHtml_(item.postedDate) + '</div>' : '';
+      var titleHtml = '<div style="font-size:14px;font-weight:700;color:var(--navy-deep);margin-bottom:6px;">' + escapeInqHtml_((item.icon ? item.icon + ' ' : '')) + escapeInqHtml_(item.title || '') + '</div>';
+      var detailHtml = item.detail ? '<div style="font-size:13px;color:var(--ink);line-height:1.7;white-space:pre-wrap;margin-bottom:8px;">' + escapeInqHtml_(item.detail) + '</div>' : '';
+      var pdfHtml = item.pdfUrl ? '<button type="button" class="detail-link pdf-view-btn" style="border:none;cursor:pointer;" data-pdf-url="' + escapeInqHtml_(item.pdfUrl) + '" data-pdf-title="' + escapeInqHtml_(item.title || '資料') + '">📄 PDFを見る</button>' : '';
+      return '<div style="border-bottom:1px solid var(--hairline-soft);padding:0 0 16px;margin-bottom:16px;">' + dateHtml + titleHtml + detailHtml + pdfHtml + '</div>';
+    }).join('');
+  }
+  function openNoticeModal_(){
+    document.getElementById('icModalTitle').textContent = 'お知らせ・議事録';
+    document.getElementById('icModalBody').innerHTML = buildNoticeModalHtml_();
+    document.getElementById('icModalOverlay').style.display = 'flex';
+  }
+  document.getElementById('noticeLink').addEventListener('click', function(e){ e.preventDefault(); openNoticeModal_(); });
+
+  // ★NOTICE★ PDFはGoogleドライブの生画面に飛ばさず、アプリ内のビューアで開く（共用端末でDriveのUIを見せない）
+  function extractDrivePreviewUrl_(url){
+    var m = String(url).match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+    return m ? ('https://drive.google.com/file/d/' + m[1] + '/preview') : null;
+  }
+  function openPdfModal_(url, title){
+    var preview = extractDrivePreviewUrl_(url);
+    document.getElementById('pdfModalTitle').textContent = title || '資料を見る';
+    if (preview) {
+      document.getElementById('pdfModalFrame').src = preview;
+      document.getElementById('pdfModalOverlay').style.display = 'flex';
+    } else {
+      // Drive形式でないリンクは、埋め込みができないためやむを得ず新規タブで開く
+      window.open(url, '_blank');
+    }
+  }
+  function closePdfModal_(){
+    document.getElementById('pdfModalOverlay').style.display = 'none';
+    document.getElementById('pdfModalFrame').src = '';
+  }
+  document.getElementById('icModalBody').addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.pdf-view-btn') : null;
+    if (!btn) return;
+    openPdfModal_(btn.getAttribute('data-pdf-url'), btn.getAttribute('data-pdf-title'));
+  });
+  document.getElementById('pdfModalClose').addEventListener('click', closePdfModal_);
+  document.getElementById('pdfModalOverlay').addEventListener('click', function(e){ if (e.target.id === 'pdfModalOverlay') closePdfModal_(); });
+
+  function applyVisibilityConfig(){
+    var showHero = BUILDING.showRemoteConcierge !== false, showQa = BUILDING.showQa !== false, showSvc = BUILDING.showServiceMenu !== false;
+    var hasInternetTarget = (BUILDING.internetConciergeMode === 'line')
+      ? !!((BUILDING.internetConciergeLineId || DEFAULT_INTERNET_CONCIERGE_LINE_ID).trim())
+      : !!(BUILDING.internetConciergeUrl && BUILDING.internetConciergeUrl.trim());
+    var showNet = BUILDING.showInternetConcierge === true && hasInternetTarget;
+    var hasShopTarget = !!(BUILDING.shopUrl && String(BUILDING.shopUrl).trim());
+    var showShop = BUILDING.showShop === true && hasShopTarget;
+    var showInq = BUILDING.showInquiry === true;
+
+    var paneHero = document.getElementById('paneHero'), paneNav = document.getElementById('paneNav');
+    var chatPanel = document.getElementById('chatPanel'), quickLinks = document.getElementById('quickLinks');
+    var serviceMenuTile = document.getElementById('serviceMenuLink'), internetTile = document.getElementById('internetConciergeLink'), shopTile = document.getElementById('shopLink');
+    var inquiryTile = document.getElementById('inquiryLink'), bodySplit = document.getElementById('bodySplit');
+    var noticeTile = document.getElementById('noticeLink');
+    var heroQaContent = document.getElementById('heroQaContent');
+    var showNotice = getNoticeItems_().length > 0;
+    noticeTile.style.order = '4';
+
+    if (!showQa) chatPanel.style.display = 'none';
+    if (!showInq) inquiryTile.style.display = 'none';
+    if (!showSvc) serviceMenuTile.style.display = 'none';
+    if (!showNet) internetTile.style.display = 'none';
+    if (!showShop) shopTile.style.display = 'none';
+    if (!showNotice) noticeTile.style.display = 'none';
+
+    var tiles = [inquiryTile, serviceMenuTile, internetTile, shopTile, noticeTile].filter(function(el){ return el.style.display !== 'none'; })
+      .sort(function(a,b){ return (parseInt(a.style.order,10)||0) - (parseInt(b.style.order,10)||0); });
+    tiles.forEach(function(el, idx){
+      el.style.flex = tiles.length === 1 ? '1 1 100%' : '1 1 0';
+      el.style.borderRight = idx === tiles.length - 1 ? 'none' : '1px solid var(--hairline)';
+    });
+    var hasQuickLinks = tiles.length > 0;
+    if (!hasQuickLinks) quickLinks.style.display = 'none';
+
+    var hasNav = showQa || hasQuickLinks || showInq;
+
+    // ★QA主役レイアウト：リモートコンシェルジュ非表示・QAありのとき、
+    // 上段（左：キャラクター／右：タイル）＋下段（QA全幅）の縦積みに組み替える
+    var qaLeadMode = !showHero && showQa;
+    bodySplit.classList.toggle('qa-lead-layout', qaLeadMode);
+
+    if (qaLeadMode) {
+      paneHero.style.display = '';
+      paneNav.style.display = hasNav ? '' : 'none';
+      heroQaContent.style.display = 'flex';
+      document.getElementById('qaHeroTagline').textContent = (BUILDING.qaHeroTagline || '').trim() || 'ご不明な点は、こちらのQAチャットでお気軽にお尋ねください。';
+      if (BUILDING.qaCharacterUrl) {
+        document.getElementById('qaHeroCustomImg').src = BUILDING.qaCharacterUrl;
+        document.getElementById('qaHeroCustomImg').style.display = 'block';
+        document.getElementById('qaHeroIconWrap').style.display = 'none';
+      } else {
+        document.getElementById('qaHeroCustomImg').style.display = 'none';
+        document.getElementById('qaHeroIconWrap').style.display = 'flex';
+      }
+      if (hasQuickLinks) {
+        paneHero.appendChild(quickLinks); // ★右半分へ移動（キャラクターの隣に並べる）
+        heroQaContent.classList.remove('qa-hero-solo');
+      } else {
+        heroQaContent.classList.add('qa-hero-solo');
+      }
+    } else {
+      if (!showHero) paneHero.style.display = 'none';
+      if (!hasNav) paneNav.style.display = 'none';
+      if (showHero && !hasNav) { paneHero.style.flex = '1 1 100%'; paneHero.style.borderRight = 'none'; }
+      else if (!showHero && hasNav) paneNav.style.flex = '1 1 100%';
+      if (showQa && hasQuickLinks) {
+        // ★QAチャットは常に半分以上の高さを確保し、タイル群は残りの高さに収まらない分だけ内部スクロールさせる
+        chatPanel.style.flex = '1 1 auto';
+        chatPanel.style.minHeight = '50%';
+        quickLinks.style.flex = '0 1 auto';
+        quickLinks.style.maxHeight = '50%';
+        quickLinks.style.overflowY = 'auto';
+      } else {
+        if (hasQuickLinks) quickLinks.style.flex = '0 0 auto';
+        if (showQa) chatPanel.style.flex = '1 1 auto';
+        if (showQa && !hasQuickLinks) chatPanel.style.flex = '1 1 100%';
+        if (!showQa && hasQuickLinks) quickLinks.style.flex = '1 1 100%';
+      }
+    }
+
+    if (!showHero && !hasNav && !qaLeadMode) bodySplit.innerHTML = '<div class="empty-state">表示するブロックが設定されていません。</div>';
+  }
+  applyVisibilityConfig();
+  fitQuickLabelsToTwoLines_();
+
+  function applyInquiryPosition_(){
+    var bar = document.getElementById('inquiryBar');
+    if (!bar) return;
+    var pos = BUILDING.layoutInquiryPosition || 'header-right';
+    bar.classList.remove('pos-header', 'pos-bottom-center', 'pos-hero-bottom');
+
+    if (pos === 'header-right') {
+      bar.classList.add('pos-header');
+      var hdrRight = document.getElementById('hdrRight');
+      hdrRight.insertBefore(bar, hdrRight.firstChild);
+    } else if (pos === 'bottom-center') {
+      bar.classList.add('pos-bottom-center');
+      document.querySelector('.stage').appendChild(bar);
+    } else if (pos === 'hero-bottom') {
+      // ★お問い合わせを目立たせる：左パネルのコールボタン／QAタグラインのすぐ下に横長で配置
+      bar.classList.add('pos-hero-bottom');
+      var heroRemote = document.getElementById('heroRemoteContent');
+      var callBtnEl = document.getElementById('callBtn');
+      var heroQa = document.getElementById('heroQaContent');
+      var qaTaglineEl = document.getElementById('qaHeroTagline');
+      if (heroRemote && heroRemote.style.display !== 'none' && callBtnEl) {
+        callBtnEl.insertAdjacentElement('afterend', bar);
+      } else if (heroQa && heroQa.style.display !== 'none' && qaTaglineEl) {
+        qaTaglineEl.insertAdjacentElement('afterend', bar);
+      } else {
+        document.getElementById('paneNav').appendChild(bar);
+      }
+    } else {
+      document.getElementById('paneNav').appendChild(bar);
+    }
+  }
+  var QA_BASE = 'https://www.qlc-service.com/qlc-link/';
+  var QA_GROUPS = {};
+  function rebuildQaGroups_(){
+    QA_GROUPS = {};
+    (BUILDING.customGroups || []).forEach(function(group, idx){
+      // ★NOTICE★ お知らせ・議事録は専用パネルで表示するので、QAチャットには混ぜない
+      if (group.displayTarget === 'servicemenu_top' || group.displayTarget === 'notice') return;
+      QA_GROUPS['custom_' + idx] = { label: group.label, icon: group.icon, type: 'rule', items: group.items, note: group.note || '', labelI18n: group.labelI18n || {} };
+    });
+    if (BUILDING.qaShowServices !== false) {
+      QA_GROUPS.house = { label:t('serviceCatHouse'), icon:'🧹', type:'service', items: BUILDING.services.house };
+      QA_GROUPS.life = { label:t('serviceCatLife'), icon:'🚗', type:'service', items: BUILDING.services.life };
+      QA_GROUPS.storage = { label:t('serviceCatStorage'), icon:'📦', type:'service', items: BUILDING.services.storage };
+    }
+  }
+  rebuildQaGroups_();
+
+  var greetingEl = document.getElementById('qaGreetingBubble');
+  if (greetingEl) greetingEl.textContent = getQaGreetingText_();
+  var chatScroll = document.getElementById('chatScroll');
+
+  // ★演出削除：フェードイン・振動フィードバックなし。回答表示前はタイピングインジケータのみ表示。
+  var TYPING_DELAY_MS = 550;
+  function appendBubble(text, kind){
+    var div = document.createElement('div');
+    div.className = 'bubble ' + kind;
+    div.textContent = text;
+    chatScroll.appendChild(div);
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+    return div;
+  }
+  function appendLink(label, href){
+    var a = document.createElement('a');
+    a.className = 'detail-link'; a.href = href; a.target = '_blank'; a.textContent = label;
+    chatScroll.appendChild(a);
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  }
+  function appendOptions(buttons){
+    var wrap = document.createElement('div'); wrap.className = 'quick-replies'; wrap.id = 'qaOptions';
+    buttons.forEach(function(b){
+      var btn = document.createElement('button'); btn.className = 'quick-reply-btn'; btn.type = 'button'; btn.textContent = b.label; btn.onclick = b.onClick;
+      wrap.appendChild(btn);
+    });
+    chatScroll.appendChild(wrap);
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  }
+  function buildGrid(buttons){
+    var grid = document.createElement('div'); grid.className = 'qa-grid';
+    buttons.forEach(function(b){
+      var btn = document.createElement('button'); btn.className = 'quick-reply-btn'; btn.type = 'button'; btn.textContent = b.label; btn.onclick = b.onClick;
+      grid.appendChild(btn);
+    });
+    return grid;
+  }
+  function clearOptions(){ var old = document.getElementById('qaOptions'); if (old) old.remove(); }
+  function appendTypingIndicator(){
+    var div = document.createElement('div');
+    div.className = 'bubble ai typing'; div.id = 'qaTypingIndicator';
+    div.innerHTML = '<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span>';
+    chatScroll.appendChild(div);
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+    return div;
+  }
+  function removeTypingIndicator(){ var old = document.getElementById('qaTypingIndicator'); if (old) old.remove(); }
+
+  function qaRenderMain(){
+    clearOptions();
+    var wrap = document.createElement('div'); wrap.className = 'quick-replies'; wrap.id = 'qaOptions';
+    var keys = Object.keys(QA_GROUPS).filter(function(k){ return QA_GROUPS[k].items && QA_GROUPS[k].items.length > 0; });
+    var buttons = keys.map(function(k){ var g = QA_GROUPS[k]; return { label: g.icon + ' ' + getGroupLabelText_(g), onClick: function(){ qaSelectGroup(k); } }; });
+    wrap.appendChild(buildGrid(buttons));
+    chatScroll.appendChild(wrap);
+    chatScroll.scrollTop = chatScroll.scrollHeight;
+  }
+
+  function qaSelectGroup(key){
+    var g = QA_GROUPS[key], gLabel = getGroupLabelText_(g);
+    clearOptions();
+    appendBubble(g.icon + ' ' + gLabel, 'user');
+    // ★QALOG★ どのカテゴリが選ばれたかを記録（失敗しても操作には影響させない）
+    try { google.script.run.withFailureHandler(function(){}).logQaEvent(BUILDING.id, { groupLabel: g.label, lang: CURRENT_LANG }); } catch(e) {}
+    appendTypingIndicator();
+    setTimeout(function(){
+      removeTypingIndicator();
+      appendBubble(t('qaGroupIntro', { label: gLabel }), 'ai');
+      if (g.note) appendBubble(g.note, 'ai');
+      var wrap = document.createElement('div'); wrap.className = 'quick-replies'; wrap.id = 'qaOptions';
+      var buttons = g.items.map(function(item){
+        return { label: item.icon + ' ' + getLocalizedFreeText_(item.title, item.titleI18n), onClick: function(){ qaShowDetail(key, item); } };
+      });
+      wrap.appendChild(buildGrid(buttons));
+      var back = document.createElement('button'); back.className = 'quick-reply-btn'; back.type = 'button'; back.textContent = t('qaBackButtonLabel'); back.onclick = qaBackToMain;
+      wrap.appendChild(back);
+      chatScroll.appendChild(wrap);
+      chatScroll.scrollTop = chatScroll.scrollHeight;
+    }, TYPING_DELAY_MS);
+  }
+
+  function qaShowDetail(key, item){
+    var g = QA_GROUPS[key];
+    clearOptions();
+    var itemTitle = (g.type === 'rule') ? getLocalizedFreeText_(item.title, item.titleI18n) : item.title;
+    appendBubble(item.icon + ' ' + itemTitle, 'user');
+    // ★QALOG★ どの項目が選ばれたかを記録（失敗しても操作には影響させない）
+    try { google.script.run.withFailureHandler(function(){}).logQaEvent(BUILDING.id, { groupLabel: g.label, itemTitle: itemTitle, lang: CURRENT_LANG }); } catch(e) {}
+    appendTypingIndicator();
+    setTimeout(function(){
+      removeTypingIndicator();
+      if (g.type === 'rule') {
+        appendBubble(getLocalizedFreeText_(item.detail, item.detailI18n), 'ai');
+      } else {
+        var soonNote = item.soon ? t('soonServiceNote') : '';
+        appendBubble(item.desc + '。' + soonNote, 'ai');
+        if (!item.soon) appendLink(t('detailPageLink', { title: item.title }), QA_BASE + item.slug);
+      }
+      appendOptions([{ label: t('qaBackOtherCategory'), onClick: qaBackToMain }]);
+    }, TYPING_DELAY_MS);
+  }
+
+  function qaBackToMain(){
+    clearOptions();
+    appendBubble(t('qaBackButtonLabel'), 'user');
+    appendBubble(t('qaBackPromptLabel'), 'ai');
+    qaRenderMain();
+  }
+
+  if (BUILDING.showQa !== false) { qaRenderMain(); chatScroll.scrollTop = 0; }
+
+  // ---------------- お問い合わせフォーム ----------------
+  function getInquiryFields_(){
+    if (BUILDING.inquiryFields && BUILDING.inquiryFields.length) return BUILDING.inquiryFields;
+    return [
+      { key:'roomNumber', label:t('inqFieldRoomNumberLabel'), type:'text', required:true, placeholder:t('inqFieldRoomNumberPh') },
+      { key:'name', label:t('inqFieldNameLabel'), type:'text', required:true, placeholder:'' },
+      { key:'email', label:t('inqFieldEmailLabel'), type:'email', required:true, placeholder:'' },
+      { key:'message', label:t('inqFieldMessageLabel'), type:'textarea', required:true, placeholder:'' }
+    ];
+  }
+  var INQUIRY_FIELDS = getInquiryFields_();
+  function escapeInqHtml_(s){ return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){ return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]; }); }
+  function buildInqFieldHtml_(f){
+    var reqBadge = f.required ? '<span class="inq-req">' + t('inqRequiredBadge') + '</span>' : '<span class="inq-optional">' + t('inqOptionalBadge') + '</span>';
+    var ph = f.placeholder ? ' placeholder="' + escapeInqHtml_(f.placeholder) + '"' : '';
+    var reqAttr = f.required ? ' required' : '';
+    if (f.type === 'textarea') return '<label>' + escapeInqHtml_(f.label||'') + ' ' + reqBadge + '<textarea data-key="' + escapeInqHtml_(f.key||'') + '"' + reqAttr + ph + '></textarea></label>';
+    return '<label>' + escapeInqHtml_(f.label||'') + ' ' + reqBadge + '<input type="' + (f.type==='email'?'email':'text') + '" data-key="' + escapeInqHtml_(f.key||'') + '"' + reqAttr + ph + '></label>';
+  }
+  function buildInqFormHtml_(){
+    INQUIRY_FIELDS = getInquiryFields_();
+    return '<p class="inq-modal-note">' + t('inqNoteText') + '</p><form id="inqForm">' + INQUIRY_FIELDS.map(buildInqFieldHtml_).join('') + '<button type="submit" class="inq-submit-btn" id="inqSubmitBtn">' + t('inqSubmitBtn') + '</button></form>';
+  }
+
+  // ★お問い合わせのQR誘導：共用端末での直接入力を避け、来訪者自身の端末で入力してもらう
+  function buildInquiryPageUrl_(){
+    // ★INQURL★ 外部フォームURLが設定されている場合はそちらへ誘導。未設定ならQLC備え付けフォームへ。
+    if (BUILDING.inquiryMode === 'external' && BUILDING.inquiryExternalUrl) return BUILDING.inquiryExternalUrl;
+    var base = window.location.href.split('?')[0];
+    return base + '?view=inquiry&id=' + encodeURIComponent(BUILDING.id);
+  }
+  function buildInqQrHtml_(){
+    var url = buildInquiryPageUrl_();
+    var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=280x280&margin=8&data=' + encodeURIComponent(url);
+    return '<p class="inq-modal-note">' + t('inqNoteText') + '</p>' +
+      '<div class="ic-modal-qr-wrap"><img src="' + qrSrc + '" alt="お問い合わせフォーム二次元コード"></div>' +
+      '<p style="font-size:13px;color:var(--ink);line-height:1.7;text-align:center;margin:0;">お手持ちのスマートフォンで二次元コードを読み取り、フォームにご入力ください。</p>';
+  }
+  function openInqModal(){ document.getElementById('inqModalBody').innerHTML = buildInqQrHtml_(); document.getElementById('inqModalOverlay').style.display = 'flex'; }
+  function closeInqModal(){ document.getElementById('inqModalOverlay').style.display = 'none'; }
+
+  function getIcFeatures_(){ return I18N.icFeatures[CURRENT_LANG] || I18N.icFeatures.ja; }
+  function buildIcModalHtml_(lineUrl, lineId){
+    var qrSrc = 'https://api.qrserver.com/v1/create-qr-code/?size=320x320&margin=8&color=6-199-85&data=' + encodeURIComponent(lineUrl);
+    var html = '<p class="ic-modal-intro">' + t('icIntro') + '</p><p class="ic-modal-badges">' + t('icBadges') + '</p>';
+    html += '<div class="ic-modal-qr-wrap"><img src="' + qrSrc + '" alt="LINE QR code"><span class="ic-line-id">LINE ID: @' + escapeInqHtml_(lineId) + '</span></div>';
+    html += '<ul class="ic-modal-steps"><li><span class="ic-step-num">1</span><span>' + t('icStep1') + '</span></li><li><span class="ic-step-num">2</span><span>' + t('icStep2') + '</span></li><li><span class="ic-step-num">3</span><span>' + t('icStep3') + '</span></li></ul>';
+    html += '<div class="ic-modal-features">';
+    getIcFeatures_().forEach(function(f){ html += '<div><div class="ic-modal-feature-title">' + escapeInqHtml_(f.title) + '</div><div class="ic-modal-feature-desc">' + escapeInqHtml_(f.desc) + '</div></div>'; });
+    html += '</div>';
+    return html;
+  }
+  function openIcModal(){
+    var lineId = (BUILDING.internetConciergeLineId || DEFAULT_INTERNET_CONCIERGE_LINE_ID).replace(/^@/, '').trim();
+    if (!lineId) return;
+    document.getElementById('icModalBody').innerHTML = buildIcModalHtml_('https://line.me/R/ti/p/@' + lineId, lineId);
+    document.getElementById('icModalOverlay').style.display = 'flex';
+  }
+  function closeIcModal(){ document.getElementById('icModalOverlay').style.display = 'none'; }
+
+  function buildCcModalHtml_(){
+    var phone = (BUILDING.callcenterPhone || '').trim();
+    var hours = (BUILDING.callcenterHoursText || '').trim() || t('ccHoursDefault');
+    var nosim = (BUILDING.callcenterNoSimComment || '').trim() || t('ccNosimDefault');
+    var html = '<p class="cc-modal-hours">' + t('ccHoursLabel') + escapeInqHtml_(hours) + '</p>';
+    if (phone) html += '<a class="cc-call-btn" href="tel:' + escapeInqHtml_(phone) + '"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>' + t('ccCallBtnLabel', { phone: escapeInqHtml_(phone) }) + '</a>';
+    html += '<p class="cc-modal-note">' + escapeInqHtml_(nosim) + '</p>';
+    return html;
+  }
+  function openCcModal(){ document.getElementById('ccModalBody').innerHTML = buildCcModalHtml_(); document.getElementById('ccModalOverlay').style.display = 'flex'; }
+  function closeCcModal(){ document.getElementById('ccModalOverlay').style.display = 'none'; }
+
+  function bindInqFormSubmit_(){
+    var form = document.getElementById('inqForm');
+    if (!form) return;
+    form.addEventListener('submit', function(e){
+      e.preventDefault();
+      var data = {}, missing = [];
+      INQUIRY_FIELDS.forEach(function(f){
+        var el = form.querySelector('[data-key="' + f.key + '"]');
+        var v = el ? el.value.trim() : '';
+        data[f.key] = v;
+        if (f.required && !v) missing.push(f.label);
+      });
+      if (missing.length) return;
+      var btn = document.getElementById('inqSubmitBtn');
+      btn.disabled = true; btn.textContent = t('inqSubmitting');
+      google.script.run
+        .withSuccessHandler(function(){ document.getElementById('inqModalBody').innerHTML = '<p class="inq-modal-success">' + t('inqSuccessMsg') + '</p>'; })
+        .withFailureHandler(function(err){
+          btn.disabled = false; btn.textContent = t('inqSubmitBtn');
+          var prevErr = form.querySelector('.inq-modal-error'); if (prevErr) prevErr.remove();
+          var errEl = document.createElement('p'); errEl.className = 'inq-modal-error';
+          var detail = (err && err.message) ? err.message : '';
+          errEl.textContent = detail ? (t('inqFailPrefix') + detail) : t('inqFailGeneric');
+          form.appendChild(errEl);
+        })
+        .submitInquiry(BUILDING.id, data);
+    });
+  }
+
+  document.getElementById('inqModalClose').addEventListener('click', closeInqModal);
+  document.getElementById('inqModalOverlay').addEventListener('click', function(e){ if (e.target.id === 'inqModalOverlay') closeInqModal(); });
+  document.getElementById('icModalClose').addEventListener('click', closeIcModal);
+  document.getElementById('icModalOverlay').addEventListener('click', function(e){ if (e.target.id === 'icModalOverlay') closeIcModal(); });
+  document.getElementById('ccModalClose').addEventListener('click', closeCcModal);
+  document.getElementById('ccModalOverlay').addEventListener('click', function(e){ if (e.target.id === 'ccModalOverlay') closeCcModal(); });
+
+  // ── 5分間操作がなければ初期状態にリセット（演出なし・瞬時に戻す） ──
+  (function(){
+    var IDLE_MS = 5 * 60 * 1000, timer;
+    function resetToTop(){
+      closeInqModal(); closeIcModal(); closeCcModal();
+      var cs = document.getElementById('chatScroll');
+      if (cs) {
+        cs.innerHTML = '';
+        var bubble = document.createElement('div');
+        bubble.className = 'bubble ai'; bubble.id = 'qaGreetingBubble'; bubble.textContent = getQaGreetingText_();
+        cs.appendChild(bubble);
+        qaRenderMain();
+      }
+      window.scrollTo(0, 0);
+    }
+    function arm(){ clearTimeout(timer); timer = setTimeout(resetToTop, IDLE_MS); }
+    ['mousemove','mousedown','touchstart','keydown','scroll','click','touchmove'].forEach(function(evt){ window.addEventListener(evt, arm, { passive: true }); });
+    arm();
+  })();
+
+  // ---------------- 言語切り替え ----------------
+  function applyStaticLanguageLabels_(){
+    if (LAST_WEATHER_CODE == null) document.getElementById('weatherText').textContent = t('weatherLoading');
+    else renderWeatherText_();
+
+    var jaOnlyEl = document.getElementById('jaOnlyNotice');
+    if (jaOnlyEl) { if (CURRENT_LANG !== 'ja') { jaOnlyEl.textContent = t('jaOnlyNotice'); jaOnlyEl.style.display = 'block'; } else jaOnlyEl.style.display = 'none'; }
+    var qaNoteEl = document.getElementById('chatPanelLangNote');
+    if (qaNoteEl) { if (CURRENT_LANG !== 'ja') { qaNoteEl.textContent = t('qaPanelLangNote'); qaNoteEl.style.display = 'block'; } else qaNoteEl.style.display = 'none'; }
+
+    var isCc = BUILDING.heroCtaMode === 'callcenter';
+    if (!isCc) {
+      document.getElementById('callBtnLabel').textContent = t('callBtnLabel');
+      document.getElementById('amenityTypeLabel').textContent = t('amenityVideoLabel');
+    } else {
+      document.getElementById('amenityTypeLabel').textContent = t('amenityPhoneLabel');
+      var btn = document.getElementById('callBtn'), svg = btn.querySelector('svg');
+      btn.innerHTML = (svg ? svg.outerHTML : '') + t('callcenterBtnLabel');
+    }
+    refreshHoursDisplay_();
+    refreshChatPanelTitle_();
+    refreshHeroTagline_();
+    refreshServiceMenuSub_();
+    refreshInternetConciergeSub_();
+    document.getElementById('inquiryTileLabel').textContent = t('inquiryBarLabel');
+    document.getElementById('inqModalTitle').textContent = t('inquiryBarLabel');
+    applyEmergencyBar_();
+    document.getElementById('icModalTitle').textContent = t('icModalTitle');
+    document.getElementById('ccModalTitle').textContent = t('ccModalTitle');
+  }
+
+  function applyLanguage_(lang, opts){
+    if (!I18N.t.chatPanelTitleDefault[lang]) lang = 'ja';
+    if (lang !== 'ja' && SUPPORTED_LANGS.indexOf(lang) === -1) lang = 'ja';
+    CURRENT_LANG = lang;
+    try { window.localStorage.setItem('qlcConciergeLang', CURRENT_LANG); } catch (e) {}
+    var switcher = document.getElementById('langSwitcher');
+    if (switcher) Array.prototype.forEach.call(switcher.querySelectorAll('.lang-btn'), function(b){ b.classList.toggle('active', b.getAttribute('data-lang') === CURRENT_LANG); });
+    applyStaticLanguageLabels_();
+    updateClock();
+    if (opts && opts.isInitial) return;
+    rebuildQaGroups_();
+    var cs = document.getElementById('chatScroll');
+    if (cs) {
+      cs.innerHTML = '';
+      var bubble = document.createElement('div');
+      bubble.className = 'bubble ai'; bubble.id = 'qaGreetingBubble'; bubble.textContent = getQaGreetingText_();
+      cs.appendChild(bubble);
+      qaRenderMain();
+    }
+  }
+
+  var langSwitcherEl = document.getElementById('langSwitcher');
+  if (langSwitcherEl) {
+    if (!SUPPORTED_LANGS.length) {
+      langSwitcherEl.style.display = 'none';
+    } else {
+      Array.prototype.forEach.call(langSwitcherEl.querySelectorAll('.lang-btn'), function(b){
+        var lang = b.getAttribute('data-lang');
+        if (lang !== 'ja' && SUPPORTED_LANGS.indexOf(lang) === -1) b.style.display = 'none';
+      });
+      langSwitcherEl.addEventListener('click', function(e){
+        var btn = e.target.closest ? e.target.closest('.lang-btn') : null;
+        if (!btn) return;
+        var lang = btn.getAttribute('data-lang');
+        if (lang === CURRENT_LANG) return;
+        applyLanguage_(lang);
+      });
+    }
+  }
+  applyLanguage_(CURRENT_LANG, { isInitial: true });
 </script>
+
 </body>
 </html>
