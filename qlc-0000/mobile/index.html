@@ -1,17 +1,797 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>QLC スマホ配布</title>
+<meta name="robots" content="noindex, nofollow">
+<script>
+/* MOCK: google.script.run の代わり。何を呼んでも少し待ってから成功を返す（実際の送信はしない） */
+(function(){
+  function runner(ok, ng){
+    return new Proxy({}, { get: function(_, name){
+      if (name === 'withSuccessHandler') return function(f){ return runner(f, ng); };
+      if (name === 'withFailureHandler') return function(f){ return runner(ok, f); };
+      return function(){ setTimeout(function(){ if (ok) ok({ ok: true }); }, 600); };
+    }});
+  }
+  window.google = { script: { run: runner() } };
+})();
+</script>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;600;700&family=Noto+Sans+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
+<base target="_top">
 <style>
-html, body { margin:0!important; padding:0!important; width:100%!important; height:100%!important; overflow:hidden!important; background-color:#0B1626; }
-iframe { width:100%!important; height:100%!important; border:none!important; display:block!important; }
+  :root{
+    --navy:#13213A; --brass:#B68A3D; --brass-soft:#DFC384;
+    --cream:#FBF9F4; --hairline:#E7E0CF; --hairline-strong:#D8C7A0;
+    --ink:#211C15; --grey:#6E7A91; --panel:#FFFFFF;
+  }
+  html.theme-warm{     --navy:#9A7858; --brass:#C4A030; --brass-soft:#DDB860; --cream:#EDE3D0; --hairline:#E0D4BC; --hairline-strong:#CFC0A4; --ink:#1A100A; --grey:#3A2C1E; --panel:#F8F2E8; }
+  html.theme-warm-deep{ --navy:#5C3C20; --brass:#C89830; --brass-soft:#E0BC60; --cream:#E2D4C0; --hairline:#D4C4A4; --hairline-strong:#C4B090; --ink:#1A100A; --grey:#3A2A10; --panel:#F0E6D4; }
+  /* navyテーマ：panel/cream を navy 系に（デフォルト変数を上書き） */
+  html:not([class*='theme-']) body,
+  html:not([class*='theme-']) main{
+    background: #0D1C30;
+  }
+  html:not([class*='theme-']) .block-card{
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(182,138,61,0.22);
+  }
+  html:not([class*='theme-']) .block-hdr{
+    background: rgba(0,0,0,0.20);
+    border-bottom-color: rgba(182,138,61,0.18);
+  }
+  html:not([class*='theme-']) .bh-title{ color: #F4EFE3; }
+  html:not([class*='theme-']) .qa-group{
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(182,138,61,0.18);
+  }
+  html:not([class*='theme-']) .qa-items{
+    background: rgba(255,255,255,0.04);
+    border-top-color: rgba(182,138,61,0.15);
+  }
+  html:not([class*='theme-']) .qa-cat-btn{ color: #E8E0CE; }
+  html:not([class*='theme-']) .qa-item{ border-bottom-color: rgba(182,138,61,0.12); }
+  html:not([class*='theme-']) .qa-item-title{ color: #DFC384; }
+  html:not([class*='theme-']) .qa-item-detail{ color: #A0B0C4; }
+  html:not([class*='theme-']) .qa-cat-caret{ color: #B68A3D; }
+  html:not([class*='theme-']) .block-desc{ color: #A0B0C4; }
+  html:not([class*='theme-']) header{
+    background: #07111E;
+    border-bottom-color: rgba(182,138,61,0.22);
+  }
+  html:not([class*='theme-']) .hdr-name{ color: #F4EFE3; }
+  html:not([class*='theme-']) .hdr-sub{ color: #B68A3D; }
+  html:not([class*='theme-']) footer{ color: rgba(160,176,196,0.6); }
+  html.theme-charcoal{ --navy:#1E2125; --brass:#7A8186; --brass-soft:#AEB3B7; }
+  html.theme-bordeaux{ --navy:#2A1620; --brass:#A8763A; --brass-soft:#D2A765; }
+  html.theme-forest{   --navy:#162A21; --brass:#7E9357; --brass-soft:#AEC58C; }
+
+  *{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body{
+    margin:0; font-family:'Noto Sans JP', sans-serif;
+    background:var(--cream); color:var(--ink); min-height:100vh;
+  }
+  a{ color:inherit; }
+
+  /* ---- ヘッダー ---- */
+  header{
+    background:var(--navy); color:#fff;
+    padding:22px 18px 18px; text-align:center;
+  }
+  .hdr-name{
+    font-family:'Noto Serif JP', serif; font-size:18px;
+    font-weight:600; margin:0;
+  }
+  .hdr-sub{
+    font-size:9.5px; letter-spacing:.22em;
+    color:var(--brass-soft); margin-top:4px;
+  }
+
+  main{
+    padding:16px 14px 50px;
+    display:flex; flex-direction:column; gap:14px;
+    max-width:520px; margin:0 auto;
+  }
+
+  /* ---- 共通カード ---- */
+  .block-card{
+    background:var(--panel); border:1px solid var(--hairline);
+    border-radius:16px; overflow:hidden;
+  }
+  .block-hdr{
+    padding:14px 16px 12px; display:flex; align-items:center; gap:10px;
+    border-bottom:1px solid var(--hairline); background:var(--cream);
+  }
+  .bh-icon{ font-size:18px; flex:0 0 auto; }
+  .bh-text{ display:flex; flex-direction:column; gap:1px; }
+  .bh-eyebrow{ font-size:9px; letter-spacing:.18em; color:var(--brass); }
+  .bh-title{ font-family:'Noto Serif JP', serif; font-size:13.5px; font-weight:600; color:var(--ink); }
+  .block-body{ padding:16px; }
+
+  /* ---- QAアコーディオン：色変数に紐づいて各テーマに馴染む ---- */
+
+  /* ---- インターネットコンシェルジュ（ダーク） ---- */
+  .card-internet{
+    background:linear-gradient(160deg, var(--navy) 0%, #1e3560 100%);
+    border:none;
+  }
+  .card-internet .block-hdr{
+    background:rgba(0,0,0,.18); border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .card-internet .bh-eyebrow{ color:var(--brass-soft); }
+  .card-internet .bh-title{ color:#fff; }
+
+  /* ---- リモートコンシェルジュ（メインCTA・最も目立つ） ---- */
+  .card-remote{
+    background:linear-gradient(160deg, #0B1F3A 0%, #1a3a6b 100%);
+    border:none; box-shadow:0 6px 24px rgba(11,31,58,.35);
+  }
+  .card-remote .block-hdr{
+    background:rgba(0,0,0,.22); border-bottom:1px solid rgba(255,255,255,.1);
+  }
+  .card-remote .bh-eyebrow{ color:var(--brass-soft); }
+  .card-remote .bh-title{ color:#fff; font-size:15px; }
+  .remote-body{ padding:20px 16px 22px; display:flex; flex-direction:column; align-items:center; }
+  .remote-tagline{ color:rgba(255,255,255,.85); font-size:13px; line-height:1.75; text-align:center; margin-bottom:16px; }
+  .remote-avatar{
+    width:160px; height:160px; object-fit:contain;
+    border-radius:12px; background:rgba(255,255,255,.06);
+    margin-bottom:14px; display:block;
+  }
+  .remote-badges{
+    display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-bottom:16px;
+  }
+  .remote-badge{
+    background:rgba(255,255,255,.12); border-radius:999px;
+    padding:5px 14px; font-size:12px; color:rgba(255,255,255,.9);
+  }
+  .remote-cta-btn{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:17px; border:none; border-radius:14px; cursor:pointer;
+    background:linear-gradient(135deg, var(--brass-soft), var(--brass));
+    color:#1A1306; font-family:'Noto Sans JP', sans-serif;
+    font-size:16px; font-weight:700; text-decoration:none;
+    box-shadow:0 4px 14px rgba(182,138,61,.4); letter-spacing:.02em;
+  }
+  .remote-hours-text{
+    color:rgba(255,255,255,.55); font-size:11px; text-align:center;
+    margin-top:12px; line-height:1.8; width:100%;
+  }
+  .remote-demo-badge{
+    background:rgba(255,80,80,.22); border:1px solid rgba(255,80,80,.4);
+    color:#FF8080; font-size:10px; font-weight:700; letter-spacing:.15em;
+    border-radius:4px; padding:2px 8px; margin-bottom:10px;
+  }
+
+  .qr-center{
+    display:flex; flex-direction:column; align-items:center; padding:20px 16px;
+  }
+  .qr-img{
+    width:148px; height:148px; border-radius:12px;
+    background:#fff; padding:7px; cursor:pointer;
+    box-shadow:0 4px 16px rgba(0,0,0,.3);
+  }
+  .qr-desc{
+    color:rgba(255,255,255,.8); font-size:12px; line-height:1.7;
+    margin-top:14px; text-align:center; max-width:260px;
+  }
+  .qr-id{
+    margin-top:10px; background:rgba(255,255,255,.12);
+    border-radius:999px; padding:5px 16px;
+    font-size:12px; color:var(--brass-soft);
+  }
+
+  .url-body{ padding:16px; }
+  .url-desc{ color:rgba(255,255,255,.8); font-size:12.5px; line-height:1.6; margin-bottom:14px; }
+  .url-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; padding:15px; border:none; border-radius:12px; cursor:pointer;
+    background:linear-gradient(135deg, var(--brass-soft), var(--brass));
+    color:#1A1306; font-family:'Noto Sans JP', sans-serif;
+    font-size:15px; font-weight:700; text-decoration:none;
+  }
+
+  /* ---- 電話お問い合わせ ---- */
+  .tel-btn{
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; padding:15px; background:var(--navy); color:#fff;
+    border:none; border-radius:12px; font-family:'Noto Sans JP', sans-serif;
+    font-size:18px; font-weight:700; cursor:pointer; text-decoration:none;
+    letter-spacing:.04em; margin-bottom:10px;
+  }
+  .tel-hours{
+    font-size:11.5px; color:var(--grey);
+    text-align:center; margin-bottom:12px;
+  }
+
+  /* ---- お問い合わせフォームモーダル ---- */
+  .inq-modal{
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.68); z-index:60;
+    align-items:flex-end; justify-content:center;
+    padding:0;
+  }
+  .inq-modal.open{ display:flex; }
+  .inq-modal-box{
+    background:#fff; border-radius:20px 20px 0 0;
+    width:100%; max-height:90vh;
+    display:flex; flex-direction:column;
+    box-shadow:0 -8px 40px rgba(0,0,0,.3);
+    animation: slideUp .25s ease;
+  }
+  @keyframes slideUp{ from{ transform:translateY(100%); } to{ transform:translateY(0); } }
+  .inq-modal-hdr{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:18px 20px 14px; border-bottom:1px solid var(--hairline);
+    flex:0 0 auto;
+  }
+  .inq-modal-hdr span{
+    font-family:'Noto Serif JP', serif; font-size:15px; font-weight:600; color:var(--navy);
+  }
+  .inq-modal-close{
+    background:none; border:none; font-size:22px;
+    color:var(--grey); cursor:pointer; padding:0 4px; line-height:1;
+  }
+  .inq-modal-body{
+    padding:16px 20px 32px; overflow-y:auto; flex:1;
+  }
+  .inq-field{ margin-bottom:14px; }
+  .inq-field-label{
+    display:block; font-size:12px; font-weight:600;
+    color:var(--grey); margin-bottom:5px;
+  }
+  .inq-field-label .req{
+    color:#E05C4B; margin-left:4px;
+  }
+  .inq-input{
+    width:100%; border:1px solid #D8D2BF; border-radius:10px;
+    padding:11px 13px; font-size:14px;
+    font-family:'Noto Sans JP', sans-serif; color:var(--ink); background:#fff;
+  }
+  .inq-input:focus{ outline:2px solid var(--brass-soft); border-color:var(--brass); }
+  .inq-textarea{
+    width:100%; border:1px solid #D8D2BF; border-radius:10px;
+    padding:11px 13px; font-size:14px; line-height:1.6;
+    font-family:'Noto Sans JP', sans-serif; color:var(--ink);
+    resize:vertical; min-height:100px;
+  }
+  .inq-textarea:focus{ outline:2px solid var(--brass-soft); border-color:var(--brass); }
+  .inq-submit-btn{
+    width:100%; padding:15px; margin-top:6px;
+    background:linear-gradient(135deg, var(--brass-soft), var(--brass));
+    color:#1A1306; border:none; border-radius:12px;
+    font-family:'Noto Sans JP', sans-serif; font-size:15px; font-weight:700;
+    cursor:pointer;
+  }
+  .inq-submit-btn:disabled{ opacity:.6; cursor:not-allowed; }
+  .inq-success{
+    text-align:center; padding:32px 16px;
+    color:#1E7A46; font-size:14px; line-height:1.8;
+  }
+
+  /* ---- Q&Aアコーディオン ---- */
+  .qa-group{
+    border:1px solid var(--hairline); border-radius:10px;
+    margin-bottom:8px; overflow:hidden;
+    background:var(--panel);
+  }
+  .qa-group:last-child{ margin-bottom:0; }
+  .qa-cat-btn{
+    width:100%; padding:13px 14px;
+    display:flex; align-items:center; justify-content:space-between;
+    background:none; border:none;
+    font-family:'Noto Sans JP', sans-serif; font-size:13px; font-weight:600;
+    color:var(--ink); cursor:pointer; text-align:left;
+  }
+  .qa-cat-caret{ font-size:10px; color:var(--grey); transition:transform .18s; flex:0 0 auto; }
+  .qa-cat-btn.open .qa-cat-caret{ transform:rotate(180deg); }
+  .qa-items{
+    display:none; border-top:1px solid var(--hairline);
+    background:var(--panel);
+  }
+  .qa-items.open{ display:block; }
+  .qa-item{
+    padding:13px 14px; border-bottom:1px solid var(--hairline);
+  }
+  .qa-item:last-child{ border-bottom:none; }
+  .qa-item-title{ font-size:13px; font-weight:600; color:var(--navy); margin-bottom:6px; }
+  .qa-item-detail{ font-size:12.5px; color:var(--grey); line-height:1.7; white-space:pre-wrap; }
+
+  /* ---- サービスメニュー・ログイン ---- */
+  .big-btn{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; padding:16px 18px; border:none; border-radius:12px;
+    font-family:'Noto Sans JP', sans-serif; font-size:14px; font-weight:700;
+    cursor:pointer; text-decoration:none;
+    background:linear-gradient(135deg, var(--brass-soft), var(--brass));
+    color:#1A1306;
+  }
+  .big-btn-outline{
+    display:flex; align-items:center; justify-content:space-between;
+    width:100%; padding:14px 18px;
+    border:1.5px solid var(--navy); border-radius:12px;
+    font-family:'Noto Sans JP', sans-serif; font-size:14px; font-weight:700;
+    cursor:pointer; text-decoration:none;
+    background:var(--panel); color:var(--navy);
+  }
+  .btn-arrow{ font-size:16px; }
+  .block-desc{ font-size:12px; color:var(--grey); margin-bottom:12px; line-height:1.6; }
+
+  /* ---- QRモーダル ---- */
+  .qr-modal{
+    display:none; position:fixed; inset:0;
+    background:rgba(0,0,0,.72); z-index:50;
+    align-items:center; justify-content:center; padding:24px;
+  }
+  .qr-modal.open{ display:flex; }
+  .qr-modal-box{
+    background:#fff; border-radius:20px; padding:28px 24px 24px;
+    text-align:center; width:100%; max-width:320px;
+    box-shadow:0 20px 60px rgba(0,0,0,.4);
+  }
+  .qr-modal-box img{
+    width:190px; height:190px; border-radius:10px;
+  }
+  .qr-modal-title{
+    font-family:'Noto Serif JP', serif; font-size:14px; font-weight:600;
+    color:var(--navy); margin:16px 0 6px;
+  }
+  .qr-modal-desc{
+    font-size:12px; color:var(--grey); line-height:1.6; margin-bottom:14px;
+  }
+  .qr-modal-line-btn{
+    display:inline-block; background:#06C755; color:#fff;
+    padding:10px 24px; border-radius:999px; font-size:13px;
+    font-weight:700; text-decoration:none; margin-bottom:12px;
+  }
+  .qr-modal-close{
+    display:block; width:100%; padding:10px;
+    background:var(--cream); border:1px solid var(--hairline);
+    border-radius:999px; font-size:13px;
+    font-family:'Noto Sans JP', sans-serif; cursor:pointer; margin-top:4px;
+  }
+
+  footer{
+    text-align:center; padding:20px 18px 44px;
+    font-size:10.5px; color:#A7AEBB; line-height:1.8;
+  }
 </style>
 <script src="/track.js" defer></script>
 </head>
 <body>
-<iframe id="appFrame" src="" allow="camera; microphone; geolocation"></iframe>
-<script>document.getElementById("appFrame").src = "https://script.google.com/a/qlc-service.com/macros/s/AKfycbw4spL1Wm0KSsSxt1jhSCpSUntxIpo2TyJTDSBCEteA9eRbJi0vpcw3AaY9LLW_TXL_pg/exec?id=qlc-0000&mode=mobile";</script>
+
+<header>
+  <p class="hdr-name" id="hdrName">QLCマンション</p>
+  <p class="hdr-sub">CONCIERGE SERVICE</p>
+</header>
+
+<main id="mainBlocks"></main>
+
+<!-- お問い合わせフォームモーダル -->
+<div class="inq-modal" id="inqModal">
+  <div class="inq-modal-box">
+    <div class="inq-modal-hdr">
+      <span>📩 お問い合わせ</span>
+      <button class="inq-modal-close" id="inqModalClose">×</button>
+    </div>
+    <div class="inq-modal-body" id="inqModalBody"></div>
+  </div>
+</div>
+
+<!-- LINE QR 拡大モーダル -->
+<div class="qr-modal" id="qrModal">
+  <div class="qr-modal-box">
+    <img id="qrModalImg" src="" alt="LINE QR">
+    <p class="qr-modal-title">LINEで相談する</p>
+    <p class="qr-modal-desc" id="qrModalDesc"></p>
+    <a id="qrModalLineBtn" href="#" target="_blank" class="qr-modal-line-btn">LINEで開く</a>
+    <button class="qr-modal-close" id="qrModalClose">閉じる</button>
+  </div>
+</div>
+
+<footer>
+  株式会社クオリティライフ・コンシェルジュ<br>
+  <a href="https://www.qlc-service.com/qlc-link/privacy-policy" target="_blank" style="color:#A7AEBB; text-decoration:underline;">プライバシーポリシー</a>
+</footer>
+
+<script>
+  var BUILDING = {"id":"qlc-0000","name":"QLC芝三田マンション","lat":35.647148,"lng":139.7469836,"videoUrl":"https://meet.virtualstore.jp/direct-sessions/awbPKE?utm_source=%E3%83%86%E3%82%B9%E3%83%88%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3","heroCtaMode":"remote","callcenterPhone":"","callcenterHoursText":"","callcenterNoSimComment":"","conciergeAvatarUrl":"https://www.ql-c.co.jp/qlc/rmenu_demo/avatar-1783141989039.png","hoursText":"月・火・水・木・金 09:00〜18:00／土・日・祝 10:00〜17:00","hoursSchedule":[{"end":"18:00","days":["mon","tue","wed","thu","fri"],"start":"09:00"},{"end":"17:00","start":"10:00","days":["sat","sun","hol"]}],"serviceMenuUrl":"https://qlc-service.com/qlc-0000/services/","serviceMenuComment":"","shopUrl":"https://qlc-service.com/netshop/qlc-0000/","shopComment":"","showShop":true,"supportedLanguages":["en","zh","ko"],"hoursRestrictEnabled":true,"isDemo":true,"showRemoteConcierge":true,"productType":"full","area":"","showQa":true,"showServiceMenu":true,"showInquiry":true,"inquiryEmails":[],"inquiryMode":"external","inquiryExternalUrl":"https://form.run/@ql-c-vQpklahxKsM7wKGR06T5","qaCharacterUrl":"","qaHeroTagline":"","internetConciergeUrl":"https://www2.concierge-service.jp/members/login/577","internetConciergeMode":"line","internetConciergeLineId":"","internetConciergeComment":"","qaTitle":"よくあるご質問","heroTagline":"ビデオ通話でコンシェルジュがご案内いたします。音声通話への変更も可能でございます。","serviceNoticeTitle":"宅配・クリーニングなどのご案内","showClockWeather":true,"showInternetConcierge":true,"layoutHeroSide":"left","layoutNavOrder":"qa-first","layoutLinksOrder":"service-first","layoutInquiryPosition":"header-right","inquiryFields":[{"key":"roomNumber","required":true,"placeholder":"例：101号室","label":"お部屋番号","type":"text"},{"type":"text","key":"name","label":"お名前","required":true,"placeholder":""},{"type":"email","required":true,"label":"メールアドレス（ご返信用）","placeholder":"","key":"email"},{"key":"message","label":"お問い合わせ内容","type":"textarea","required":true,"placeholder":""}],"theme":"navy","customGroups":[{"label":"館内ルール・規約について","icon":"🏠","items":[{"icon":"🗑️","title":"ごみの出し方","detail":"当マンションにおけるごみの処理につきましては、種類ごとに排出の日時および方法が定められております。可燃ごみを排出される場合は、毎週火曜日および金曜日の午前8時までに、1階のごみ置き場までお持ちください。不燃ごみにつきましては毎月第2および第4水曜日が排出日となっております。また、缶、びん、ペットボトル、古紙といった資源ごみは、毎週木曜日に排出していただくよう定められております。粗大ごみの処理を希望される場合には、あらかじめ管理事務室にお申し込みの手続きを行っていただき、処理券をご購入いただいたうえで、指定された場所へと排出していただく必要がございます。","pdfUrl":"","postedDate":""},{"icon":"🐾","title":"ペット飼育について","detail":"当マンションにてペットの飼育をご希望される区分所有者等の皆様は、あらかじめ管理組合へペット飼育申請書をご提出いただき、登録を受けていただく必要がございます。飼育が認められている動物は、成犬および成猫時の体重が10キログラム以下かつ体高が40センチメートル以下の犬や猫、ならびに小鳥、観賞魚、ハムスターなどの小動物に限られており、飼育数は1住戸につき2匹までと定められております。また、ペットを連れて共用部分を移動される際には、必ずケージやキャリーバッグに入れていただくか、あるいは抱っこした状態でのご移動をお願いいたします。","pdfUrl":"","postedDate":""},{"icon":"🚗","title":"駐車場について","detail":"当マンションに設置されております駐車場は機械式の駐車設備となっております。そのため、収容可能な車両の規格には制限が設けられており、全長が5,000ミリメートル以下、全幅が1,850ミリメートル以下、全高が1,550ミリメートル以下、車両重量が2,000キログラム以下の車両のみがご利用いただけます。利用をご希望される場合は、管理組合へのお申し込みが必要となり、利用者は抽選またはお申し込みの順により決定されます。また、駐車場契約の変更や解約をご希望される際には、管理事務室にて所定の書面を用いてお手続きを行っていただく必要がございます。","pdfUrl":"","postedDate":""},{"icon":"🚲","title":"駐輪場について","detail":"当マンションの駐輪場をご利用いただくにあたりましては、事前の登録制とさせていただいております。ご利用可能な台数には制限が設けられており、1つの住戸につき自転車2台まで駐輪していただくことが可能となっております。また、原動機付自転車の駐輪をご希望される場合には、自転車の場合とは異なり、別途管理組合からの許可を取得していただく必要がございます。ご利用にあたりましては、規定の台数や手続きに関するルールを遵守していただきますようお願い申し上げます。","pdfUrl":"","postedDate":""},{"icon":"📦","title":"宅配物の受け取りについて","detail":"当マンションに設置されております宅配ボックスにつきましては、ご利用にあたり事前の登録制とさせていただいております。宅配ボックスに配達された物品の保管期間につきましては、3日間と定められております。この定められた保管期間を超過して宅配ボックス内に保管され続けている宅配物につきましては、管理事務室において一時的に保管させていただくこととなっております。なお、来客に関する具体的な規定につきましては、規約および使用細則に記載が見当たりません。詳細やご不明な点がございましたら、管理組合事務局にご確認いただきますようお願い申し上げます。","pdfUrl":"","postedDate":""},{"icon":"🪴","title":"バルコニーの使用について","detail":"当マンションにおけるバルコニーは専用使用部分として位置づけられておりますが、ご利用にあたってはいくつかの制限事項が設けられております。安全上の理由から、避難経路を塞いでしまうような物品をバルコニーに設置することは禁止されております。一方で、エアコン室外機の設置や物干しとしての使用などは認められておりますが、マンションの給排水管に影響を及ぼすような工事を行うことは固く禁じられております。また、バルコニーとしての適正な利用を心がけ、避難等の障害となったり、防水機能を破壊したり、躯体を損傷させるような行為を行わないことが求められております。","pdfUrl":"","postedDate":""},{"icon":"🎹","title":"楽器演奏・音について","detail":"当マンションにおける楽器演奏および音に関する規定につきましては、演奏可能な時間帯などに制限が設けられております。ピアノや管楽器などの楽器を演奏される場合、その演奏が認められる時間帯は午前9時から午後7時までの間に限られております。したがって、深夜や早朝の時間帯における楽器演奏は禁止されております。また、認められている時間帯におきましても、近隣にお住まいの方々に支障を及ぼすような大きな音量での演奏を行うことは禁止されております。他の入居者の皆様へのご配慮を忘れず、定められたルールの中でお楽しみいただきますようお願いいたします。","pdfUrl":"","postedDate":""},{"icon":"🛠️","title":"リフォーム工事の届出について","detail":"専有部分の修繕やリフォーム工事を実施される場合は、工事の内容および工期を記載した届出書を事前に管理組合へ提出し、承認を得ていただく必要がございます。特に、給排水管や電気配線、窓サッシなど、共用部分に影響を及ぼす可能性のある工事を行う場合には、別途管理組合からの承認を要します。また、工事の実施に伴い騒音や振動の発生が見込まれる期間につきましては、他の区分所有者の皆様にお知らせするため、エレベーター内およびマンション内の掲示板にその工事内容や期間を掲示していただくこととなっております。","pdfUrl":"","postedDate":""},{"icon":"🕒","title":"共用部分の利用時間","detail":"当マンションに設けられております共用施設の利用時間についてご案内いたします。集会室やゲストルームなどの共用施設をご利用いただくことができる時間帯につきましては、午前9時から午後9時までと定められております。利用時間を遵守いただき、施設をご利用いただきますようお願い申し上げます。なお、その他の詳細な利用ルールや予約方法などに関する規定につきましては、現在の規約および使用細則には記載が見当たりません。ご不明な点がございましたら、管理組合事務局まで直接ご確認いただきますようお願いいたします。","pdfUrl":"","postedDate":""}],"displayTarget":"qa","topCategory":""}],"services":{"house":[{"slug":"housecleaning","category":"house","icon":"✨","title":"ハウスクリーニング","desc":"専門スタッフによる水まわり・空調等の徹底清掃","soon":false},{"slug":"housekeeping","category":"house","icon":"🧺","title":"家事代行","desc":"掃除・洗濯・料理など日常の家事をサポート","soon":false},{"slug":"childcare","category":"house","icon":"👶","title":"ベビーシッター","desc":"大切なお子様を安心してお任せできるチャイルドケア","soon":false},{"slug":"laundry-delivery","category":"house","icon":"👕👔","title":"宅配クリーニング","desc":"衣類・布団の宅配クリーニング。保管12か月無料、送料無料（一部地域を除く）","soon":false},{"slug":"shoeshine","category":"house","icon":"👞👟👜","title":"靴磨き・靴修理","desc":"職人による靴・革製品の本格メンテナンス。スニーカークリーニングも承ります。","soon":false},{"slug":"chef","category":"house","icon":"🍳","title":"出張料理","desc":"食のエキスパートが自宅を訪問し、ご希望に合わせた料理を提供（首都圏エリア）","soon":false},{"slug":"senior-care","category":"house","icon":"👵","title":"シニアケア","desc":"ご家族の暮らしや介護を優しくサポート","soon":false}],"life":[{"slug":"taxi-tel-kanto","category":"life","icon":"🚕","title":"タクシー手配（電話）","desc":"※ 対応エリアは3社とも東京23区・武蔵野市・三鷹市です。","soon":false},{"slug":"hirecar","category":"life","icon":"🚘","title":"ハイヤー","desc":"大切な移動を支える上質なハイヤー","soon":false},{"slug":"rentacarcontact","category":"life","icon":"🚗","title":"レンタカー","desc":"お得な提携価格でご利用いただけます","soon":false},{"slug":"water-delivery","category":"life","icon":"💧","title":"お水の宅配","desc":"安心・美味しいお水のサーバー宅配","soon":false},{"slug":"rental","category":"life","icon":"🛠","title":"各種レンタル","desc":"ベビー用品やイベント用品を手軽にレンタル","soon":false},{"slug":"flower-delivery","category":"life","icon":"🌹","title":"フラワーデリバリー","desc":"お祝いや日常に彩りを添えるお花の宅配","soon":false},{"slug":"food-delivery","category":"life","icon":"🍱","title":"フードデリバリー","desc":"東京23区限定、レストランの味を自宅へ","soon":false},{"slug":"petcare","category":"life","icon":"🐶","title":"ペットケア","desc":"大切なペットのシッター・ホテルサービス","soon":false},{"slug":"medical-night","category":"life","icon":"🏥","title":"夜間の救急・医療相談","desc":"夜間の急な不調を専門家に相談","soon":false}],"storage":[{"slug":"organizing","category":"storage","icon":"🗄️","title":"整理収納・おかたづけ","desc":"プロが収納の仕組み作りをサポート","soon":false},{"slug":"reuse","category":"storage","icon":"👜👗","title":"不用品の宅配買取","desc":"箱に詰めて送るだけのリユース買取","soon":false},{"slug":"book-reuse","category":"storage","icon":"📚","title":"本の買取・リユース","desc":"ブックオフが本・漫画を宅配買取","soon":false},{"slug":"storage","category":"storage","icon":"🧳","title":"宅配トランクルーム","desc":"スマホで預入・取出しできる収納サービス","soon":false},{"slug":"lifeorganize","category":"storage","icon":"🌱","title":"ライフオーガナイズ","desc":"くらし全体の最適化をサポート","soon":false},{"slug":"photo-digitize","category":"storage","icon":"📷🎞","title":"おもいで写真デジタイズ","desc":"古い写真・ビデオを劣化しないデータへ","soon":false},{"slug":"delivery","category":"storage","icon":"📦","title":"宅配便の集荷連絡先","desc":"荷物発送に便利な集荷受付窓口","soon":false},{"slug":"moving","category":"storage","icon":"🚚","title":"お引越し案内","desc":"大手引越し業者を提携割引でご案内","soon":false}],"netshop":[]},"serviceOrder":["housecleaning","housekeeping","childcare","laundry-delivery","shoeshine","knifesharpening","organizing","chef","senior-care","taxi","taxi-tel-kanto","hirecar","rentacarcontact","water-delivery","rental","flower-delivery","food-delivery","petcare","medical-night","pchospital","smahospital","reuse","book-reuse","storage","lifeorganize","photo-digitize","delivery","moving"],"qaGreeting":"","qaShowServices":true,"mobileMode":true,"mobileBlocks":{"enabled":["remote","login","inquiry","qa","servicemenu"],"order":["remote","login","inquiry","qa","servicemenu"],"inquiryNotice":"hours","labels":{"qa":"","login":"","servicemenu":"","inquiry":"","remote":""}}};
+  var DEFAULT_LINE_ID = '228xrsdk';
+  var DEFAULT_INTERNET_URL = 'https://www2.concierge-service.jp/members/login/577';
+  var NOTICE_TEXTS = {
+    emergency: 'このフォームは緊急の連絡手段ではありません。火災・水漏れなど緊急の場合は、管理会社または緊急連絡先に直接ご連絡ください。',
+    hours: 'お問い合わせは、コンシェルジュ運営時間内にメールを確認し、順番にご対応いたします。運営時間外に送信いただいたものは、次の運営時間内に対応いたします。'
+  };
+  var mobileLabels = (BUILDING.mobileBlocks && BUILDING.mobileBlocks.labels) || {};
+
+  // テーマ適用
+  if (BUILDING.theme && BUILDING.theme !== 'navy') {
+    document.documentElement.classList.add('theme-' + BUILDING.theme);
+  }
+  document.getElementById('hdrName').textContent = BUILDING.name;
+
+  function esc(s){
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function(c){
+      return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c];
+    });
+  }
+
+  // ---- QRモーダル ----
+  function openQrModal(lineId, desc) {
+    var bigUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=12&color=6-199-85&data=' +
+      encodeURIComponent('https://line.me/R/ti/p/@' + lineId);
+    document.getElementById('qrModalImg').src = bigUrl;
+    document.getElementById('qrModalDesc').textContent = desc;
+    document.getElementById('qrModalLineBtn').href = 'https://line.me/R/ti/p/@' + lineId;
+    document.getElementById('qrModal').classList.add('open');
+  }
+  document.getElementById('qrModalClose').addEventListener('click', function(){
+    document.getElementById('qrModal').classList.remove('open');
+  });
+  document.getElementById('qrModal').addEventListener('click', function(e){
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  // ---- ブロック描画関数 ----
+  var RENDERERS = {
+
+    /* ① リモートコンシェルジュ（ビデオ通話・ヒーローブロック） */
+    remote: function(){
+      var url      = (BUILDING.videoUrl || '').trim();
+      var ctaMode  = BUILDING.heroCtaMode || 'remote';
+      var tagline  = mobileLabels['remote'] || BUILDING.heroTagline || 'プロのコンシェルジュがビデオ通話でお応えします。';
+      var avatar   = BUILDING.conciergeAvatarUrl ||
+        'https://drive.google.com/thumbnail?id=1J-BJ0qKsXxQGvdnrFwdD29Ifv8xkYnja&sz=w1000';
+
+      // 営業時間テキストを構築
+      var DAY_LABEL = {mon:'月',tue:'火',wed:'水',thu:'木',fri:'金',sat:'土',sun:'日',hol:'祝'};
+      var DAY_ORDER = ['mon','tue','wed','thu','fri','sat','sun','hol'];
+      var schedule = BUILDING.hoursSchedule || [];
+      var hoursText = '';
+      if (schedule.length) {
+        hoursText = schedule.map(function(p){
+          var days = DAY_ORDER.filter(function(d){ return p.days.indexOf(d) !== -1; })
+            .map(function(d){ return DAY_LABEL[d]; }).join('・');
+          return days + ' ' + p.start + '〜' + p.end;
+        }).join('／');
+      } else {
+        hoursText = BUILDING.hoursText || '';
+      }
+
+      // 今日の営業時間を特定（スケジュールがある場合）
+      var todayHours = '';
+      if (schedule.length) {
+        var dayKeys = ['sun','mon','tue','wed','thu','fri','sat'];
+        var todayKey = dayKeys[new Date().getDay()];
+        // 祝日判定は省略（シンプルに曜日だけで判定）
+        var matched = null;
+        schedule.forEach(function(p){
+          if (p.days.indexOf(todayKey) !== -1 && !matched) matched = p;
+          if (p.days.indexOf('hol') !== -1 && !matched) matched = p; // 簡易
+        });
+        if (matched) todayHours = matched.start + '〜' + matched.end;
+      }
+
+      var btnLabel = ctaMode === 'callcenter'
+        ? 'コールセンターと通話する'
+        : 'コンシェルジュを呼ぶ（ビデオ通話）';
+      var btnIcon  = ctaMode === 'callcenter' ? '📞' : '🎦';
+      var btnHref  = ctaMode === 'callcenter'
+        ? 'tel:' + (BUILDING.callcenterPhone || '').replace(/[^0-9+]/g,'')
+        : url;
+
+      var card = document.createElement('div');
+      card.className = 'block-card card-remote';
+
+      var demoHtml  = BUILDING.isDemo ? '<div class="remote-demo-badge">DEMO</div>' : '';
+      var badgesHtml =
+        '<div class="remote-badges">' +
+          '<span class="remote-badge">📹 ビデオ通話対応</span>' +
+          (todayHours ? '<span class="remote-badge">🕐 ' + esc(todayHours) + '</span>' : '') +
+        '</div>';
+      var hoursFooter = hoursText
+        ? '<p class="remote-hours-text">営業時間：' + esc(hoursText) + '</p>'
+        : '';
+
+      card.innerHTML =
+        '<div class="block-hdr">' +
+          '<span class="bh-icon">🎥</span>' +
+          '<div class="bh-text">' +
+            '<span class="bh-eyebrow">REMOTE CONCIERGE</span>' +
+            '<span class="bh-title">リモートコンシェルジュ</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="remote-body">' +
+          demoHtml +
+          '<p class="remote-tagline">' + esc(tagline) + '</p>' +
+          '<img class="remote-avatar" src="' + esc(avatar) + '" alt="コンシェルジュ">' +
+          badgesHtml +
+          '<a class="remote-cta-btn" href="' + esc(btnHref) + '" target="_blank">' +
+            '<span>' + btnIcon + '</span><span>' + btnLabel + '</span>' +
+          '</a>' +
+          hoursFooter +
+        '</div>';
+      return card;
+    },
+
+    /* ③ お問い合わせ（デスクトップ版と同じフォーム送信） */
+    inquiry: function(){
+      var phone = (BUILDING.callcenterPhone || '').trim();
+      var hours = (BUILDING.callcenterHoursText || '').trim() || '09:00〜18:00';
+      var card = document.createElement('div');
+      card.className = 'block-card';
+      var inqDesc = mobileLabels['inquiry'] || '';
+      card.innerHTML =
+        '<div class="block-hdr">' +
+          '<span class="bh-icon">📩</span>' +
+          '<div class="bh-text"><span class="bh-title">お問い合わせ</span></div>' +
+        '</div>' +
+        '<div class="block-body">' +
+          (inqDesc ? '<p class="block-desc">' + esc(inqDesc) + '</p>' : '') +
+          (phone
+            ? '<a class="tel-btn" href="tel:' + phone.replace(/[^0-9+]/g,'') + '">📞 ' + esc(phone) + '</a>' +
+              '<p class="tel-hours">受付時間：' + esc(hours) + '</p>'
+            : '') +
+          '<button type="button" class="big-btn inq-open-btn"><span>✉️ お問い合わせフォームを開く</span><span class="btn-arrow">›</span></button>' +
+        '</div>';
+      card.querySelector('.inq-open-btn').addEventListener('click', openInquiryModal);
+      return card;
+    },
+
+    /* ③ Q&Aチャット（アコーディオン）*/
+    qa: function(){
+      var groups = (BUILDING.customGroups || []).filter(function(g){
+        return g.displayTarget !== 'servicemenu_top' && g.items && g.items.length;
+      });
+      if (!groups.length) return null;
+
+      var card = document.createElement('div');
+      card.className = 'block-card';
+      var qaDesc = mobileLabels['qa'] || '';
+      card.innerHTML =
+        '<div class="block-hdr">' +
+          '<span class="bh-icon">💬</span>' +
+          '<div class="bh-text">' +
+            '<span class="bh-title">' + esc(BUILDING.qaTitle || 'よくあるご質問') + '</span>' +
+            (qaDesc ? '<span style="font-size:11px;color:var(--grey);">' + esc(qaDesc) + '</span>' : '') +
+          '</div>' +
+        '</div>';
+
+      var body = document.createElement('div');
+      body.className = 'block-body';
+
+      groups.forEach(function(group){
+        var wrap = document.createElement('div');
+        wrap.className = 'qa-group';
+
+        var btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'qa-cat-btn';
+        btn.innerHTML =
+          '<span>' + esc(group.icon || '') + ' ' + esc(group.label) + '</span>' +
+          '<span class="qa-cat-caret">▼</span>';
+
+        var items = document.createElement('div');
+        items.className = 'qa-items';
+        (group.items || []).forEach(function(item){
+          var d = document.createElement('div');
+          d.className = 'qa-item';
+          d.innerHTML =
+            '<div class="qa-item-title">' + esc(item.icon || '') + ' ' + esc(item.title) + '</div>' +
+            '<div class="qa-item-detail">' + esc(item.detail || '') + '</div>';
+          items.appendChild(d);
+        });
+
+        btn.addEventListener('click', function(){
+          var open = items.classList.contains('open');
+          items.classList.toggle('open', !open);
+          btn.classList.toggle('open', !open);
+        });
+
+        wrap.appendChild(btn);
+        wrap.appendChild(items);
+        body.appendChild(wrap);
+      });
+
+      card.appendChild(body);
+      return card;
+    },
+
+    /* ④ サービスメニューへ */
+    servicemenu: function(){
+      var url     = BUILDING.serviceMenuUrl || '#';
+      var comment = mobileLabels['servicemenu'] || BUILDING.serviceMenuComment || '提携サービスのご案内はこちらからご覧いただけます。';
+      var card = document.createElement('div');
+      card.className = 'block-card';
+      card.innerHTML =
+        '<div class="block-hdr">' +
+          '<span class="bh-icon">🗂️</span>' +
+          '<div class="bh-text"><span class="bh-title">サービスメニュー</span></div>' +
+        '</div>' +
+        '<div class="block-body">' +
+          '<p class="block-desc">' + esc(comment) + '</p>' +
+          '<a class="big-btn" href="' + esc(url) + '" target="_blank"><span>サービスメニューを見る</span><span class="btn-arrow">›</span></a>' +
+        '</div>';
+      return card;
+    },
+
+    /* ⑤ インターネットコンシェルジュ（URLボタン・スマホ向けダイレクトリンク） */
+    login: function(){
+      var url     = (BUILDING.internetConciergeUrl || DEFAULT_INTERNET_URL).trim();
+      var comment = mobileLabels['login'] ||
+        BUILDING.internetConciergeComment ||
+        'インターネットコンシェルジュにアクセスします。';
+      var card = document.createElement('div');
+      card.className = 'block-card card-internet';
+      card.innerHTML =
+        '<div class="block-hdr">' +
+          '<span class="bh-icon">🌐</span>' +
+          '<div class="bh-text">' +
+            '<span class="bh-eyebrow">INTERNET CONCIERGE</span>' +
+            '<span class="bh-title">インターネットコンシェルジュ</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="url-body">' +
+          '<p class="url-desc">' + esc(comment) + '</p>' +
+          '<a class="url-btn" href="' + esc(url) + '" target="_blank">インターネットコンシェルジュを開く ›</a>' +
+        '</div>';
+      return card;
+    }
+  };
+
+  // ---- 設定された順番・有効状態でブロックを描画 ----
+  var mb      = BUILDING.mobileBlocks || {};
+  var order   = (mb.order   && mb.order.length)   ? mb.order   : ['remote','internet','inquiry','qa','servicemenu','login'];
+  var enabled = (mb.enabled && mb.enabled.length)  ? mb.enabled : ['remote','internet','inquiry','qa','servicemenu'];
+
+  // ★マイグレーション: 'internet'ブロックは廃止済みなので、古いデータに残っていても除外する。
+  // ★BUGFIX★ 以前はenabledに'remote'が無い場合も自動的に追加していたが、これだと
+  // 管理画面でチェックを外して意図的に非表示にした場合（例：QA主役構成のnavi物件）まで
+  // 常に復活してしまい、スマホ実機で見るとチェックを外した意味がなくなる不具合があった。
+  // 表示順（order）の目安として先頭に補うだけに留め、実際の表示可否はenabledの値をそのまま尊重する。
+  if (order.indexOf('remote') === -1) order = ['remote'].concat(order);
+  order   = order.filter(function(k){ return k !== 'internet'; });
+  enabled = enabled.filter(function(k){ return k !== 'internet'; });
+  var main    = document.getElementById('mainBlocks');
+
+  order.forEach(function(key){
+    if (enabled.indexOf(key) === -1) return;
+    var renderer = RENDERERS[key];
+    if (!renderer) return;
+    var el = renderer();
+    if (el) main.appendChild(el);
+  });
+
+  // ---- お問い合わせフォームモーダル ----
+  document.getElementById('inqModalClose').addEventListener('click', function(){
+    document.getElementById('inqModal').classList.remove('open');
+  });
+  document.getElementById('inqModal').addEventListener('click', function(e){
+    if (e.target === this) this.classList.remove('open');
+  });
+
+  function openInquiryModal(){
+    if (BUILDING.inquiryMode === 'external' && BUILDING.inquiryExternalUrl) { window.open(BUILDING.inquiryExternalUrl, '_blank', 'noopener'); return; }
+    var fields = BUILDING.inquiryFields || [
+      { key:'roomNumber', label:'お部屋番号', type:'text', required:true, placeholder:'例：101号室' },
+      { key:'name', label:'お名前', type:'text', required:true, placeholder:'' },
+      { key:'email', label:'メールアドレス（ご返信用）', type:'email', required:true, placeholder:'' },
+      { key:'message', label:'お問い合わせ内容', type:'textarea', required:true, placeholder:'' }
+    ];
+    var body = document.getElementById('inqModalBody');
+    body.innerHTML = '';
+
+    // ★冒頭案内文（管理画面⑪で選択した内容を使用）
+    var noticeKey = (BUILDING.mobileBlocks && BUILDING.mobileBlocks.inquiryNotice) || 'emergency';
+    var noticeText = NOTICE_TEXTS[noticeKey] || noticeKey; // キーでなければカスタムテキスト
+    if (noticeText) {
+      var notice = document.createElement('div');
+      notice.style.cssText = 'background:#FFF8E6;border:1px solid #E8C44A;border-radius:10px;padding:12px 14px;margin-bottom:16px;font-size:12px;line-height:1.7;color:#7A5C00;';
+      notice.textContent = noticeText;
+      body.appendChild(notice);
+    }
+
+    fields.forEach(function(f){
+      var wrap = document.createElement('div');
+      wrap.className = 'inq-field';
+      var lbl = document.createElement('label');
+      lbl.className = 'inq-field-label';
+      lbl.innerHTML = esc(f.label) + (f.required ? '<span class="req">必須</span>' : '');
+      wrap.appendChild(lbl);
+      var inp;
+      if (f.type === 'textarea') {
+        inp = document.createElement('textarea');
+        inp.className = 'inq-textarea';
+        inp.rows = 4;
+      } else {
+        inp = document.createElement('input');
+        inp.type = f.type || 'text';
+        inp.className = 'inq-input';
+      }
+      inp.placeholder = f.placeholder || '';
+      inp.dataset.key = f.key;
+      inp.dataset.required = f.required ? '1' : '';
+      wrap.appendChild(inp);
+      body.appendChild(wrap);
+    });
+
+    // ★SPAM★ ハニーポット：画面外に隠した入力欄。人間には見えず・入力されないが、
+    // フォームを機械的に埋めて送信するボットは埋めてしまうことが多い。
+    // [data-key]を持つ全要素を集めるsubmitInquiryForm()の処理にそのまま乗るので、
+    // data-required指定さえしなければ通常の必須チェックには影響しない。
+    // 値が入っていた場合はサーバー側（submitInquiry）で自動送信として無視される。
+    var hpWrap = document.createElement('div');
+    hpWrap.style.cssText = 'position:absolute;left:-9999px;top:-9999px;';
+    hpWrap.setAttribute('aria-hidden', 'true');
+    var hpInput = document.createElement('input');
+    hpInput.type = 'text';
+    hpInput.tabIndex = -1;
+    hpInput.autocomplete = 'off';
+    hpInput.dataset.key = 'hpWebsite';
+    hpWrap.appendChild(hpInput);
+    body.appendChild(hpWrap);
+
+    var submitBtn = document.createElement('button');
+    submitBtn.type = 'button';
+    submitBtn.className = 'inq-submit-btn';
+    submitBtn.textContent = '送信する';
+    submitBtn.addEventListener('click', function(){ submitInquiryForm(submitBtn); });
+    body.appendChild(submitBtn);
+
+    document.getElementById('inqModal').classList.add('open');
+  }
+
+  function submitInquiryForm(submitBtn){
+    var formData = {};
+    var missing = [];
+    document.querySelectorAll('#inqModalBody [data-key]').forEach(function(inp){
+      var v = inp.value.trim();
+      formData[inp.dataset.key] = v;
+      if (inp.dataset.required === '1' && !v) {
+        missing.push(inp.previousElementSibling.textContent.replace('必須','').trim());
+      }
+    });
+    if (missing.length) { alert(missing.join('、') + 'を入力してください。'); return; }
+
+    submitBtn.textContent = '送信中…';
+    submitBtn.disabled = true;
+
+    google.script.run
+      .withSuccessHandler(function(){
+        document.getElementById('inqModalBody').innerHTML =
+          '<div class="inq-success">✅ お問い合わせを送信しました。<br>確認メールをお送りします。</div>';
+      })
+      .withFailureHandler(function(err){
+        submitBtn.textContent = '送信する';
+        submitBtn.disabled = false;
+        alert('送信に失敗しました: ' + (err.message || err));
+      })
+      .submitInquiry(BUILDING.id, formData);
+  }
+
+  // ── 5分間操作がなければコンシェルジュのトップ画面に戻る ──────────────
+  (function(){
+    var IDLE_MS = 5 * 60 * 1000;
+    var timer;
+    function goHome(){
+      try {
+        var homeUrl = 'https://qlc-service.com/' + (BUILDING && BUILDING.id ? BUILDING.id : '') + '/';
+        window.top.location.href = homeUrl;
+      } catch(e) { location.reload(); }
+    }
+    function arm(){
+      clearTimeout(timer);
+      timer = setTimeout(goHome, IDLE_MS);
+    }
+    ['mousemove','mousedown','touchstart','keydown','scroll','click','touchmove'].forEach(function(evt){
+      window.addEventListener(evt, arm, { passive: true });
+    });
+    arm();
+  })();
+</script>
+
 </body>
 </html>
