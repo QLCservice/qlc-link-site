@@ -118,26 +118,26 @@
     var heads = [];
     try { heads = Array.prototype.slice.call(document.querySelectorAll('h1,h2')); } catch (e) {}
     var seen = {};
-    try {
-      if ('IntersectionObserver' in window) {
-        var io = new IntersectionObserver(function (ents) {
-          ents.forEach(function (en) { if (en.isIntersecting) { var i = heads.indexOf(en.target); if (i >= 0) seen[i + 1] = 1; } });
-        }, { threshold: 0.6 });
-        heads.forEach(function (h) { io.observe(h); });
-      }
-    } catch (e) {}
     var maxDepth = 0;
-    function depth() {
+    function measure() {
       try {
         var de = document.documentElement, b = document.body;
+        var vh = window.innerHeight || de.clientHeight || 0;
         var total = Math.max(de.scrollHeight, b ? b.scrollHeight : 0, 1);
-        var pos = (window.pageYOffset || de.scrollTop || 0) + (window.innerHeight || de.clientHeight || 0);
+        var pos = (window.pageYOffset || de.scrollTop || 0) + vh;
         var d = Math.min(100, Math.round(pos / total * 100));
         if (d > maxDepth) maxDepth = d;
+        // 見出しが画面の上〜85%の位置に入ったら「見た」とする
+        for (var i = 0; i < heads.length; i++) {
+          var r = heads[i].getBoundingClientRect();
+          if (r.height > 0 && r.top < vh * 0.85 && r.bottom > 0) seen[i + 1] = 1;
+        }
       } catch (e) {}
     }
-    depth();
-    window.addEventListener('scroll', depth, { passive: true });
+    var ticking = false;
+    function onScroll() { if (ticking) return; ticking = true; (window.requestAnimationFrame || function (f) { setTimeout(f, 100); })(function () { ticking = false; measure(); }); }
+    measure();
+    window.addEventListener('scroll', onScroll, { passive: true });
     var visMs = 0, visStart = (document.visibilityState === 'visible') ? Date.now() : 0;
     var ended = false;
     function bucketSec(s) { return s < 5 ? '〜5秒' : s < 15 ? '5〜15秒' : s < 30 ? '15〜30秒' : s < 60 ? '30〜60秒' : s < 120 ? '1〜2分' : s < 300 ? '2〜5分' : '5分以上'; }
@@ -145,7 +145,7 @@
     function finish() {
       if (ended) return; ended = true;
       try {
-        depth();
+        measure();
         if (visStart) { visMs += Date.now() - visStart; visStart = 0; }
         var secs = Math.round(visMs / 1000);
         var ids = Object.keys(seen).sort(function (a, b) { return a - b; }).join(',');
