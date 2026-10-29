@@ -293,7 +293,8 @@
 <section class="hero">
   <h1>暮らしの中で、ちょっと助かる。<br>そんなサービスを集めました。</h1>
   <p>アイコンをタップ（クリック）してお進みください。メニューにないサービスや、その他ご要望は、下のコンシェルジュの「お問い合わせ」メニューよりご連絡ください。</p>
-  <p class="hero-note">全国版のため、お住まいのエリアによっては、ご利用いただけないサービスがあります。ご利用の前に、各事業者のサイトやお問い合わせ先で、対応エリアをご確認ください。</p>
+  <p class="hero-note" id="heroNote">全国版のため、お住まいのエリアによっては、ご利用いただけないサービスがあります。ご利用の前に、各事業者のサイトやお問い合わせ先で、対応エリアをご確認ください。</p>
+  <script>/* 全国版のみ表示。地域版（親のindex.htmlから自動生成されるため、ここで除く） */(function(){var f=(location.pathname||'').split('/').filter(Boolean)[0]||'';if(['kanto','kansai','tokai','west'].indexOf(f)>=0){var e=document.getElementById('heroNote');if(e&&e.parentNode)e.parentNode.removeChild(e);}})();</script>
   <div class="nameplate">CONCIERGE</div>
 </section>
 
