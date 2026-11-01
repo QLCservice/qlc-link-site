@@ -307,6 +307,8 @@
                   <span class="camp-flyer-go">拡大</span>
                 </a>
 
+                <div class="camp-flyer-en" style="margin:-4px 0 16px;text-align:center;font-size:12.5px;"><a href="campaign-assets/hc-2026-nenmatsu-en.jpg" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;">English flyer（tap to open）</a></div>
+
                 <div class="camp-chips">
                   <div class="camp-chip">
                     <span class="ct">🌀 エアコン清掃（壁掛タイプ）</span>
@@ -407,7 +409,7 @@
         img.src = SRC[lang]; img.alt = ALT[lang]; raw.href = SRC[lang]; scroller.scrollTop = 0;
         Array.prototype.forEach.call(tabs, function(t){ var on = t.getAttribute('data-lang') === lang; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
       }
-      openA.addEventListener('click', function(e){ e.preventDefault(); show('ja'); document.body.style.overflow = 'hidden'; dlg.showModal(); });
+      openA.addEventListener('click', function(e){ e.preventDefault(); show(/^ja/i.test(navigator.language || 'ja') ? 'ja' : 'en'); document.body.style.overflow = 'hidden'; dlg.showModal(); });
       Array.prototype.forEach.call(tabs, function(t){ t.addEventListener('click', function(){ show(t.getAttribute('data-lang')); }); });
       document.getElementById('campFlyerNClose').addEventListener('click', function(){ dlg.close(); });
       dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
