@@ -405,10 +405,10 @@
       var SRC = { ja: 'campaign-assets/hc-2026-nenmatsu-ja.jpg', en: 'campaign-assets/hc-2026-nenmatsu-en.jpg' };
       var ALT = { ja: 'シェヴ 2026-2027 年末年始ハウスクリーニングキャンペーン チラシ（日本語版）', en: 'Chez Vous 2026-2027 Year-End and New Year House Cleaning Special Offer flyer (English)' };
       function show(lang){
-        img.src = SRC[lang]; img.alt = ALT[lang]; raw.href = SRC[lang]; scroller.scrollTop = 0;
+        img.style.opacity = '.35'; img.onload = function(){ img.style.opacity = ''; }; img.src = SRC[lang]; img.alt = ALT[lang]; raw.href = SRC[lang]; scroller.scrollTop = 0;
         Array.prototype.forEach.call(tabs, function(t){ var on = t.getAttribute('data-lang') === lang; t.classList.toggle('is-on', on); t.setAttribute('aria-selected', on ? 'true' : 'false'); });
       }
-      openA.addEventListener('click', function(e){ e.preventDefault(); show(/^ja/i.test(navigator.language || 'ja') ? 'ja' : 'en'); document.body.style.overflow = 'hidden'; dlg.showModal(); });
+      openA.addEventListener('click', function(e){ e.preventDefault(); show(/^ja/i.test(navigator.language || 'ja') ? 'ja' : 'en'); document.body.style.overflow = 'hidden'; dlg.showModal(); setTimeout(function(){ try { (new Image()).src = SRC.en; (new Image()).src = SRC.ja; } catch (e) {} }, 1500); });
       Array.prototype.forEach.call(tabs, function(t){ t.addEventListener('click', function(){ show(t.getAttribute('data-lang')); }); });
       document.getElementById('campFlyerNClose').addEventListener('click', function(){ dlg.close(); });
       dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
