@@ -155,7 +155,7 @@ function vendorList(svc) {
   var html = crumb(svc) + '<h2>' + esc(svc.name) + '</h2><p class="lead">業者・エリアを選ぶと、マニュアルが開きます。</p><div class="list">';
   if (!vs.length) html += '<div class="msg">まだマニュアルが登録されていません。</div>';
   vs.forEach(function (v) {
-    html += '<a class="vendor' + (v.hasManual ? '' : ' nomanual') + '" href="#/s/' + encodeURIComponent(svc.key) + '/' + v.id + '"><span><span class="n">' + esc(v.name) + '</span><br>' + (v.area ? '<span class="a">' + esc(v.area) + '</span>' : '') + '</span><span class="go">' + (v.hasManual ? 'マニュアル ›' : '補足を見る ›') + '</span></a>';
+    html += '<a class="vendor' + (v.hasManual ? '' : ' nomanual') + '" href="#/s/' + encodeURIComponent(svc.key) + '/' + v.id + '"><span><span class="n">' + esc(v.name) + '</span><br>' + (v.area ? '<span class="a">' + esc(v.area) + '</span>' : '') + '</span><span class="go">' + (v.hasManual ? 'マニュアル ›' : (v.detail ? 'サービス詳細 ›' : '補足を見る ›')) + '</span></a>';
   });
   $('app').innerHTML = html + '</div>';
 }
@@ -170,7 +170,8 @@ function viewer(svc, vid) {
   var v = S.vendors.filter(function (x) { return x.id === vid; })[0];
   if (!v) return vendorList(svc);
   var head = crumb(svc, v) + '<h2>' + esc(v.name) + '</h2><p class="lead">' + esc(svc.name) + (v.area ? '　／　' + esc(v.area) : '') + (v.updated ? '　／　更新 ' + esc(v.updated) : '') + '</p>' + (v.note ? '<div class="note">' + esc(v.note) + '</div>' : '');
-  if (!v.hasManual) { $('app').innerHTML = head + '<div class="msg">この業者のマニュアルは準備中です。</div>'; return; }
+  if (v.detail && /^https:\/\//.test(v.detail)) head += '<div class="bar"><a class="btn" href="' + esc(v.detail) + '" target="_blank" rel="noopener noreferrer">サービスの詳細ページを開く</a></div>';
+  if (!v.hasManual) { $('app').innerHTML = head + (v.detail ? '' : '<div class="msg">この業者のマニュアルは準備中です。</div>'); return; }
   $('app').innerHTML = head + '<div id="vbody" class="msg">マニュアルを読み込んでいます…</div>';
   api({ action: 'file', pw: S.pw, vid: vid }).then(function (r) {
     if (location.hash.indexOf('/' + vid) < 0) return; // 読み込み中に画面移動した
