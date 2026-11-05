@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; connect-src https://script.google.com https://script.googleusercontent.com; frame-src blob:; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<title>コンシェルジュ マニュアル</title>
+<style>
+:root{--ink:#2b2118;--sub:#6b5d4f;--line:#b88a5a;--bg:#f6f1e8;--card:#fff;--zone:#3a2f27;--accent:#8a5a2b;--warn:#b3402a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:"Hiragino Sans","Yu Gothic UI","Meiryo",sans-serif;line-height:1.6}
+.wrap{max-width:1100px;margin:0 auto;padding:16px}
+h1{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:600;font-size:clamp(22px,4.6vw,34px);text-align:center;margin:18px 0 4px;letter-spacing:.04em}
+.ver{text-align:right;font-size:12px;color:var(--sub)}
+.zone{background:var(--zone);color:#fff;font-weight:700;padding:6px 14px;margin:22px 0 12px;font-size:15px}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.grid{grid-template-columns:repeat(2,1fr);gap:8px}}
+.tile{display:flex;flex-direction:column;text-align:left;background:var(--card);border:1px solid var(--line);padding:10px 11px;min-height:96px;text-decoration:none;color:inherit;cursor:pointer;font:inherit;position:relative}
+.tile:active{background:#fbf3e6}
+.tile b{font-size:15px;line-height:1.35}
+.tile small{color:var(--sub);font-size:11.5px;line-height:1.45;margin-top:4px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.tile .cnt{position:absolute;right:8px;top:8px;font-size:11px;background:var(--accent);color:#fff;border-radius:10px;padding:0 7px}
+.tile.empty{opacity:.55}
+.crumb{display:flex;gap:6px;align-items:center;flex-wrap:wrap;font-size:14px;margin:10px 0}
+.crumb a{color:var(--accent);text-decoration:none;font-weight:700;padding:8px 2px}
+.crumb span{color:var(--sub)}
+h2{font-size:clamp(20px,4vw,26px);margin:6px 0 4px}
+.lead{color:var(--sub);font-size:14px;margin:0 0 14px}
+.list{display:grid;gap:10px}
+.vendor{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);padding:14px 16px;text-decoration:none;color:inherit;cursor:pointer;text-align:left;font:inherit;width:100%}
+.vendor:active{background:#fbf3e6}
+.vendor .n{font-weight:700;font-size:17px}
+.vendor .a{display:inline-block;margin-top:4px;font-size:12.5px;background:#efe3d0;border-radius:4px;padding:1px 8px;color:#5a4630}
+.vendor .go{color:var(--accent);font-weight:700;white-space:nowrap}
+.vendor.nomanual .go{color:var(--sub);font-weight:400}
+.note{background:#fff8e1;border-left:4px solid #e0b43c;padding:10px 14px;margin:12px 0;font-size:14px;white-space:pre-wrap}
+.bar{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.btn{background:var(--accent);color:#fff;border:0;padding:12px 18px;font:inherit;font-weight:700;border-radius:6px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--accent)}
+.viewer{width:100%;height:78vh;min-height:480px;border:1px solid var(--line);background:#fff}
+.viewer-img{max-width:100%;border:1px solid var(--line);background:#fff}
+.msg{padding:30px 0;text-align:center;color:var(--sub)}
+.err{color:var(--warn)}
+.gate{max-width:380px;margin:12vh auto;background:var(--card);border:1px solid var(--line);padding:28px 22px;text-align:center}
+.gate input{width:100%;padding:12px;font-size:16px;border:1px solid #bbb;border-radius:6px;margin:12px 0}
+.foot{margin:34px 0 10px;font-size:12px;color:var(--sub);text-align:center}
+.demo{background:#fde7e2;color:var(--warn);text-align:center;font-size:13px;padding:4px}
+[hidden]{display:none!important}
+</style>
+<script src="/track.js" defer></script>
+</head>
+<body>
+<div id="demoBar" class="demo" hidden>デモ表示中（サンプルデータ。本番では表示されません）</div>
+
+<div id="gate" class="gate" hidden>
+  <h1 style="font-size:20px;margin:0 0 4px">コンシェルジュ マニュアル</h1>
+  <div style="font-size:13px;color:var(--sub)">関係者専用ページです</div>
+  <form id="gateForm" autocomplete="off">
+    <input id="pw" type="password" placeholder="合言葉" aria-label="合言葉" autocomplete="current-password">
+    <button class="btn" type="submit" style="width:100%">開く</button>
+  </form>
+  <div id="gateErr" class="err" style="font-size:13px;margin-top:10px" role="alert"></div>
+</div>
+
+<div id="app" class="wrap" hidden></div>
+
+<script>
+/* ===== 設定 ===== */
+// 本番：GASをウェブアプリとしてデプロイしたURL（…/exec）をここに貼る。空のままなら、手元(localhost)でのみデモ表示。
+var API_URL = 'https://script.google.com/macros/s/AKfycbwfCOGGEQtf5PmvLX-94V7SoXWXPCV1vBUdr4M8peT5JIU8YqsTnbc_bD22K6WpP4UlCw/exec';
+
+var DEMO = !API_URL && (location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:');
+
+/* ===== 状態 ===== */
+var S = { pw: '', services: [], vendors: [], blobUrl: '' };
+var $ = function (id) { return document.getElementById(id); };
+function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function store(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) {} }
+function load(k) { try { return sessionStorage.getItem(k) || ''; } catch (e) { return ''; } }
+
+/* ===== 通信 ===== */
+function api(body) {
+  if (DEMO) return Promise.resolve(demoApi(body));
+  if (!API_URL) return Promise.resolve({ ok: false, error: 'not_configured' });
+  // text/plain にして事前確認(preflight)を避ける。GAS側が JSON として読む。
+  return fetch(API_URL, { method: 'POST', body: JSON.stringify(body), headers: { 'Content-Type': 'text/plain;charset=utf-8' }, credentials: 'omit', referrerPolicy: 'no-referrer' })
+    .then(function (r) { return r.json(); })
+    .catch(function () { return { ok: false, error: 'network' }; });
+}
+var ERR = { bad_password: '合言葉が違います。', locked: '失敗が続いたため、しばらく（約10分）入力できません。', not_configured: 'まだ公開準備中です。', network: '通信できませんでした。電波の良い場所でもう一度お試しください。' };
+
+/* ===== 起動 ===== */
+function boot() {
+  $('demoBar').hidden = !DEMO;
+  var saved = load('pw');
+  if (saved) { S.pw = saved; fetchList(true); } else showGate();
+}
+function showGate(msg) {
+  $('app').hidden = true; $('gate').hidden = false; $('gateErr').textContent = msg || '';
+  $('pw').value = ''; if (!('ontouchstart' in window)) $('pw').focus();
+}
+$('gateForm').addEventListener('submit', function (e) {
+  e.preventDefault();
+  S.pw = $('pw').value; if (!S.pw) return;
+  $('gateErr').textContent = '確認中…';
+  fetchList(false);
+});
+function fetchList(silent) {
+  api({ action: 'list', pw: S.pw }).then(function (r) {
+    if (!r.ok) { store('pw', null); S.pw = ''; showGate(silent && r.error === 'bad_password' ? '' : (ERR[r.error] || '読み込めませんでした。')); return; }
+    store('pw', S.pw); S.services = r.services; S.vendors = r.vendors;
+    $('gate').hidden = true; $('app').hidden = false; route();
+  });
+}
+window.addEventListener('hashchange', function () { if (!$('app').hidden) route(); });
+
+/* ===== 画面 ===== */
+function route() {
+  revoke();
+  var h = location.hash.replace(/^#\/?/, '').split('/');
+  window.scrollTo(0, 0);
+  if (h[0] === 's' && h[1]) {
+    var svc = S.services.filter(function (s) { return s.key === h[1]; })[0];
+    if (!svc) return top_();
+    if (h[2]) return viewer(svc, Number(h[2]));
+    return vendorList(svc);
+  }
+  top_();
+}
+function vendorsOf(key) { return S.vendors.filter(function (v) { return v.svc === key; }); }
+
+function top_() {
+  var zones = [], map = {};
+  S.services.forEach(function (s) { if (!map[s.zone]) { map[s.zone] = []; zones.push(s.zone); } map[s.zone].push(s); });
+  var html = '<h1>コンシェルジュ サービスメニュー</h1><div class="ver">マニュアル</div>';
+  zones.forEach(function (z) {
+    html += '<div class="zone">' + esc(z) + '</div><div class="grid">';
+    map[z].forEach(function (s) {
+      var n = vendorsOf(s.key).length;
+      html += '<a class="tile' + (n ? '' : ' empty') + '" href="#/s/' + encodeURIComponent(s.key) + '"><b>' + esc(s.name) + '</b><small>' + esc(s.desc) + '</small>' + (n ? '<span class="cnt">' + n + '</span>' : '') + '</a>';
+    });
+    html += '</div>';
+  });
+  html += '<div class="foot">サービス内容・業者・料金は変更になる場合があります。<br><a href="#" id="logout" style="color:inherit">ログアウト</a></div>';
+  $('app').innerHTML = html;
+  $('logout').addEventListener('click', function (e) { e.preventDefault(); store('pw', null); S.pw = ''; showGate(); });
+}
+
+function vendorList(svc) {
+  var vs = vendorsOf(svc.key);
+  var html = crumb(svc) + '<h2>' + esc(svc.name) + '</h2><p class="lead">業者・エリアを選ぶと、マニュアルが開きます。</p><div class="list">';
+  if (!vs.length) html += '<div class="msg">まだマニュアルが登録されていません。</div>';
+  vs.forEach(function (v) {
+    html += '<a class="vendor' + (v.hasManual ? '' : ' nomanual') + '" href="#/s/' + encodeURIComponent(svc.key) + '/' + v.id + '"><span><span class="n">' + esc(v.name) + '</span><br>' + (v.area ? '<span class="a">' + esc(v.area) + '</span>' : '') + '</span><span class="go">' + (v.hasManual ? 'マニュアル ›' : '補足を見る ›') + '</span></a>';
+  });
+  $('app').innerHTML = html + '</div>';
+}
+
+function crumb(svc, vendor) {
+  var s = '<div class="crumb"><a href="#/">メニュー</a><span>›</span>';
+  s += vendor ? '<a href="#/s/' + encodeURIComponent(svc.key) + '">' + esc(svc.name) + '</a><span>›</span><span>' + esc(vendor.name) + '</span>' : '<span>' + esc(svc.name) + '</span>';
+  return s + '</div>';
+}
+
+function viewer(svc, vid) {
+  var v = S.vendors.filter(function (x) { return x.id === vid; })[0];
+  if (!v) return vendorList(svc);
+  var head = crumb(svc, v) + '<h2>' + esc(v.name) + '</h2><p class="lead">' + esc(svc.name) + (v.area ? '　／　' + esc(v.area) : '') + (v.updated ? '　／　更新 ' + esc(v.updated) : '') + '</p>' + (v.note ? '<div class="note">' + esc(v.note) + '</div>' : '');
+  if (!v.hasManual) { $('app').innerHTML = head + '<div class="msg">この業者のマニュアルは準備中です。</div>'; return; }
+  $('app').innerHTML = head + '<div id="vbody" class="msg">マニュアルを読み込んでいます…</div>';
+  api({ action: 'file', pw: S.pw, vid: vid }).then(function (r) {
+    if (location.hash.indexOf('/' + vid) < 0) return; // 読み込み中に画面移動した
+    var box = $('vbody'); if (!box) return;
+    if (!r.ok) {
+      if (r.error === 'bad_password' || r.error === 'locked') { store('pw', null); return showGate(ERR[r.error]); }
+      box.className = 'msg err';
+      box.textContent = r.error === 'too_large' ? 'ファイルが大きいため、ここでは表示できません。管理者に連絡してください。' : (ERR[r.error] || 'マニュアルを読み込めませんでした。');
+      return;
+    }
+    var bin = atob(r.b64), arr = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+    var blob = new Blob([arr], { type: r.mime }); S.blobUrl = URL.createObjectURL(blob);
+    var isImg = /^image\//.test(r.mime), isPdf = r.mime === 'application/pdf';
+    var out = '<div class="bar"><a class="btn" href="' + S.blobUrl + '" target="_blank" rel="noopener">別画面で大きく開く</a><a class="btn ghost" href="' + S.blobUrl + '" download="' + esc(r.name.replace(/\.(pdf)?$/i, '') + (isPdf && !/\.pdf$/i.test(r.name) ? '.pdf' : '')) + '">保存</a></div>';
+    if (isImg) out += '<img class="viewer-img" alt="' + esc(v.name) + 'のマニュアル" src="' + S.blobUrl + '">';
+    else if (isPdf) out += '<iframe class="viewer" title="' + esc(v.name) + 'のマニュアル" src="' + S.blobUrl + '"></iframe><p class="lead" style="margin-top:8px">スマホで全ページが表示されないときは「別画面で大きく開く」を押してください。</p>';
+    else out += '<div class="msg">この形式はここでは表示できません。「保存」から開いてください。</div>';
+    box.className = ''; box.innerHTML = out;
+  });
+}
+function revoke() { if (S.blobUrl) { URL.revokeObjectURL(S.blobUrl); S.blobUrl = ''; } }
+
+/* ===== デモ（localhost専用） ===== */
+function demoApi(b) {
+  if (b.pw !== 'demo') return { ok: false, error: 'bad_password' };
+  if (b.action === 'list') return { ok: true, services: DEMO_SERVICES, vendors: DEMO_VENDORS };
+  if (b.action === 'file') {
+    var pdf = '%PDF-1.1\n1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj\n2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj\n3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 300 120]>>endobj\ntrailer<</Root 1 0 R>>';
+    return { ok: true, name: 'sample.pdf', mime: 'application/pdf', b64: btoa(pdf) };
+  }
+  return { ok: false, error: 'unknown' };
+}
+var DEMO_SERVICES = [
+  {key:'information',zone:'受付・販売サービス',name:'インフォメーション',desc:'近隣の病院・銀行・施設、公共の交通機関のご案内などを致します。'},
+  {key:'reception',zone:'受付・販売サービス',name:'レセプション',desc:'各種届出等の受付や各種応対を致します。'},
+  {key:'cleaning',zone:'取次・紹介サービス',name:'クリーニング',desc:'衣類のクリーニングを承ります。'},
+  {key:'shoeshine',zone:'取次・紹介サービス',name:'靴磨き・靴修理',desc:'靴磨き、靴・バッグの修理を承ります。'},
+  {key:'futon-rental',zone:'取次・紹介サービス',name:'貸し布団',desc:'貸し布団の手配・取次を致します。'}
+];
+var DEMO_VENDORS = [
+  {id:2,svc:'cleaning',name:'ホリウチ',area:'東京23区',hasManual:true,note:'',updated:'2026/11/01'},
+  {id:3,svc:'cleaning',name:'サンプルクリーニング',area:'関西',hasManual:false,note:'マニュアル準備中',updated:''},
+  {id:4,svc:'shoeshine',name:'サブリナ',area:'全国',hasManual:true,note:'送料1,100円／1回',updated:'2026/10/20'}
+];
+
+boot();
+</script>
+</body>
+</html>
