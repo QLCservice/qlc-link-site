@@ -49,6 +49,20 @@ h2{font-size:clamp(20px,4vw,26px);margin:6px 0 4px}
 .gate input{width:100%;padding:12px;font-size:16px;border:1px solid #bbb;border-radius:6px;margin:12px 0}
 .foot{margin:34px 0 10px;font-size:12px;color:var(--sub);text-align:center}
 .demo{background:#fde7e2;color:var(--warn);text-align:center;font-size:13px;padding:4px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end;margin:6px 0 0}
+.tools .btn{padding:8px 14px;font-size:13px}
+.recent{margin:14px 0 0}
+.recent .zone{margin:10px 0 8px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{background:var(--card);border:1px solid var(--line);padding:8px 12px;text-decoration:none;color:inherit;border-radius:20px;font-size:14px}
+.chip small{color:var(--sub)}
+.pick{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);padding:12px 14px;cursor:pointer}
+.pick input{width:22px;height:22px;flex:none}
+.pick b{font-size:16px}
+.pick small{display:block;color:var(--sub);font-size:12px}
+.picks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+@media(max-width:700px){.picks{grid-template-columns:1fr}}
+.sticky{position:sticky;bottom:0;background:var(--bg);padding:10px 0;border-top:1px solid var(--line);margin-top:14px}
 [hidden]{display:none!important}
 </style>
 <script src="/track.js" defer></script>
@@ -123,6 +137,7 @@ function route() {
   revoke();
   var h = location.hash.replace(/^#\/?/, '').split('/');
   window.scrollTo(0, 0);
+  if (h[0] === 'pick') return pick_();
   if (h[0] === 's' && h[1]) {
     var svc = S.services.filter(function (s) { return s.key === h[1]; })[0];
     if (!svc) return top_();
@@ -131,12 +146,26 @@ function route() {
   }
   top_();
 }
+/* ===== この端末（ブラウザ）だけの設定：表示するサービス／最近開いた資料 ===== */
+function lsGet(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
+function lsSet(k, v) { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+function getSel() { var v = lsGet('qlc_manual_sel'); return Array.isArray(v) && v.length ? v : null; }
+function addRecent(svc, v) {
+  var r = (lsGet('qlc_manual_recent') || []).filter(function (x) { return !(x.s === svc.key && x.v === v.id); });
+  r.unshift({ s: svc.key, v: v.id, n: v.name, sn: svc.name }); lsSet('qlc_manual_recent', r.slice(0, 8));
+}
 function vendorsOf(key) { return S.vendors.filter(function (v) { return v.svc === key; }); }
 
 function top_() {
   var zones = [], map = {};
-  S.services.forEach(function (s) { if (!map[s.zone]) { map[s.zone] = []; zones.push(s.zone); } map[s.zone].push(s); });
+  var sel = getSel();
+  var shown = sel ? S.services.filter(function (s) { return sel.indexOf(s.key) >= 0; }) : S.services;
+  if (!shown.length) { shown = S.services; sel = null; }
+  shown.forEach(function (s) { if (!map[s.zone]) { map[s.zone] = []; zones.push(s.zone); } map[s.zone].push(s); });
   var html = '<h1>コンシェルジュ サービスメニュー</h1><div class="ver">マニュアル</div>';
+  html += '<div class="tools"><a class="btn ghost" href="#/pick">自分の物件のサービスを選ぶ</a>' + (sel ? '<a class="btn ghost" href="#" id="showall">すべて表示にする</a>' : '') + '</div>';
+  var rec = (lsGet('qlc_manual_recent') || []).filter(function (x) { return S.vendors.some(function (v) { return v.id === x.v && v.name === x.n; }); });
+  if (rec.length) html += '<div class="recent"><div class="zone">最近開いた資料</div><div class="chips">' + rec.map(function (x) { return '<a class="chip" href="#/s/' + encodeURIComponent(x.s) + '/' + x.v + '">' + esc(x.n) + ' <small>' + esc(x.sn) + '</small></a>'; }).join('') + '</div></div>';
   zones.forEach(function (z) {
     html += '<div class="zone">' + esc(z) + '</div><div class="grid">';
     map[z].forEach(function (s) {
@@ -148,6 +177,27 @@ function top_() {
   html += '<div class="foot">サービス内容・業者・料金は変更になる場合があります。<br><a href="#" id="logout" style="color:inherit">ログアウト</a></div>';
   $('app').innerHTML = html;
   $('logout').addEventListener('click', function (e) { e.preventDefault(); store('pw', null); S.pw = ''; showGate(); });
+  var sa = $('showall'); if (sa) sa.addEventListener('click', function (e) { e.preventDefault(); lsSet('qlc_manual_sel', null); top_(); });
+}
+
+function pick_() {
+  var sel = getSel(), zones = [], map = {};
+  S.services.forEach(function (s) { if (!map[s.zone]) { map[s.zone] = []; zones.push(s.zone); } map[s.zone].push(s); });
+  var html = '<div class="crumb"><a href="#/">メニュー</a><span>›</span><span>自分の物件のサービスを選ぶ</span></div><h2>自分の物件のサービスを選ぶ</h2><p class="lead">この物件で取り扱うサービスにチェックを入れて「保存」を押すと、メニューにそのサービスだけが出ます。この端末（このパソコンのこのブラウザ）にだけ記憶され、いつでも変えられます。</p>';
+  zones.forEach(function (z) {
+    html += '<div class="zone">' + esc(z) + '</div><div class="picks">' + map[z].map(function (s) {
+      return '<label class="pick"><input type="checkbox" value="' + esc(s.key) + '"' + (!sel || sel.indexOf(s.key) >= 0 ? ' checked' : '') + '><span><b>' + esc(s.name) + '</b></span></label>';
+    }).join('') + '</div>';
+  });
+  html += '<div class="bar sticky"><button class="btn" id="psave">保存してメニューへ</button><button class="btn ghost" id="pall">すべてにチェック</button><button class="btn ghost" id="pnone">すべて外す</button></div>';
+  $('app').innerHTML = html;
+  var boxes = function () { return [].slice.call(document.querySelectorAll('.pick input')); };
+  $('pall').addEventListener('click', function () { boxes().forEach(function (b) { b.checked = true; }); });
+  $('pnone').addEventListener('click', function () { boxes().forEach(function (b) { b.checked = false; }); });
+  $('psave').addEventListener('click', function () {
+    var on = boxes().filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
+    lsSet('qlc_manual_sel', on.length && on.length < boxes().length ? on : null); location.hash = '#/';
+  });
 }
 
 function vendorList(svc) {
@@ -169,6 +219,7 @@ function crumb(svc, vendor) {
 function viewer(svc, vid) {
   var v = S.vendors.filter(function (x) { return x.id === vid; })[0];
   if (!v) return vendorList(svc);
+  addRecent(svc, v);
   var head = crumb(svc, v) + '<h2>' + esc(v.name) + '</h2><p class="lead">' + esc(svc.name) + (v.area ? '　／　' + esc(v.area) : '') + (v.updated ? '　／　更新 ' + esc(v.updated) : '') + '</p>' + (v.note ? '<div class="note">' + esc(v.note) + '</div>' : '');
   if (v.detail && /^https:\/\//.test(v.detail)) head += '<div class="bar"><a class="btn" href="' + esc(v.detail) + '" target="_blank" rel="noopener noreferrer">サービスの詳細ページを開く</a></div>';
   if (!v.hasManual) { $('app').innerHTML = head + (v.detail ? '' : '<div class="msg">この業者のマニュアルは準備中です。</div>'); return; }
