@@ -159,7 +159,7 @@ function vendorsOf(key) { return S.vendors.filter(function (v) { return v.svc ==
 function top_() {
   var zones = [], map = {};
   var sel = getSel();
-  var shown = sel ? S.services.filter(function (s) { return sel.indexOf(s.key) >= 0; }) : S.services;
+  var shown = sel ? S.services.filter(function (s) { return s.must || sel.indexOf(s.key) >= 0; }) : S.services;
   if (!shown.length) { shown = S.services; sel = null; }
   shown.forEach(function (s) { if (!map[s.zone]) { map[s.zone] = []; zones.push(s.zone); } map[s.zone].push(s); });
   var html = '<h1>コンシェルジュ サービスメニュー</h1><div class="ver">マニュアル</div>';
@@ -186,17 +186,17 @@ function pick_() {
   var html = '<div class="crumb"><a href="#/">メニュー</a><span>›</span><span>自分の物件のサービスを選ぶ</span></div><h2>自分の物件のサービスを選ぶ</h2><p class="lead">この物件で取り扱うサービスにチェックを入れて「保存」を押すと、メニューにそのサービスだけが出ます。この端末（このパソコンのこのブラウザ）にだけ記憶され、いつでも変えられます。</p>';
   zones.forEach(function (z) {
     html += '<div class="zone">' + esc(z) + '</div><div class="picks">' + map[z].map(function (s) {
-      return '<label class="pick"><input type="checkbox" value="' + esc(s.key) + '"' + (!sel || sel.indexOf(s.key) >= 0 ? ' checked' : '') + '><span><b>' + esc(s.name) + '</b></span></label>';
+      return '<label class="pick"><input type="checkbox" value="' + esc(s.key) + '"' + (s.must || !sel || sel.indexOf(s.key) >= 0 ? ' checked' : '') + (s.must ? ' disabled' : '') + '><span><b>' + esc(s.name) + '</b>' + (s.must ? ' <small style="display:inline">（必須・常に表示）</small>' : '') + '</span></label>';
     }).join('') + '</div>';
   });
   html += '<div class="bar sticky"><button class="btn" id="psave">保存してメニューへ</button><button class="btn ghost" id="pall">すべてにチェック</button><button class="btn ghost" id="pnone">すべて外す</button></div>';
   $('app').innerHTML = html;
-  var boxes = function () { return [].slice.call(document.querySelectorAll('.pick input')); };
+  var boxes = function () { return [].slice.call(document.querySelectorAll('.pick input:not(:disabled)')); };
   $('pall').addEventListener('click', function () { boxes().forEach(function (b) { b.checked = true; }); });
   $('pnone').addEventListener('click', function () { boxes().forEach(function (b) { b.checked = false; }); });
   $('psave').addEventListener('click', function () {
     var on = boxes().filter(function (b) { return b.checked; }).map(function (b) { return b.value; });
-    lsSet('qlc_manual_sel', on.length && on.length < boxes().length ? on : null); location.hash = '#/';
+    lsSet('qlc_manual_sel', on.length < boxes().length ? (S.services.filter(function (x) { return x.must; }).map(function (x) { return x.key; }).concat(on)) : null); location.hash = '#/';
   });
 }
 
