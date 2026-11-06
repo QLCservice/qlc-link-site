@@ -173,24 +173,50 @@ function viewer(svc, vid) {
   if (v.detail && /^https:\/\//.test(v.detail)) head += '<div class="bar"><a class="btn" href="' + esc(v.detail) + '" target="_blank" rel="noopener noreferrer">サービスの詳細ページを開く</a></div>';
   if (!v.hasManual) { $('app').innerHTML = head + (v.detail ? '' : '<div class="msg">この業者のマニュアルは準備中です。</div>'); return; }
   $('app').innerHTML = head + '<div id="vbody" class="msg">マニュアルを読み込んでいます…</div>';
-  api({ action: 'file', pw: S.pw, vid: vid }).then(function (r) {
-    if (location.hash.indexOf('/' + vid) < 0) return; // 読み込み中に画面移動した
+  var stale = function () { return location.hash.indexOf('/' + vid) < 0; }; // 読み込み中に画面移動した
+  var fail = function (r) {
     var box = $('vbody'); if (!box) return;
-    if (!r.ok) {
-      if (r.error === 'bad_password' || r.error === 'locked') { store('pw', null); return showGate(ERR[r.error]); }
-      box.className = 'msg err';
-      box.textContent = r.error === 'too_large' ? 'ファイルが大きいため、ここでは表示できません。管理者に連絡してください。' : (ERR[r.error] || 'マニュアルを読み込めませんでした。');
-      return;
-    }
-    var bin = atob(r.b64), arr = new Uint8Array(bin.length);
-    for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
-    var blob = new Blob([arr], { type: r.mime }); S.blobUrl = URL.createObjectURL(blob);
-    var isImg = /^image\//.test(r.mime), isPdf = r.mime === 'application/pdf';
-    var out = '<div class="bar"><a class="btn" href="' + S.blobUrl + '" target="_blank" rel="noopener">別画面で大きく開く</a><a class="btn ghost" href="' + S.blobUrl + '" download="' + esc(r.name.replace(/\.(pdf)?$/i, '') + (isPdf && !/\.pdf$/i.test(r.name) ? '.pdf' : '')) + '">保存</a></div>';
-    if (isImg) out += '<img class="viewer-img" alt="' + esc(v.name) + 'のマニュアル" src="' + S.blobUrl + '">';
-    else if (isPdf) out += '<iframe class="viewer" title="' + esc(v.name) + 'のマニュアル" src="' + S.blobUrl + '"></iframe><p class="lead" style="margin-top:8px">スマホで全ページが表示されないときは「別画面で大きく開く」を押してください。</p>';
-    else out += '<div class="msg">この形式はここでは表示できません。「保存」から開いてください。</div>';
-    box.className = ''; box.innerHTML = out;
+    if (r.error === 'bad_password' || r.error === 'locked') { store('pw', null); return showGate(ERR[r.error]); }
+    box.className = 'msg err';
+    box.textContent = r.error === 'too_large' ? 'ファイルが大きいため、ここでは表示できません。管理者に連絡してください。' : (ERR[r.error] || 'マニュアルを読み込めませんでした。');
+  };
+  var openFile = function (fid, name, back) {
+    var box = $('vbody'); if (!box) return;
+    box.className = 'msg'; box.textContent = 'マニュアルを読み込んでいます…';
+    api({ action: 'file', pw: S.pw, vid: vid, fid: fid }).then(function (r) {
+      if (stale()) return;
+      if (!r.ok) return fail(r);
+      revoke();
+      var bin = atob(r.b64), arr = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      var blob = new Blob([arr], { type: r.mime }); S.blobUrl = URL.createObjectURL(blob);
+      var isImg = /^image\//.test(r.mime), isPdf = r.mime === 'application/pdf';
+      var out = '<div class="bar">' + (back ? '<a class="btn ghost" href="#" id="vback">‹ 資料の一覧</a>' : '') + '<a class="btn" href="' + S.blobUrl + '" target="_blank" rel="noopener">別画面で大きく開く</a><a class="btn ghost" href="' + S.blobUrl + '" download="' + esc(r.name.replace(/\.(pdf)?$/i, '') + (isPdf && !/\.pdf$/i.test(r.name) ? '.pdf' : '')) + '">保存</a></div>';
+      if (isImg) out += '<img class="viewer-img" alt="' + esc(v.name) + 'のマニュアル" src="' + S.blobUrl + '">';
+      else if (isPdf) out += '<iframe class="viewer" title="' + esc(r.name) + '" src="' + S.blobUrl + '"></iframe><p class="lead" style="margin-top:8px">スマホで全ページが表示されないときは「別画面で大きく開く」を押してください。</p>';
+      else out += '<div class="msg">この形式はここでは表示できません。「保存」から開いてください。</div>';
+      box.className = ''; box.innerHTML = out;
+      var bk = $('vback'); if (bk) bk.addEventListener('click', function (e) { e.preventDefault(); revoke(); showList(); });
+    });
+  };
+  var files = [];
+  var showList = function () {
+    var box = $('vbody'); if (!box) return;
+    box.className = '';
+    box.innerHTML = '<p class="lead">開く資料を選んでください。</p><div class="list">' + files.map(function (f, i) {
+      return '<a class="vendor" href="#" data-i="' + i + '"><span><span class="n">' + esc(f.name.replace(/\.[A-Za-z0-9]{2,4}$/, '')) + '</span>' + (f.updated ? '<br><span class="a">更新 ' + esc(f.updated) + '</span>' : '') + '</span><span class="go">開く ›</span></a>';
+    }).join('') + '</div>';
+    Array.prototype.forEach.call(box.querySelectorAll('a[data-i]'), function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); var f = files[Number(a.getAttribute('data-i'))]; openFile(f.id, f.name, true); });
+    });
+  };
+  api({ action: 'files', pw: S.pw, vid: vid }).then(function (r) {
+    if (stale()) return;
+    if (!r.ok) return fail(r);
+    files = r.files || [];
+    if (!files.length) { if (r.legacy) return openFile('', '', false); var b = $('vbody'); if (b) { b.className = 'msg'; b.textContent = 'この業者のマニュアルは準備中です。'; } return; }
+    if (files.length === 1 && !r.legacy) return openFile(files[0].id, files[0].name, false);
+    showList();
   });
 }
 function revoke() { if (S.blobUrl) { URL.revokeObjectURL(S.blobUrl); S.blobUrl = ''; } }
