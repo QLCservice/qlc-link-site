@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script src="/staging-gate.js"></script>
+<meta charset="UTF-8">
+<!-- SECURITY-META -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self' https://form.run">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex, nofollow">
+<!-- SECURITY-META -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>見守りセンサー「みぃるも」｜QLC Link</title>
+<script src="/track.js" defer></script>
+</head>
+<body>
+
+<style>
+  :root{
+    --navy:#1C2B40; --navy-light:#2C405C; --brass:#B79358; --brass-light:#D8BD8A;
+    --cream:#F6F2EA; --cream-card:#FFFFFF; --charcoal:#33312C; --charcoal-soft:#6B6760; --clay:#C97B5B;
+  }
+  .qlcwrap{max-width:700px;margin:0 auto;font-family:"Noto Sans JP","Hiragino Kaku Gothic ProN",sans-serif;color:var(--charcoal);background:var(--cream);}
+  .qlcwrap *{box-sizing:border-box;}
+  .qtop{display:flex;align-items:center;justify-content:space-between;background:var(--navy);color:#F3EFE6;padding:12px 18px;font-size:13px;border-radius:8px 8px 0 0;}
+  .qtop a{color:var(--brass-light);text-decoration:none;font-weight:500;}
+  .qtop .brand{font-weight:600;letter-spacing:.04em;}
+  .qbody{padding:22px 20px 30px;}
+  .qplaque{display:flex;align-items:center;gap:12px;margin-bottom:6px;}
+  .qplaque::before,.qplaque::after{content:"";flex:1;height:1px;background:var(--brass);opacity:.55;}
+  .qplaque span{font-weight:600;font-size:18px;letter-spacing:.08em;color:var(--brass);white-space:nowrap;}
+  .qlisted{text-align:center;font-size:12.5px;color:var(--charcoal-soft);margin-bottom:22px;}
+  .qprovider{background:var(--cream-card);border-radius:12px;padding:18px;margin-bottom:18px;border:1px solid #E8E0CE;}
+  .qpname{font-weight:600;font-size:16px;color:var(--navy);margin-bottom:4px;}
+  .qarea{font-size:12px;color:var(--charcoal-soft);line-height:1.7;margin-bottom:14px;}
+  .qphoto{width:100%;border-radius:8px;margin-bottom:14px;display:block;}
+  .qdesc{font-size:13px;line-height:1.85;color:var(--charcoal);margin-bottom:14px;}
+  .qpriceblock{margin-bottom:14px;}
+  .qpricehead{font-size:12.5px;font-weight:500;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:5px;margin-bottom:6px;}
+  .qprow{display:flex;justify-content:space-between;font-size:12.5px;padding:4px 0;gap:12px;}
+  .qprow span:last-child{color:var(--navy);font-weight:500;white-space:nowrap;}
+  .qnote{background:#FBF6EC;border:1px solid var(--brass-light);border-radius:8px;padding:10px 12px;font-size:11.5px;line-height:1.8;color:var(--charcoal-soft);margin-bottom:14px;}
+  .qcoupon{background:var(--navy);color:#F3EFE6;border-radius:8px;padding:14px 16px;margin-bottom:16px;}
+  .qcoupon .qclabel{font-size:11px;letter-spacing:.06em;color:var(--brass-light);margin-bottom:4px;}
+  .qcoupon .qcval{font-size:18px;font-weight:600;color:#FFFFFF;font-family:"Noto Serif JP",serif;}
+  .qccoderow{display:flex;align-items:center;gap:10px;margin-top:12px;flex-wrap:wrap;}
+  .qccodetag{font-size:10.5px;color:#CFC8B8;letter-spacing:.04em;}
+  .qccode{display:inline-block;background:var(--brass-light);color:var(--navy);font-family:"Courier New",monospace;font-weight:700;font-size:16px;letter-spacing:.12em;padding:6px 16px;border-radius:6px;}
+  .qcoupon .qcsub{font-size:11.5px;color:#CFC8B8;margin-top:8px;line-height:1.7;}
+  .qctarow{display:flex;gap:8px;flex-wrap:wrap;}
+  .qbtn{flex:1;min-width:120px;text-align:center;padding:13px 16px;border-radius:18px;font-size:12.5px;font-weight:500;text-decoration:none;white-space:nowrap;}
+  .qbtn-outline{border:1.5px solid var(--brass);color:var(--navy);background:transparent;}
+  .qbtn-filled{background:var(--brass);color:var(--navy);}
+  .qhr{height:1px;background:#E8E0CE;margin:20px 0;}
+  .qback{display:block;width:fit-content;margin:22px auto 0;border:1.5px solid var(--brass);color:var(--navy);background:transparent;border-radius:18px;padding:12px 22px;font-size:12.5px;font-weight:500;text-decoration:none;text-align:center;}
+  a{cursor:pointer;}
+</style>
+<style>
+  .hero{background:var(--navy);color:#F3EFE6;border-radius:12px;padding:24px 20px;margin-bottom:18px;text-align:center;}
+  .hero .eyebrow{font-size:11.5px;letter-spacing:.08em;color:var(--brass-light);margin-bottom:8px;}
+  .hero h1{font-family:"Noto Serif JP",serif;font-size:21px;line-height:1.6;margin:0 0 10px;color:#fff;font-weight:600;}
+  .hero p{font-size:13px;line-height:1.8;margin:0;color:#E5DFD0;}
+  .imp{background:#FFF7E3;border:1.5px solid var(--brass);border-radius:10px;padding:12px 14px;margin-bottom:18px;font-size:13px;line-height:1.8;color:var(--navy);font-weight:500;}
+  .sec{font-size:14px;font-weight:600;color:var(--navy);border-bottom:1px solid var(--brass-light);padding-bottom:6px;margin:22px 0 12px;}
+  .feat{display:flex;gap:12px;background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:14px;margin-bottom:10px;}
+  .feat .ico{flex:0 0 auto;font-size:26px;line-height:1.2;}
+  .feat b{display:block;color:var(--navy);font-size:14px;margin-bottom:3px;}
+  .feat span{font-size:12.5px;line-height:1.8;color:var(--charcoal);}
+  .steps{display:flex;gap:8px;margin-bottom:6px;}
+  .stp{flex:1;text-align:center;background:var(--cream-card);border:1px solid #E8E0CE;border-radius:12px;padding:12px 6px;font-size:12px;line-height:1.7;}
+  .stp i{display:flex;width:24px;height:24px;margin:0 auto 6px;border-radius:50%;background:var(--navy);color:var(--brass-light);font-style:normal;font-size:12px;font-weight:600;align-items:center;justify-content:center;}
+  .flyerbox{margin:6px 0 16px;text-align:center;}
+  .flyerbox img{width:100%;max-width:520px;border-radius:8px;border:1px solid #E8E0CE;display:block;margin:0 auto;}
+  .flyerbox .ph{border:2px dashed var(--brass-light);border-radius:10px;padding:46px 12px;font-size:12.5px;color:var(--charcoal-soft);background:#FBF6EC;}
+  .flyerbox a{display:inline-block;margin-top:8px;font-size:12px;color:var(--navy);}
+  details.faq{background:var(--cream-card);border:1px solid #E8E0CE;border-radius:10px;margin-bottom:8px;}
+  details.faq summary{cursor:pointer;list-style:none;padding:12px 14px;font-size:13px;font-weight:500;color:var(--navy);line-height:1.7;}
+  details.faq summary::-webkit-details-marker{display:none;}
+  details.faq summary::before{content:"Q";display:inline-block;width:20px;height:20px;line-height:20px;text-align:center;border-radius:50%;background:var(--navy);color:var(--brass-light);font-size:11px;font-weight:700;margin-right:8px;}
+  details.faq div{padding:0 14px 12px 42px;font-size:12.5px;line-height:1.85;color:var(--charcoal);}
+  .qbtn.dis{opacity:.55;pointer-events:none;border-style:dashed;}
+  .qbtn{white-space:normal;}
+  .small{font-size:11px;line-height:1.8;color:var(--charcoal-soft);}
+  .vtag{display:inline-block;font-size:10.5px;background:var(--clay);color:#fff;border-radius:10px;padding:2px 9px;margin-bottom:8px;}
+</style>
+<div class="qlcwrap">
+<div class="qtop"><a href="https://www.qlc-service.com/" target="_blank">&#8592; 戻る</a><span class="brand">QLC Link</span></div>
+<div class="qbody">
+<span class="vtag">試作 B案：フォームでQLCが受付</span>
+<div class="qplaque"><span>見守りセンサー「みぃるも」</span></div>
+<div class="qlisted">掲載サービス：株式会社キューネット（QLCのグループ会社）</div>
+
+<div class="hero">
+  <div class="eyebrow">高齢者見守りセンサー　スマートケアリンク「みぃるも」</div>
+  <h1>離れて暮らすご両親を、<br>そっと見守る。</h1>
+  <p>電源を入れるだけで、動き出します。</p>
+</div>
+
+<div class="imp">みぃるもは、ご家族がご確認いただく見守りサービスです。当社（QLC）やキューネットが常時監視するものではありません。</div>
+
+
+
+<div class="sec">みぃるもの3つの特長</div>
+<div class="feat"><div class="ico">🔌</div><div><b>電源を入れればすぐに動き出す</b><span>本体をコンセントに挿すだけ。通信用のSIMを内蔵しているので、工事もWi-Fiの設定も要りません。</span></div></div>
+<div class="feat"><div class="ico">🌡️</div><div><b>カメラなしで暮らしを見守る</b><span>温度・湿度・明るさ・人の動きを検知するセンサーで、プライバシーに配慮した見守りです。</span></div></div>
+<div class="feat"><div class="ico">📱</div><div><b>ご家族のスマホにお知らせが届く</b><span>動きがない状態が約1日続くと、ご家族へメールで通知。温度・湿度が高いときは熱中症アラートもスマホに届きます。<small>（約1日は設定により変更可能）</small></span></div></div>
+
+<div class="sec">ご利用のイメージ</div>
+<div class="steps">
+  <div class="stp"><i>1</i>コンセントに<br>挿す</div>
+  <div class="stp"><i>2</i>センサーが<br>見守る</div>
+  <div class="stp"><i>3</i>異変をご家族へ<br>メールで通知</div>
+</div>
+
+<div class="flyerbox"><img src="mimoru-assets/mimoru-flyer-v4.jpg" alt="みぃるものご案内チラシ" loading="lazy" onerror="this.outerHTML='<div class=ph>チラシ画像（みぃるもの案内）がここに入ります</div>'"></div>
+
+<div class="sec">ご利用料金</div>
+<div class="qpriceblock">
+  <div class="qprow"><span>月額利用料</span><span>月額　準備中</span></div>
+  
+</div>
+<div class="small" style="margin-bottom:14px;">もしものときの備えとして、警備員の駆けつけなどのオプションもご相談いただけます（お住まいの地域など、条件があります）。くわしくはお問い合わせください。</div>
+
+<div class="sec">よくあるご質問</div>
+<details class="faq"><summary>カメラはついていますか？</summary><div>ついていません。検知するのは温度・湿度・明るさ・人の動きだけです。</div></details>
+<details class="faq"><summary>工事やWi-Fiは必要ですか？</summary><div>どちらも不要です。</div></details>
+<details class="faq"><summary>誰が見守るのですか？</summary><div>ご家族です。センサーの状況やお知らせを、ご家族がスマホで確認します。</div></details>
+<details class="faq"><summary>どんなときに通知が届きますか？</summary><div>動きがない状態が約1日（設定変更可能）続いたとき、ご家族へメールでお知らせします。温度・湿度が高いときは熱中症アラートも届きます。</div></details>
+<details class="faq"><summary>ご実家が遠方でも使えますか？</summary><div>はい。お住まいの地域を問わずご利用いただけます。</div></details>
+
+<div class="sec">お申し込み・お問い合わせ</div>
+<div class="small" style="margin-bottom:10px;">まずはこちらのフォームからご連絡ください。QLCがお受けして、キューネットにお取り次ぎします。</div>
+<div class="qnote">フォームにご入力いただいた内容は、株式会社クオリティライフ・コンシェルジュ（QLC）がいったんお受けし、サービスのご案内・お取り次ぎのために、運営会社の株式会社キューネットへ提供します。<a href="https://www.qlc-service.com/qlc-link/privacy-policy.html" target="_blank" rel="noopener">個人情報の取扱いについて</a>をご確認のうえ、ご入力ください。</div>
+<div class="qctarow"><a class="qbtn qbtn-filled dis" role="link" aria-disabled="true">お申し込み・お問い合わせフォーム（準備中）</a></div>
+
+<div class="qhr"></div>
+<div class="small">みぃるもは、株式会社キューネット（QLCのグループ会社）が提供・運営する見守りサービスです。マンションのコンシェルジュからのおすすめとして、株式会社クオリティライフ・コンシェルジュが紹介しています。見守りサービスは、救助・救命を保証するものではありません。<!-- TODO: 約款のURL、特定商取引法に基づく表記のリンク（内容はキューネットと確認のうえ） --></div>
+</div>
+<a class="qback" href="https://www.qlc-service.com/" target="_blank">&#8592; サービス一覧に戻る</a>
+</div>
+<script src="/back-nav.js"></script>
+<script src="/text-size.js"></script>
+</body>
+</html>
