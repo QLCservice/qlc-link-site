@@ -126,6 +126,15 @@
   html{scroll-padding-top:70px;}
   .service-section{scroll-margin-top:70px;}
 
+  /* ===== TERMS (CSS) START（ご利用にあたって）===== */
+  .terms{max-width:760px;margin:6px auto 0;padding:0 16px 8px;scroll-margin-top:70px;}
+  .terms-card{background:#fff;border:1px solid rgba(201,163,97,.45);border-radius:12px;padding:16px 18px 14px;}
+  .terms h2{margin:0 0 8px;font-family:'Noto Serif JP',serif;font-size:15px;color:var(--navy-deep);}
+  .terms ul{margin:0;padding-left:1.2em;}
+  .terms li{font-size:12.5px;line-height:1.9;color:#33312C;margin-bottom:4px;}
+  .terms a{color:var(--navy-deep);text-decoration:underline;}
+  /* ===== TERMS (CSS) END ===== */
+
   /* ===== QAパネル（全幅・お問い合わせもメニューに統合） ===== */
   .intro{
     max-width:760px;
@@ -321,10 +330,24 @@
 <div id="delivery" class="service-section"></div>
 <div id="storage" class="service-section"></div>
 
+<!-- ===== TERMS START（ご利用にあたって。文面を直すときは、このブロックだけ）===== -->
+<section class="terms" id="terms" aria-label="ご利用にあたって">
+  <div class="terms-card">
+    <h2>ご利用にあたって</h2>
+    <ul>
+      <li>QLC Linkは、株式会社クオリティライフ・コンシェルジュ（以下「当社」）が、暮らしのお困りごとに対応するサービスをご案内するものです。掲載のサービスは、各事業者がご提供するものです。</li>
+      <li>お申込み・ご契約・お支払いは、お客様と各事業者との直接のお取引です。お申込みの際にご入力いただく個人情報は、各事業者が取り扱います。</li>
+      <li>料金・受付時間・対応エリアなどは変わることがあります。お申込みの前に、各事業者のページで最新の内容をご確認ください。</li>
+      <li>事業者と連絡がつかないなど、ご利用中にお困りのときは、コンシェルジュの「お問い合わせ」からご連絡ください。当社から各事業者へ、可能な範囲でおつなぎします。お問い合わせでお預かりする情報は、ご対応のためにのみ使用します（<a href="https://www.qlc-service.com/qlc-link/privacy-policy">プライバシーポリシー</a>）。</li>
+    </ul>
+  </div>
+</section>
+<!-- ===== TERMS END ===== -->
+
 <footer>
   <div class="company">株式会社クオリティライフ・コンシェルジュ</div>
   [東京本社] 〒108-0014 東京都港区芝5-13-15<br>
-  <a href="https://www.qlc-service.com/qlc-link/privacy-policy">プライバシーポリシー</a> 　 <a href="https://www.qlc-service.com/qlc-link/compliance">コンプライアンスについて</a><br>
+  <a href="#terms">ご利用にあたって</a> 　 <a href="https://www.qlc-service.com/qlc-link/privacy-policy">プライバシーポリシー</a> 　 <a href="https://www.qlc-service.com/qlc-link/compliance">コンプライアンスについて</a><br>
   Copyright © 2026 QUALITY LIFE-CONCIERGE. All Rights Reserved
 </footer>
 
