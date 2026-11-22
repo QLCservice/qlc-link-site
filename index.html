@@ -120,6 +120,12 @@
     box-shadow:0 3px 10px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.4);
   }
 
+  a.nameplate{text-decoration:none;cursor:pointer;-webkit-tap-highlight-color:rgba(255,255,255,.3);}
+  a.nameplate:active{filter:brightness(.92);}
+  /* 上部の固定バー（quick-nav）に見出しが隠れないよう、アンカー移動の位置をずらす */
+  html{scroll-padding-top:70px;}
+  .service-section{scroll-margin-top:70px;}
+
   /* ===== QAパネル（全幅・お問い合わせもメニューに統合） ===== */
   .intro{
     max-width:760px;
@@ -295,7 +301,7 @@
   <p>アイコンをタップ（クリック）してお進みください。メニューにないサービスや、その他ご要望は、下のコンシェルジュの「お問い合わせ」メニューよりご連絡ください。</p>
   <p class="hero-note" id="heroNote">全国版のため、お住まいのエリアによっては、ご利用いただけないサービスがあります。ご利用の前に、各事業者のサイトやお問い合わせ先で、対応エリアをご確認ください。</p>
   <script>/* 全国版のみ表示。地域版（親のindex.htmlから自動生成されるため、ここで除く） */(function(){var f=(location.pathname||'').split('/').filter(Boolean)[0]||'';if(['kanto','kansai','tokai','west'].indexOf(f)>=0){var e=document.getElementById('heroNote');if(e&&e.parentNode)e.parentNode.removeChild(e);}})();</script>
-  <div class="nameplate">CONCIERGE</div>
+  <a class="nameplate" href="#qaLog">CONCIERGE</a>
 </section>
 
 <div class="intro">
