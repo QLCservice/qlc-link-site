@@ -468,7 +468,7 @@
     </details>
     <details class="qa">
       <summary>自動ドアが開かない、または開くまでに時間がかかります</summary>
-      <div class="ans">ラクセスキーの電池を、交換してみてください。ボタン電池「CR2032」で、約2年で消耗します。交換の方法など、ご不明な点は、フロントまでお尋ねください。</div>
+      <div class="ans">ラクセスキーの電池を、交換してみてください。<span data-hide-from="2026-12-01">ボタン電池「CR2032」で、約2年で消耗します。</span><span data-show-from="2026-12-01" hidden>専用電池で、約2年で消耗します。この専用電池は、フロントでもお求めいただけます（税込270円）。</span>交換の方法など、ご不明な点は、フロントまでお尋ねください。</div>
     </details>
   <div class="tp-foot"><a class="tp-close-btm" href="#top-menu">よくあるご質問を閉じる ✕</a></div>
 </section>
@@ -565,6 +565,12 @@
       <p>傘・台車・脚立のほか、自転車の空気入れや簡単な工具などをお貸出しします。</p>
       <span class="cta">詳しく見る</span>
     </a>
+    <div class="card featured" data-show-from="2026-12-01" hidden>
+      <span class="badge">フロント取次ぎ</span>
+      <div class="cicon"><svg class="qico ce" aria-hidden="true" focusable="false"><use href="/assets/icons-color.svg#ce-key"/></svg></div>
+      <h3>ラクセスキー専用電池の販売</h3>
+      <p>自動ドアの反応が悪いと感じたら、まずは電池を交換してみてください。ラクセスキー用の専用電池は、フロントでもお求めいただけます。<br><strong>販売価格：270円（税込）</strong></p>
+    </div>
   </div>
 
   <div class="zone zone-partner">
@@ -784,5 +790,20 @@
   .tp-close-btm:active{background:#E8DEC8;}
 </style>
 <!-- ===== ICONS-COLOR (CSS) END ===== -->
+<style>.card[hidden],[data-show-from][hidden]{display:none !important;}</style>
+<script>
+// data-show-from="YYYY-MM-DD" の要素は、日本時間でその日になったら表示する
+(function(){
+  try {
+    var today = new Date(Date.now() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-show-from]'), function(el){
+      if (today >= el.getAttribute('data-show-from')) el.removeAttribute('hidden');
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-hide-from]'), function(el){
+      if (today >= el.getAttribute('data-hide-from')) el.setAttribute('hidden', '');
+    });
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
